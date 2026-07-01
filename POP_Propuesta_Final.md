@@ -6,13 +6,23 @@
 **Fecha:** Julio 2026
 **Versión:** 1.0
 
+cambiar líderes a coordinadores 
+
 ## 1. Resumen Ejecutivo
 
-**POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para **Picnic para modernizar y automatizar la gestión de colocación de PLVs**. Actualmente este proceso se opera sobre PEYA Trade — una herramienta lenta, que limita la capacidad de respuesta al cliente, dificulta la integración entre productos y no permite trazabilidad histórica de las campañas.
+**POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para **Picnic para modernizar y automatizar la gestión (buscar otra palabra) de colocación de PLVs**. Este proceso se realiza actualmente sobre la aplicación PEYA Trade,  una herramienta con limitaciones operativas que dificulta la obtención de resultados sobre la campaña presente y la entrega de resultados a PedidosYa.
 
-Si bien PEYA Trade brinda información parcial, obtener datos y resultados completos hoy involucra un trabajo muy laborioso: entre la lentitud del sistema y la compartimentalización de la información, consolidar una respuesta unificada es una tarea que puede tomar días. Esto dificulta detectar cuellos de botella operativos —zonas o productos con bajo desempeño—, complica la toma de decisiones a futuro y limita la capacidad de Picnic para anticiparse a las necesidades de su cliente y ofrecer soluciones proactivas.
+Las limitaciones del sistema actual son evidentes en el uso cotidiano de la aplicación.Las mismas radican principalmente en un deficiente manejo de la información generando y que pueden resumirse en 4 puntos centrales:
 
-**POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que coordina establecimientos, productos y períodos dentro de un ecosistema unificado.** Esta nueva herramienta no solo agiliza y automatiza procesos que hoy se realizan a mano —y que por su naturaleza manual pueden acarrear errores fácilmente—, sino que habilita la entrega de respuestas inmediatas, facilita la visualización del estado actual de cada campaña en cualquier momento, permite generar reportes sobre cualquier período histórico, y ofrece vigilancia en tiempo real del avance operativo. La consulta de períodos pasados queda resuelta de forma nativa, garantizando a Picnic la capacidad de responder a Peya con la velocidad que la operación requiere.
+-
+
+ Esto dificulta detectar cuellos de botella operativos —zonas o productos con bajo desempeño—, complica la toma de decisiones a futuro y limita la capacidad de Picnic para anticiparse a las necesidades de su cliente para ofrecer soluciones proactivas.
+
+**POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente las diferentes dimensiones del proyecto - establecimientos, productos y períodos dentro de un ecosistema unificado.** Esta nueva herramienta no solo agiliza y automatiza procesos que hoy se realizan a manualmente, sino que facilita la visualización del estado actual de cada campaña, permite la extracción de información y 
+
+. La integración de las diferentes dimensiones del proyecto 
+
+consulta de períodos pasados queda resuelta de forma nativa, garantizando a Picnic la capacidad de responder a Peya con la velocidad que la operación requiere.
 
 **POP reúne:**
 
