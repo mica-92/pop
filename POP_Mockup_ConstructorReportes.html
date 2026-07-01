@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POP — Constructor de Reportes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #F45454;
+    --primary-hover: #E04545;
+    --primary-soft: #FFE5E5;
+    --secondary: #671E1E;
+    --secondary-soft: #F5E6E6;
+    --bg: #FDF1F2;
+    --surface: #FFFFFF;
+    --surface-soft: #FAE7E8;
+    --text: #474747;
+    --text-soft: #6B6B6B;
+    --text-muted: #9A9A9A;
+    --border: #EAD4D6;
+    --border-strong: #D4B5B8;
+    --success: #15803D;
+    --success-soft: #DCFCE7;
+    --warning: #92400E;
+    --warning-soft: #FEF3C7;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .brand-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+  .brand-text strong { font-size: 16px; font-weight: 600; color: var(--secondary); }
+  .brand-text span { font-size: 12px; color: var(--text-soft); display: block; }
+  .nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .nav button { font-family: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 13px; font-size: 12px; color: var(--text-soft); cursor: pointer; transition: all 0.15s ease; font-weight: 500; }
+  .nav button:hover { border-color: var(--border-strong); color: var(--text); }
+  .nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .nav button .pro-badge { background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 9px; margin-left: 4px; }
+  .nav button.active .pro-badge { background: white; color: var(--primary); }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .screen-label { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: white; background: var(--secondary); padding: 5px 12px; border-radius: var(--radius); margin-bottom: 18px; font-weight: 500; }
+  .layout { display: flex; gap: 20px; align-items: flex-start; }
+  .sidebar { width: 180px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
+  .sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+  .sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
+  .sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
+  .main { flex: 1; min-width: 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
+  .header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+  .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--secondary); margin: 18px 0 10px; font-weight: 600; }
+  .section-title:first-child { margin-top: 0; }
+  input, select { font-family: inherit; font-size: 13px; height: 34px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); outline: none; }
+  input:focus, select:focus { border-color: var(--primary); }
+  button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+  button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
+  button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+  button.btn-primary:hover { background: var(--primary-hover); color: white; }
+  button.btn-large { height: 42px; padding: 0 22px; font-size: 14px; }
+  .filter-group { background: var(--surface-soft); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
+  .filter-label { font-size: 12px; font-weight: 500; color: var(--secondary); margin-bottom: 8px; display: block; }
+  .filter-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 14px; background: var(--secondary); color: white; font-weight: 500; }
+  .filter-chip .x { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
+  .columns-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .column-option { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); cursor: pointer; font-size: 12px; }
+  .column-option:hover { border-color: var(--primary); }
+  .column-option.checked { border-color: var(--primary); background: var(--primary-soft); }
+  .column-option input { accent-color: var(--primary); }
+  .output-toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .output-card { padding: 16px; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; background: var(--surface); }
+  .output-card.selected { border-color: var(--primary); background: var(--primary-soft); }
+  .output-card-title { font-size: 14px; font-weight: 600; color: var(--secondary); margin-bottom: 4px; }
+  .output-card-desc { font-size: 12px; color: var(--text-soft); }
+  .summary-panel { background: var(--secondary); color: white; border-radius: 12px; padding: 18px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row strong { font-weight: 600; }
+  .summary-label { opacity: 0.85; }
+  .progress-bar { background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin: 14px 0 6px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; width: 70%; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--border); color: var(--text-soft); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
+  td { padding: 10px 8px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .tag-success { background: var(--success-soft); color: var(--success); }
+  .tag-danger { background: var(--primary-soft); color: var(--secondary); }
+  .tag-pro { background: var(--secondary); color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .download-zone { text-align: center; padding: 40px 30px; border: 2px dashed var(--border-strong); border-radius: 14px; background: var(--surface-soft); }
+  .download-icon { width: 56px; height: 56px; background: var(--success-soft); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .file-info-line { font-size: 12px; color: var(--text-soft); margin-top: 6px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .kpi-label { font-size: 11px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 500; margin-bottom: 4px; }
+  .kpi-value { font-size: 22px; font-weight: 600; color: var(--secondary); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text">
+      <strong>POP</strong>
+      <span>Constructor de Reportes · Exclusivo Pro</span>
+    </div>
+  </div>
+
+  <div class="nav" role="tablist">
+    <button data-screen="builder" class="active">1. Constructor</button>
+    <button data-screen="columns">2. Selección de columnas</button>
+    <button data-screen="generating">3. Generando</button>
+    <button data-screen="result">4. Reporte generado</button>
+  </div>
+
+  <!-- 1. CONSTRUCTOR -->
+  <div class="screen active" data-screen-content="builder">
+    <div class="screen-label">Constructor de Reportes · solo Pro</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Cargar Excel
+        </div>
+        <div class="sidebar-item active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          Reportes
+        </div>
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </div>
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Log
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="header-row">
+          <div>
+            <h2 class="header-title">Constructor de Reportes</h2>
+            <p class="header-subtitle">Definí filtros, columnas y formato para generar tu reporte a medida.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 280px; gap: 16px;">
+
+          <div>
+            <div class="card">
+              <div class="section-title">Período</div>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <select style="width: 180px;"><option>Rango de fechas</option><option>Período individual</option></select>
+                <span style="font-size: 12px; color: var(--text-soft);">desde</span>
+                <select style="width: 130px;"><option>Marzo 2026</option></select>
+                <span style="font-size: 12px; color: var(--text-soft);">hasta</span>
+                <select style="width: 130px;"><option>Junio 2026</option></select>
+              </div>
+
+              <div class="section-title">Filtros</div>
+              <div class="filter-group">
+                <label class="filter-label">Geografía</label>
+                <div class="filter-input-row">
+                  <span class="filter-chip">Provincia: CABA <span class="x">×</span></span>
+                  <span class="filter-chip">Zona: CABA Norte, CABA Sur <span class="x">×</span></span>
+                  <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label class="filter-label">Productos (PLV)</label>
+                <div class="filter-input-row">
+                  <span class="filter-chip">Kit básico <span class="x">×</span></span>
+                  <span class="filter-chip">Backlight <span class="x">×</span></span>
+                  <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label class="filter-label">Estado</label>
+                <div class="filter-input-row">
+                  <span class="filter-chip">Visitados <span class="x">×</span></span>
+                  <span class="filter-chip">No efectivos <span class="x">×</span></span>
+                  <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label class="filter-label">Cadena</label>
+                <div class="filter-input-row">
+                  <span class="filter-chip">Carrefour <span class="x">×</span></span>
+                  <span class="filter-chip">Día <span class="x">×</span></span>
+                  <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label class="filter-label">Motivo de no efectividad</label>
+                <div class="filter-input-row">
+                  <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar motivo</button>
+                </div>
+              </div>
+
+              <div class="section-title">Tipo de output</div>
+              <div class="output-toggles">
+                <label class="output-card selected">
+                  <input type="checkbox" checked style="display:none;">
+                  <div class="output-card-title">📋 Listado</div>
+                  <div class="output-card-desc">Tabla de locales y visitas que coinciden con los filtros, con columnas a elegir.</div>
+                </label>
+                <label class="output-card selected">
+                  <input type="checkbox" checked style="display:none;">
+                  <div class="output-card-title">📊 Estadísticas</div>
+                  <div class="output-card-desc">KPIs agregados del subset filtrado, con agregaciones configurables.</div>
+                </label>
+              </div>
+
+              <div class="section-title">Agregaciones para estadísticas</div>
+              <div class="filter-input-row">
+                <span class="filter-chip">Por PLV <span class="x">×</span></span>
+                <span class="filter-chip">Por Zona <span class="x">×</span></span>
+                <span class="filter-chip">Por Cadena <span class="x">×</span></span>
+                <button class="btn" style="height: 28px; padding: 0 10px; font-size: 11px;">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="summary-panel">
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.85; margin-bottom: 12px; font-weight: 600;">Resumen del reporte</div>
+
+              <div class="summary-row">
+                <span class="summary-label">Registros estimados</span>
+                <strong>~427</strong>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Período</span>
+                <strong>Mar - Jun 2026</strong>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Filtros aplicados</span>
+                <strong>5</strong>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Tipo de output</span>
+                <strong>Listado + Stats</strong>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">Hojas en Excel</span>
+                <strong>2</strong>
+              </div>
+
+              <button class="btn btn-primary btn-large" style="width: 100%; margin-top: 16px; background: var(--primary);">Generar reporte</button>
+
+              <div style="font-size: 11px; opacity: 0.7; text-align: center; margin-top: 10px;">El reporte queda registrado en el log</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. COLUMN SELECTION -->
+  <div class="screen" data-screen-content="columns">
+    <div class="screen-label">Selección de columnas para el listado</div>
+
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+      <h2 class="header-title">Elegí qué columnas incluir</h2>
+      <p class="header-subtitle">Esto define la estructura del Excel descargable.</p>
+
+      <div class="section-title">Información del establecimiento</div>
+      <div class="columns-grid">
+        <label class="column-option checked"><input type="checkbox" checked> Grid</label>
+        <label class="column-option checked"><input type="checkbox" checked> Nombre del partner</label>
+        <label class="column-option checked"><input type="checkbox" checked> Business name</label>
+        <label class="column-option checked"><input type="checkbox" checked> Teléfono</label>
+        <label class="column-option checked"><input type="checkbox" checked> Dirección</label>
+        <label class="column-option"><input type="checkbox"> Día de registro</label>
+      </div>
+
+      <div class="section-title">Ubicación</div>
+      <div class="columns-grid">
+        <label class="column-option checked"><input type="checkbox" checked> Provincia</label>
+        <label class="column-option checked"><input type="checkbox" checked> Ciudad</label>
+        <label class="column-option checked"><input type="checkbox" checked> Barrio</label>
+        <label class="column-option checked"><input type="checkbox" checked> Zona Picnic</label>
+        <label class="column-option"><input type="checkbox"> Cadena</label>
+        <label class="column-option"><input type="checkbox"> Coordenadas GPS</label>
+      </div>
+
+      <div class="section-title">Datos de la visita</div>
+      <div class="columns-grid">
+        <label class="column-option checked"><input type="checkbox" checked> PLV</label>
+        <label class="column-option checked"><input type="checkbox" checked> Estado de visita</label>
+        <label class="column-option checked"><input type="checkbox" checked> Fecha y hora</label>
+        <label class="column-option checked"><input type="checkbox" checked> Motivo</label>
+        <label class="column-option"><input type="checkbox"> Comentarios</label>
+        <label class="column-option"><input type="checkbox"> DNI colocador</label>
+      </div>
+
+      <div class="section-title">Datos avanzados</div>
+      <div class="columns-grid">
+        <label class="column-option"><input type="checkbox"> GPS visita</label>
+        <label class="column-option"><input type="checkbox"> Distancia GPS</label>
+        <label class="column-option"><input type="checkbox"> Abierto / Cerrado</label>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);">
+        <div style="font-size: 12px; color: var(--text-soft);"><strong style="color: var(--secondary);">13 columnas seleccionadas</strong> de 21 disponibles</div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn">← Volver</button>
+          <button class="btn btn-primary">Confirmar selección</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GENERATING -->
+  <div class="screen" data-screen-content="generating">
+    <div class="screen-label">Generando reporte</div>
+
+    <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 50px 40px;">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--primary-soft); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <div style="width: 28px; height: 28px; border: 3px solid var(--primary); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+      </div>
+
+      <h2 class="header-title" style="text-align: center;">Procesando consulta</h2>
+      <p class="header-subtitle" style="text-align: center; margin-bottom: 24px;">POP está armando tu reporte. Esto puede tardar unos segundos.</p>
+
+      <div style="background: var(--surface-soft); border-radius: 8px; padding: 14px; text-align: left; font-size: 12px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--success);">✓ Consultando base de datos</span><span style="color: var(--text-muted);">~427 registros</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--success);">✓ Aplicando filtros</span><span style="color: var(--text-muted);">5 dimensiones</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--primary);">⟳ Calculando estadísticas</span><span style="color: var(--text-muted);">3 agregaciones</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 4px 0;"><span style="color: var(--text-muted);">○ Generando Excel</span><span></span></div>
+      </div>
+
+      <div style="font-size: 11px; color: var(--text-muted);">Podés cerrar esta ventana y el reporte se descargará automáticamente.</div>
+    </div>
+
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+  </div>
+
+  <!-- 4. RESULT -->
+  <div class="screen" data-screen-content="result">
+    <div class="screen-label">Reporte listo · descarga disponible</div>
+
+    <div class="card" style="max-width: 800px; margin: 0 auto;">
+      <div class="download-zone">
+        <div class="download-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        </div>
+        <div style="font-size: 16px; font-weight: 600; color: var(--secondary); margin-bottom: 4px;">Reporte generado con éxito</div>
+        <div style="font-size: 13px; color: var(--text-soft); margin-bottom: 20px;">427 registros · 2 hojas · 38 KB</div>
+        <button class="btn btn-primary btn-large" style="font-size: 14px;">⬇ Descargar Excel</button>
+        <div class="file-info-line">Reporte_POP_Mar-Jun2026_20260627_143805.xlsx</div>
+      </div>
+
+      <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Registros</div>
+          <div class="kpi-value">427</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Efectividad</div>
+          <div class="kpi-value" style="color: var(--success);">82%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Pendientes</div>
+          <div class="kpi-value">38</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">No efect.</div>
+          <div class="kpi-value">39</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <div class="section-title">Vista previa — Estadísticas por zona</div>
+        <table>
+          <tr>
+            <th>Zona</th>
+            <th>Total</th>
+            <th>Efectivos</th>
+            <th>No efectivos</th>
+            <th>% Efect.</th>
+          </tr>
+          <tr>
+            <td>CABA Norte</td>
+            <td>198</td>
+            <td>167</td>
+            <td>18</td>
+            <td><span class="tag tag-success">84%</span></td>
+          </tr>
+          <tr>
+            <td>CABA Sur</td>
+            <td>229</td>
+            <td>183</td>
+            <td>21</td>
+            <td><span class="tag tag-success">80%</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border);">
+        <div style="font-size: 11px; color: var(--text-muted);">Registrado en el log con ID #2026-06-27-014</div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn">Nuevo reporte</button>
+          <button class="btn">Volver al constructor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){ s.classList.toggle('active', s.dataset.screenContent === name); });
+      buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+
+    document.querySelectorAll('.column-option').forEach(function(opt){
+      opt.addEventListener('click', function(e){
+        if (e.target.tagName !== 'INPUT') {
+          var input = opt.querySelector('input');
+          input.checked = !input.checked;
+        }
+        opt.classList.toggle('checked', opt.querySelector('input').checked);
+      });
+    });
+
+    document.querySelectorAll('.output-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        card.classList.toggle('selected');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

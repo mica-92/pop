@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POP — Settings, Reglas y Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #F45454;
+    --primary-hover: #E04545;
+    --primary-soft: #FFE5E5;
+    --secondary: #671E1E;
+    --secondary-soft: #F5E6E6;
+    --bg: #FDF1F2;
+    --surface: #FFFFFF;
+    --surface-soft: #FAE7E8;
+    --text: #474747;
+    --text-soft: #6B6B6B;
+    --text-muted: #9A9A9A;
+    --border: #EAD4D6;
+    --border-strong: #D4B5B8;
+    --success: #15803D;
+    --success-soft: #DCFCE7;
+    --warning: #92400E;
+    --warning-soft: #FEF3C7;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .brand-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+  .brand-text strong { font-size: 16px; font-weight: 600; color: var(--secondary); }
+  .brand-text span { font-size: 12px; color: var(--text-soft); display: block; }
+  .nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .nav button { font-family: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 13px; font-size: 12px; color: var(--text-soft); cursor: pointer; transition: all 0.15s ease; font-weight: 500; }
+  .nav button:hover { border-color: var(--border-strong); color: var(--text); }
+  .nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .nav button .pro-badge { background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 9px; margin-left: 4px; }
+  .nav button.active .pro-badge { background: white; color: var(--primary); }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .screen-label { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--secondary); background: var(--secondary-soft); padding: 5px 12px; border-radius: var(--radius); margin-bottom: 18px; font-weight: 500; }
+  .screen-label.pro { background: var(--secondary); color: white; }
+  .layout { display: flex; gap: 20px; align-items: flex-start; }
+  .sidebar { width: 200px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
+  .sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer; }
+  .sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
+  .sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
+  .sidebar-sub { padding: 8px 12px 8px 28px; font-size: 12px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; cursor: pointer; }
+  .sidebar-sub:hover { background: var(--surface-soft); }
+  .sidebar-sub.active { background: var(--primary-soft); color: var(--secondary); font-weight: 500; }
+  .sidebar-sub-pro::after { content: "PRO"; background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 8px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
+  .main { flex: 1; min-width: 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
+  .header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--border); color: var(--text-soft); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
+  td { padding: 11px 8px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface-soft); }
+  input, select { font-family: inherit; font-size: 13px; height: 34px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); outline: none; }
+  input:focus, select:focus { border-color: var(--primary); }
+  button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+  button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
+  button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+  button.btn-primary:hover { background: var(--primary-hover); color: white; }
+  button.btn-large { height: 40px; padding: 0 18px; font-size: 13px; }
+  button.icon-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+  .tag-success { background: var(--success-soft); color: var(--success); }
+  .tag-danger { background: var(--primary-soft); color: var(--secondary); }
+  .tag-warning { background: var(--warning-soft); color: var(--warning); }
+  .tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
+  .toggle-switch { display: inline-flex; gap: 4px; align-items: center; }
+  .toggle-state { display: inline-block; width: 32px; height: 18px; background: var(--border); border-radius: 9px; position: relative; cursor: pointer; }
+  .toggle-state.on { background: var(--success); }
+  .toggle-state::before { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition: left 0.2s; }
+  .toggle-state.on::before { left: 16px; }
+  .pro-pill { background: var(--secondary); color: white; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
+  .info-banner { background: var(--secondary-soft); border-left: 3px solid var(--secondary); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
+  .info-banner strong { color: var(--secondary); }
+  .warning-banner { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
+  .warning-banner strong { color: var(--warning); }
+  .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--secondary); margin: 18px 0 10px; font-weight: 600; }
+  .section-title:first-child { margin-top: 0; }
+  .number-input-wrapper { display: inline-flex; align-items: center; gap: 4px; }
+  .number-input-wrapper input { width: 60px; text-align: center; font-family: 'JetBrains Mono'; font-weight: 600; }
+  .step-button { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--surface); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-soft); }
+  .step-button:hover { border-color: var(--primary); color: var(--primary); }
+  .chain-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--surface-soft); border-radius: var(--radius); margin-bottom: 6px; }
+  .chain-row-name { font-weight: 500; color: var(--secondary); font-size: 13px; }
+  .chain-row-count { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+  .suggestion-card { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; }
+  .suggestion-card .sc-title { font-size: 12px; font-weight: 600; color: var(--warning); margin-bottom: 4px; }
+  .suggestion-card .sc-desc { font-size: 12px; color: var(--text); margin-bottom: 8px; }
+  .suggestion-actions { display: flex; gap: 6px; }
+  .log-entry-row { padding: 12px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 130px 130px 1fr; gap: 16px; align-items: start; font-size: 13px; }
+  .log-entry-row:last-child { border-bottom: none; }
+  .log-time { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-muted); }
+  .log-type { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; padding: 3px 8px; border-radius: 8px; display: inline-block; }
+  .log-type-load { background: var(--success-soft); color: var(--success); }
+  .log-type-edit { background: var(--primary-soft); color: var(--secondary); }
+  .log-type-visit { background: var(--secondary-soft); color: var(--secondary); }
+  .log-type-close { background: var(--warning-soft); color: var(--warning); }
+  .log-type-report { background: #E0E7FF; color: #3730A3; }
+  .log-desc { color: var(--text); }
+  .log-meta { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text">
+      <strong>POP</strong>
+      <span>Settings · Reglas · Log de auditoría</span>
+    </div>
+  </div>
+
+  <div class="nav" role="tablist">
+    <button data-screen="settings-plvs" class="active">1. Settings — PLVs</button>
+    <button data-screen="settings-motivos">2. Settings — Motivos</button>
+    <button data-screen="settings-cadenas">3. Cadenas <span class="pro-badge">PRO</span></button>
+    <button data-screen="settings-reglas">4. Reglas de cierre</button>
+    <button data-screen="settings-users">5. Usuarios</button>
+    <button data-screen="log">6. Log de auditoría</button>
+  </div>
+
+  <!-- 1. SETTINGS PLVs -->
+  <div class="screen active" data-screen-content="settings-plvs">
+    <div class="screen-label">Settings → PLVs (Productos) — disponible en ambas versiones</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item active">Configuración</div>
+        <div class="sidebar-sub active">PLVs</div>
+        <div class="sidebar-sub">Motivos</div>
+        <div class="sidebar-sub sidebar-sub-pro">Cadenas</div>
+        <div class="sidebar-sub sidebar-sub-pro">Zonas</div>
+        <div class="sidebar-sub">Usuarios</div>
+        <div class="sidebar-sub">Reglas de cierre</div>
+        <div class="sidebar-item">Log</div>
+      </div>
+
+      <div class="main">
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">PLVs (Productos)</h2>
+              <p class="header-subtitle">Tipos de PLV que Picnic gestiona para Peya. 5 productos activos.</p>
+            </div>
+            <button class="btn btn-primary btn-large">+ Nuevo PLV</button>
+          </div>
+
+          <table>
+            <tr>
+              <th>Nombre del producto</th>
+              <th>Producto compuesto</th>
+              <th>Locales con este PLV</th>
+              <th>Acciones</th>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Kit básico (KB)</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state on"></span>
+                  <span style="font-size: 12px; color: var(--success); font-weight: 500;">Sí — Sticker + Saliente</span>
+                </div>
+              </td>
+              <td>1.290</td>
+              <td>
+                <button class="btn icon-btn" title="Editar">✎</button>
+                <button class="btn icon-btn" title="Eliminar" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Backlight</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td>357</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Pizarra</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td>109</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Sombrilla</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td>87</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Bicicletero</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td>4</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+          </table>
+
+          <div class="info-banner" style="margin-top: 16px;">
+            <strong>Producto compuesto:</strong> activar cuando el PLV tiene varias piezas independientes (caso Kit básico). El sistema habilita en la app del colocador toggles separados para registrar cada pieza.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SETTINGS MOTIVOS -->
+  <div class="screen" data-screen-content="settings-motivos">
+    <div class="screen-label">Settings → Motivos de no efectividad — disponible en ambas versiones</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item active">Configuración</div>
+        <div class="sidebar-sub">PLVs</div>
+        <div class="sidebar-sub active">Motivos</div>
+        <div class="sidebar-sub sidebar-sub-pro">Cadenas</div>
+        <div class="sidebar-sub sidebar-sub-pro">Zonas</div>
+        <div class="sidebar-sub">Usuarios</div>
+        <div class="sidebar-sub">Reglas de cierre</div>
+        <div class="sidebar-item">Log</div>
+      </div>
+
+      <div class="main">
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Motivos de no efectividad</h2>
+              <p class="header-subtitle">Motivos que el colocador puede seleccionar cuando una visita no es efectiva. 6 motivos activos.</p>
+            </div>
+            <button class="btn btn-primary btn-large">+ Nuevo motivo</button>
+          </div>
+
+          <table>
+            <tr>
+              <th>Motivo</th>
+              <th>¿Cierra la visita?</th>
+              <th>Comportamiento</th>
+              <th>Acciones</th>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Local cerrado</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td><span class="tag tag-warning">Deja abierto — reintenta</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">No quiere PLV</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state on"></span>
+                  <span style="font-size: 12px; color: var(--success); font-weight: 500;">Sí</span>
+                </div>
+              </td>
+              <td><span class="tag tag-success">Cierra inmediato</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">No existe el local</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state on"></span>
+                  <span style="font-size: 12px; color: var(--success); font-weight: 500;">Sí</span>
+                </div>
+              </td>
+              <td><span class="tag tag-success">Cierra inmediato</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">No es local a la calle</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state on"></span>
+                  <span style="font-size: 12px; color: var(--success); font-weight: 500;">Sí</span>
+                </div>
+              </td>
+              <td><span class="tag tag-success">Cierra inmediato</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">No se encontró</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state"></span>
+                  <span style="font-size: 12px; color: var(--text-soft);">No</span>
+                </div>
+              </td>
+              <td><span class="tag tag-warning">Deja abierto — reintenta</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Sin espacio exterior</strong></td>
+              <td>
+                <div class="toggle-switch">
+                  <span class="toggle-state on"></span>
+                  <span style="font-size: 12px; color: var(--success); font-weight: 500;">Sí</span>
+                </div>
+              </td>
+              <td><span class="tag tag-success">Cierra inmediato</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+          </table>
+
+          <div class="info-banner" style="margin-top: 16px;">
+            <strong>¿Cierra la visita?</strong> Si está activado, el local se cierra y no vuelve a aparecer al colocador. Si no, el local vuelve a la lista para reintento.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. SETTINGS CADENAS PRO -->
+  <div class="screen" data-screen-content="settings-cadenas">
+    <div class="screen-label pro">Settings → Cadenas — solo Pro</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item active">Configuración</div>
+        <div class="sidebar-sub">PLVs</div>
+        <div class="sidebar-sub">Motivos</div>
+        <div class="sidebar-sub sidebar-sub-pro active">Cadenas</div>
+        <div class="sidebar-sub sidebar-sub-pro">Zonas</div>
+        <div class="sidebar-sub">Usuarios</div>
+        <div class="sidebar-sub">Reglas de cierre</div>
+        <div class="sidebar-item">Log</div>
+      </div>
+
+      <div class="main">
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Cadenas comerciales <span class="pro-pill">PRO</span></h2>
+              <p class="header-subtitle">Identificá y agrupá locales por marca. El sistema sugiere cadenas detectadas en las cargas de Excel.</p>
+            </div>
+            <button class="btn btn-primary btn-large">+ Nueva cadena</button>
+          </div>
+
+          <div class="section-title">Sugerencias detectadas automáticamente</div>
+          <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 12px;">El sistema detectó patrones de nombres en las últimas cargas. Confirmá o ignorá cada sugerencia.</div>
+
+          <div class="suggestion-card">
+            <div class="sc-title">⚡ Cadena sugerida: "Subway"</div>
+            <div class="sc-desc">Se detectaron 23 establecimientos con el patrón "Subway [ubicación]". Ejemplos: Subway Recoleta, Subway Pacífico, Subway Belgrano.</div>
+            <div class="suggestion-actions">
+              <button class="btn btn-primary" style="font-size: 11px;">Crear cadena Subway</button>
+              <button class="btn" style="font-size: 11px;">Ver locales</button>
+              <button class="btn" style="font-size: 11px;">Ignorar</button>
+            </div>
+          </div>
+
+          <div class="suggestion-card">
+            <div class="sc-title">⚡ Cadena sugerida: "Día"</div>
+            <div class="sc-desc">Se detectaron 18 establecimientos con el patrón "Día [ubicación]". Ejemplos: Día Recoleta, Día Caballito, Día Mar del Plata.</div>
+            <div class="suggestion-actions">
+              <button class="btn btn-primary" style="font-size: 11px;">Crear cadena Día</button>
+              <button class="btn" style="font-size: 11px;">Ver locales</button>
+              <button class="btn" style="font-size: 11px;">Ignorar</button>
+            </div>
+          </div>
+
+          <div class="section-title">Cadenas configuradas</div>
+
+          <table>
+            <tr>
+              <th>Cadena</th>
+              <th>Locales asignados</th>
+              <th>Detección</th>
+              <th>Acciones</th>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Carrefour</strong></td>
+              <td>47</td>
+              <td><span class="tag tag-success">Auto-asignación activa</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">McDonald's</strong></td>
+              <td>34</td>
+              <td><span class="tag tag-success">Auto-asignación activa</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Café Martínez</strong></td>
+              <td>28</td>
+              <td><span class="tag tag-success">Auto-asignación activa</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Starbucks</strong></td>
+              <td>19</td>
+              <td><span class="tag tag-success">Auto-asignación activa</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Havanna</strong></td>
+              <td>15</td>
+              <td><span class="tag tag-neutral">Asignación manual</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Burger King</strong></td>
+              <td>12</td>
+              <td><span class="tag tag-success">Auto-asignación activa</span></td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. SETTINGS REGLAS -->
+  <div class="screen" data-screen-content="settings-reglas">
+    <div class="screen-label">Settings → Reglas de cierre automático</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item active">Configuración</div>
+        <div class="sidebar-sub">PLVs</div>
+        <div class="sidebar-sub">Motivos</div>
+        <div class="sidebar-sub sidebar-sub-pro">Cadenas</div>
+        <div class="sidebar-sub sidebar-sub-pro">Zonas</div>
+        <div class="sidebar-sub">Usuarios</div>
+        <div class="sidebar-sub active">Reglas de cierre</div>
+        <div class="sidebar-item">Log</div>
+      </div>
+
+      <div class="main">
+
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Versión Pro <span class="pro-pill">PRO</span></h2>
+              <p class="header-subtitle">Configurable desde Settings</p>
+            </div>
+          </div>
+
+          <div class="section-title">Cierre automático tras intentos no efectivos</div>
+          <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface-soft); border-radius: var(--radius);">
+            <span style="font-size: 13px;">Cerrar el local automáticamente tras</span>
+            <div class="number-input-wrapper">
+              <button class="step-button">−</button>
+              <input value="3">
+              <button class="step-button">+</button>
+            </div>
+            <span style="font-size: 13px;">visitas no efectivas consecutivas con motivos "deja abierto".</span>
+          </div>
+
+          <div class="info-banner" style="margin-top: 14px;">
+            <strong>Cómo funciona:</strong> si el local "Pizza Hut Palermo" recibe 3 visitas seguidas con motivo "Local cerrado", el sistema lo cierra automáticamente. Si el motivo es "cierra inmediato" (ej. "No quiere PLV"), se cierra en la 1ra visita sin importar este número.
+          </div>
+
+          <div class="action-row" style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+            <button class="btn">Cancelar</button>
+            <button class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Versión Básica</h2>
+              <p class="header-subtitle">Regla fija — solo informativa</p>
+            </div>
+          </div>
+
+          <div class="warning-banner">
+            <strong>Regla fija:</strong> en la versión Básica, el sistema cierra automáticamente un local tras <strong>3 visitas no efectivas consecutivas</strong> con motivos "deja abierto". Esta regla está fijada en el código y no es modificable.
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-soft); margin-top: 10px;">
+            ¿Necesitás ajustar este número según operación? La versión Pro permite configurar la regla desde Settings.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SETTINGS USUARIOS -->
+  <div class="screen" data-screen-content="settings-users">
+    <div class="screen-label">Settings → Usuarios (Peya y admin)</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item active">Configuración</div>
+        <div class="sidebar-sub">PLVs</div>
+        <div class="sidebar-sub">Motivos</div>
+        <div class="sidebar-sub sidebar-sub-pro">Cadenas</div>
+        <div class="sidebar-sub sidebar-sub-pro">Zonas</div>
+        <div class="sidebar-sub active">Usuarios</div>
+        <div class="sidebar-sub">Reglas de cierre</div>
+        <div class="sidebar-item">Log</div>
+      </div>
+
+      <div class="main">
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Usuarios de Peya</h2>
+              <p class="header-subtitle">Personas de Peya que acceden al portal de transparencia.</p>
+            </div>
+            <button class="btn btn-primary btn-large">+ Nuevo usuario</button>
+          </div>
+
+          <table>
+            <tr>
+              <th>Email</th>
+              <th>Nombre / Rol</th>
+              <th>Estado</th>
+              <th>Último acceso</th>
+              <th>Acciones</th>
+            </tr>
+            <tr>
+              <td>juan.perez@peya.com</td>
+              <td>Juan Pérez — Trade Marketing</td>
+              <td><span class="tag tag-success">Activo</span></td>
+              <td>Hoy 11:32</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn" title="Resetear contraseña">🔑</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td>m.fernandez@peya.com</td>
+              <td>Marisa Fernández — KAM</td>
+              <td><span class="tag tag-success">Activo</span></td>
+              <td>Ayer 16:48</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn">🔑</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+            <tr>
+              <td>roberto@peya.com</td>
+              <td>Roberto Suárez — Director</td>
+              <td><span class="tag tag-neutral">Inactivo</span></td>
+              <td>15/05/2026</td>
+              <td>
+                <button class="btn icon-btn">✎</button>
+                <button class="btn icon-btn">🔑</button>
+                <button class="btn icon-btn" style="color: var(--primary);">🗑</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2 class="header-title">Mi cuenta — Admin Picnic</h2>
+          <p class="header-subtitle" style="margin-bottom: 18px;">Datos de tu cuenta de administrador del sistema.</p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 600px;">
+            <div>
+              <div style="font-size: 11px; color: var(--text-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Email</div>
+              <input value="admin@picnic.com.ar" style="width: 100%;" readonly>
+            </div>
+            <div>
+              <div style="font-size: 11px; color: var(--text-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">Cambiar contraseña</div>
+              <button class="btn" style="width: 100%;">🔑 Cambiar contraseña</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. LOG -->
+  <div class="screen" data-screen-content="log">
+    <div class="screen-label">Log de auditoría — actividad del sistema</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">Dashboard</div>
+        <div class="sidebar-item">Cargar Excel</div>
+        <div class="sidebar-item">Reportes</div>
+        <div class="sidebar-item">Configuración</div>
+        <div class="sidebar-item active">Log</div>
+      </div>
+
+      <div class="main">
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Log de auditoría</h2>
+              <p class="header-subtitle">Actividad del sistema · 2.847 entradas registradas en los últimos 30 días</p>
+            </div>
+            <button class="btn">⬇ Exportar Excel</button>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-bottom: 16px; padding: 12px; background: var(--surface-soft); border-radius: var(--radius); flex-wrap: wrap;">
+            <input placeholder="Buscar por palabra clave (Grid, nombre, archivo)" style="flex: 1; min-width: 240px;">
+            <select style="width: 150px;"><option>Últimos 30 días</option></select>
+            <select style="width: 150px;"><option>Tipo: Todos</option><option>Cargas</option><option>Ediciones</option></select>
+            <span class="pro-pill" style="display: inline-flex; align-items: center;">PRO: filtros avanzados</span>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">18/06/2026 14:23:14</div>
+            <div><span class="log-type log-type-visit">Visita</span></div>
+            <div>
+              <div class="log-desc">Visita registrada en <strong>Café Martínez Florida</strong> (Grid 41827) · Kit básico · <span style="color: var(--success);">Efectiva</span></div>
+              <div class="log-meta">DNI 35.421.876 · Zona CABA Norte · PIN 4837 · GPS -34.602, -58.378 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">18/06/2026 13:48:02</div>
+            <div><span class="log-type log-type-edit">Edición</span></div>
+            <div>
+              <div class="log-desc">Admin editó <strong>Pizza Hut Palermo</strong> · Dirección "Av. Santa Fe 3210" → "Av. Santa Fe 3215"</div>
+              <div class="log-meta">Usuario: admin@picnic.com.ar</div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">18/06/2026 11:32:51</div>
+            <div><span class="log-type log-type-report">Reporte</span></div>
+            <div>
+              <div class="log-desc">Reporte generado · Filtros: CABA + Kit básico + Marzo-Junio 2026 · 427 registros · 2 hojas</div>
+              <div class="log-meta">Usuario: admin@picnic.com.ar · ID #2026-06-18-014</div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">18/06/2026 10:18:33</div>
+            <div><span class="log-type log-type-close">Cierre auto</span></div>
+            <div>
+              <div class="log-desc">Local <strong>Carrefour Express Belgrano</strong> (Grid 52103) cerrado automáticamente</div>
+              <div class="log-meta">Motivo: 3 visitas no efectivas consecutivas con "Local cerrado"</div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">18/06/2026 09:48:19</div>
+            <div><span class="log-type log-type-load">Carga Excel</span></div>
+            <div>
+              <div class="log-desc">Archivo <strong>Listado_Junio_AR.xlsx</strong> cargado · Período 2606 · 1.551 establecimientos · 12 duplicados descartados</div>
+              <div class="log-meta">Usuario: admin@picnic.com.ar · 8 hojas detectadas · 1 ignorada</div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">17/06/2026 16:42:08</div>
+            <div><span class="log-type log-type-visit">Visita</span></div>
+            <div>
+              <div class="log-desc">Visita registrada en <strong>McDonald's Recoleta</strong> (Grid 38491) · Backlight · <span style="color: var(--secondary);">No efectiva — Local cerrado</span></div>
+              <div class="log-meta">DNI 28.345.711 · Zona CABA Norte · PIN 4837 · GPS -34.586, -58.396 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+            </div>
+          </div>
+
+          <div class="log-entry-row">
+            <div class="log-time">17/06/2026 14:15:36</div>
+            <div><span class="log-type log-type-edit">Edición</span></div>
+            <div>
+              <div class="log-desc">Colocador editó <strong>Café Havanna Recoleta</strong> · Teléfono "11 4823 0102" → "11 4823 1234"</div>
+              <div class="log-meta">DNI 35.421.876 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 6px; margin-top: 20px;">
+            <button class="btn">← Anterior</button>
+            <button class="btn btn-primary" style="min-width: 36px;">1</button>
+            <button class="btn" style="min-width: 36px;">2</button>
+            <button class="btn" style="min-width: 36px;">3</button>
+            <button class="btn">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){ s.classList.toggle('active', s.dataset.screenContent === name); });
+      buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+
+    document.querySelectorAll('.toggle-state').forEach(function(t){
+      t.addEventListener('click', function(){ t.classList.toggle('on'); });
+    });
+  })();
+</script>
+
+</body>
+</html>

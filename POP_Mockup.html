@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POP — Mockup navegable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F4EE;
+    --surface: #FFFFFF;
+    --surface-soft: #F1EFE7;
+    --text: #1A1A1A;
+    --text-soft: #5F5E5A;
+    --text-muted: #8E8C85;
+    --border: #E0DED5;
+    --border-strong: #C8C5BA;
+    --accent: #2D5F5D;
+    --accent-soft: #E1F0EE;
+    --success: #1D9E75;
+    --success-soft: #E1F5EE;
+    --danger: #993C1D;
+    --danger-soft: #FAECE7;
+    --warning: #BA7517;
+    --warning-soft: #FAEEDA;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  .header {
+    margin-bottom: 28px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .header p {
+    color: var(--text-soft);
+    margin: 0;
+    font-size: 13px;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav button {
+    font-family: inherit;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .nav button:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+  .nav button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .screen-label {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    background: var(--surface-soft);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .metric {
+    background: var(--surface-soft);
+    border-radius: var(--radius);
+    padding: 14px;
+  }
+  .metric-label {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 4px;
+  }
+  .metric-value {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-soft);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  .tag-success { background: var(--success-soft); color: var(--success); }
+  .tag-danger { background: var(--danger-soft); color: var(--danger); }
+  .tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
+  .bar { height: 6px; background: var(--surface-soft); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+  input, select {
+    font-family: inherit;
+    font-size: 13px;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  button.btn {
+    font-family: inherit;
+    font-size: 12px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  button.btn:hover { border-color: var(--border-strong); }
+  button.btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .sidebar {
+    width: 180px;
+    flex-shrink: 0;
+  }
+  .sidebar-item {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-soft);
+    border-radius: var(--radius);
+    margin-bottom: 2px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sidebar-item.active {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .phone {
+    width: 340px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 20px;
+  }
+  .phone-header {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .input-label {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+  }
+  .list-item {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    background: var(--surface);
+  }
+  .list-item:hover {
+    border-color: var(--accent);
+    cursor: pointer;
+  }
+  .photo-placeholder {
+    background: var(--surface-soft);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 11px;
+    aspect-ratio: 4/3;
+    gap: 4px;
+  }
+  .icon { width: 16px; height: 16px; display: inline-block; vertical-align: middle; }
+  .pin-display {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 6px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  .modal-backdrop {
+    background: rgba(26, 26, 26, 0.5);
+    padding: 40px 20px;
+    border-radius: 12px;
+    min-height: 500px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 22px;
+    width: 600px;
+    max-width: 100%;
+  }
+  .footer-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 10px;
+  }
+  @media (max-width: 768px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>POP — Plataforma Operativa de PLVs</h1>
+    <p>Mockup navegable con datos inventados. Cliente: Picnic.</p>
+  </div>
+
+  <div class="nav" role="tablist">
+    <button data-screen="dashboard" class="active">1. Dashboard admin</button>
+    <button data-screen="modal-estab">2. Detalle establecimiento</button>
+    <button data-screen="lider">3. Vista líder</button>
+    <button data-screen="peya">4. Vista Peya</button>
+    <button data-screen="app-ingreso">5. App: ingreso</button>
+    <button data-screen="app-lista">6. App: lista</button>
+    <button data-screen="app-visita">7. App: visita</button>
+  </div>
+
+  <!-- 1. DASHBOARD ADMIN -->
+  <div class="screen active" data-screen-content="dashboard">
+    <div class="screen-label">Picnic admin entra y ve esto</div>
+
+    <div style="display: flex; gap: 20px;">
+      <div class="sidebar">
+        <div class="sidebar-item active">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Cargar Excel
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Reportes
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </div>
+        <div class="sidebar-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Log de cambios
+        </div>
+      </div>
+
+      <div style="flex: 1; min-width: 0;">
+        <div class="flex-between" style="margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 18px; font-weight: 500;">Período junio 2026</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Datos cargados el 03/06 y 18/06 — 2 archivos</div>
+          </div>
+          <select style="width: 150px;">
+            <option>Junio 2026</option>
+            <option>Mayo 2026</option>
+            <option>Abril 2026</option>
+          </select>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 16px;">
+          <div class="metric">
+            <div class="metric-label">Total locales</div>
+            <div class="metric-value">1.847</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Visitados</div>
+            <div class="metric-value">1.203</div>
+            <div class="metric-sub">65% del total</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Efectivos</div>
+            <div class="metric-value">1.087</div>
+            <div class="metric-sub">90% de visitados</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Pendientes</div>
+            <div class="metric-value">644</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 16px;">
+          <div class="card">
+            <div style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Por producto</div>
+            <div style="font-size: 12px;">
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Kit básico</span><span style="color: var(--text-soft);">812 / 1.290</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 63%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Backlight</span><span style="color: var(--text-soft);">245 / 357</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 68%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Pizarra</span><span style="color: var(--text-soft);">89 / 109</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 81%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Sombrilla</span><span style="color: var(--text-soft);">53 / 87</span></div>
+              <div class="bar"><div class="bar-fill" style="width: 61%;"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div style="font-size: 13px; font-weight: 500; margin-bottom: 12px;">Por zona</div>
+            <div style="font-size: 12px;">
+              <div class="flex-between" style="margin-bottom: 4px;"><span>CABA Norte</span><span style="color: var(--text-soft);">298 / 412</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 72%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>CABA Sur</span><span style="color: var(--text-soft);">271 / 387</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 70%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Córdoba capital</span><span style="color: var(--text-soft);">187 / 298</span></div>
+              <div class="bar" style="margin-bottom: 10px;"><div class="bar-fill" style="width: 63%;"></div></div>
+              <div class="flex-between" style="margin-bottom: 4px;"><span>Rosario centro</span><span style="color: var(--text-soft);">154 / 234</span></div>
+              <div class="bar"><div class="bar-fill" style="width: 66%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex-between" style="margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 500;">Locales del período</div>
+            <div style="display: flex; gap: 6px;">
+              <input placeholder="Buscar..." style="width: 160px; height: 30px; font-size: 12px;">
+              <button class="btn">Filtros</button>
+              <button class="btn">Descargar Excel</button>
+            </div>
+          </div>
+          <table>
+            <tr><th>Grid</th><th>Establecimiento</th><th>Zona</th><th>PLV</th><th>Estado</th><th>Visita</th></tr>
+            <tr><td>41827</td><td>Café Martínez Florida</td><td>CABA Norte</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td>18/06</td></tr>
+            <tr><td>38491</td><td>McDonald's Recoleta</td><td>CABA Norte</td><td>Backlight</td><td><span class="tag tag-success">Efectiva</span></td><td>19/06</td></tr>
+            <tr><td>52103</td><td>Carrefour Express Belgrano</td><td>CABA Norte</td><td>Kit básico</td><td><span class="tag tag-danger">No efectiva</span></td><td>17/06</td></tr>
+            <tr><td>47286</td><td>Pizza Hut Palermo</td><td>CABA Norte</td><td>Sombrilla</td><td><span class="tag tag-neutral">Pendiente</span></td><td>—</td></tr>
+            <tr><td>49021</td><td>Havanna Córdoba Shopping</td><td>Córdoba</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td>20/06</td></tr>
+            <tr><td>51847</td><td>Burger King Rosario centro</td><td>Rosario</td><td>Backlight</td><td><span class="tag tag-danger">No efectiva</span></td><td>16/06</td></tr>
+          </table>
+          <div class="footer-note">Mostrando 6 de 1.847 — paginado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL DETALLE ESTABLECIMIENTO -->
+  <div class="screen" data-screen-content="modal-estab">
+    <div class="screen-label">Admin clickea un establecimiento</div>
+
+    <div class="modal-backdrop">
+      <div class="modal">
+        <div class="flex-between" style="margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 16px; font-weight: 500;">Café Martínez Florida</div>
+            <div style="font-size: 12px; color: var(--text-soft);">Grid 41827 · Coffee · Florida 537, CABA</div>
+          </div>
+          <button class="btn" aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 16px; font-size: 12px; gap: 12px;">
+          <div><span style="color: var(--text-soft);">Teléfono</span><div>11 4555 3210</div></div>
+          <div><span style="color: var(--text-soft);">Zona</span><div>CABA Norte</div></div>
+          <div><span style="color: var(--text-soft);">Cadena</span><div>Café Martínez</div></div>
+          <div><span style="color: var(--text-soft);">Estado</span><div>Abierto</div></div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px;">
+          <div style="font-size: 13px; font-weight: 500; margin-bottom: 10px;">Visita actual — Kit básico</div>
+          <div style="display: flex; gap: 12px;">
+            <div style="display: flex; gap: 6px;">
+              <div class="photo-placeholder" style="width: 90px;">Foto antes</div>
+              <div class="photo-placeholder" style="width: 90px;">Foto después</div>
+            </div>
+            <div style="font-size: 12px; flex: 1;">
+              <div style="margin-bottom: 6px;"><span class="tag tag-success">Efectiva</span></div>
+              <div>Sticker y saliente colocados</div>
+              <div style="color: var(--text-soft); margin-top: 4px;">18/06/2026 14:23 · DNI 35.421.876</div>
+              <div style="color: var(--text-soft);">GPS: -34.602, -58.378</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 14px;">
+          <div style="font-size: 13px; font-weight: 500; margin-bottom: 10px;">Historial completo</div>
+          <table>
+            <tr><td>18/06/2026</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td style="color: var(--text-soft);">—</td></tr>
+            <tr><td>22/04/2026</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td style="color: var(--text-soft);">—</td></tr>
+            <tr><td>15/02/2026</td><td>Backlight</td><td><span class="tag tag-danger">No efectiva</span></td><td style="color: var(--text-soft);">Local cerrado</td></tr>
+            <tr><td>03/02/2026</td><td>Backlight</td><td><span class="tag tag-success">Efectiva</span></td><td style="color: var(--text-soft);">—</td></tr>
+            <tr><td>12/12/2025</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td style="color: var(--text-soft);">—</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. VISTA LIDER -->
+  <div class="screen" data-screen-content="lider">
+    <div class="screen-label">Líder regional entra por link único</div>
+
+    <div class="card">
+      <div class="flex-between" style="margin-bottom: 16px;">
+        <div>
+          <div style="font-size: 18px; font-weight: 500;">Hola María González</div>
+          <div style="font-size: 12px; color: var(--text-soft);">Período actual: junio 2026</div>
+        </div>
+        <select style="width: 180px;">
+          <option>CABA Norte</option>
+          <option>Zona Norte GBA</option>
+        </select>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        <div class="metric" style="background: var(--accent-soft);">
+          <div class="metric-label" style="color: var(--accent);">PIN de tu zona</div>
+          <div class="pin-display" style="color: var(--accent);">4837</div>
+          <div class="metric-sub" style="color: var(--accent);">Compartilo con tus colocadores</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Locales asignados</div>
+          <div class="metric-value">412</div>
+          <div class="metric-sub">114 pendientes</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Visitados</div>
+          <div class="metric-value">298</div>
+          <div class="metric-sub">72% del total</div>
+        </div>
+      </div>
+
+      <div class="flex-between" style="margin-bottom: 12px;">
+        <input placeholder="Buscar por nombre o dirección" style="width: 300px;">
+        <div style="display: flex; gap: 6px;">
+          <button class="btn">Filtros</button>
+          <button class="btn btn-primary">Descargar Excel</button>
+        </div>
+      </div>
+
+      <table>
+        <tr><th>Grid</th><th>Establecimiento</th><th>Dirección</th><th>PLV</th><th>Estado</th></tr>
+        <tr><td>41827</td><td>Café Martínez Florida</td><td>Florida 537</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td></tr>
+        <tr><td>38491</td><td>McDonald's Recoleta</td><td>Av Santa Fe 1820</td><td>Backlight</td><td><span class="tag tag-success">Efectiva</span></td></tr>
+        <tr><td>47286</td><td>Pizza Hut Palermo</td><td>Av Cabildo 234</td><td>Sombrilla</td><td><span class="tag tag-neutral">Pendiente</span></td></tr>
+        <tr><td>52103</td><td>Carrefour Express Belgrano</td><td>Cabildo 2580</td><td>Kit básico</td><td><span class="tag tag-danger">Local cerrado</span></td></tr>
+        <tr><td>43912</td><td>Starbucks Plaza Italia</td><td>Av Santa Fe 4090</td><td>Pizarra</td><td><span class="tag tag-neutral">Pendiente</span></td></tr>
+      </table>
+      <div class="footer-note">Mostrando 5 de 412 · El líder no ve DNI de colocadores ni fotos</div>
+    </div>
+  </div>
+
+  <!-- 4. VISTA PEYA -->
+  <div class="screen" data-screen-content="peya">
+    <div class="screen-label">Peya entra con su login</div>
+
+    <div class="card">
+      <div class="flex-between" style="margin-bottom: 16px;">
+        <div>
+          <div style="font-size: 18px; font-weight: 500;">Estado de campaña</div>
+          <div style="font-size: 12px; color: var(--text-soft);">Histórico completo disponible</div>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <select style="width: 130px;"><option>Junio 2026</option></select>
+          <select style="width: 130px;"><option>Todos los PLV</option></select>
+        </div>
+      </div>
+
+      <div class="grid-4" style="margin-bottom: 16px;">
+        <div class="metric"><div class="metric-label">Total</div><div class="metric-value">1.847</div></div>
+        <div class="metric"><div class="metric-label">Efectivas</div><div class="metric-value">1.087</div><div class="metric-sub">59%</div></div>
+        <div class="metric"><div class="metric-label">No efectivas</div><div class="metric-value">116</div></div>
+        <div class="metric"><div class="metric-label">Pendientes</div><div class="metric-value">644</div></div>
+      </div>
+
+      <div class="flex-between" style="margin-bottom: 12px;">
+        <input placeholder="Buscar" style="width: 260px;">
+        <div style="display: flex; gap: 6px;">
+          <button class="btn">Ver fotos</button>
+          <button class="btn btn-primary">Reporte Excel</button>
+        </div>
+      </div>
+
+      <table>
+        <tr><th>Grid</th><th>Establecimiento</th><th>Provincia</th><th>PLV</th><th>Estado</th><th>Fecha</th></tr>
+        <tr><td>41827</td><td>Café Martínez Florida</td><td>CABA</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td>18/06</td></tr>
+        <tr><td>38491</td><td>McDonald's Recoleta</td><td>CABA</td><td>Backlight</td><td><span class="tag tag-success">Efectiva</span></td><td>19/06</td></tr>
+        <tr><td>52103</td><td>Carrefour Express Belgrano</td><td>CABA</td><td>Kit básico</td><td><span class="tag tag-danger">No efectiva</span></td><td>17/06</td></tr>
+        <tr><td>49021</td><td>Havanna Córdoba</td><td>Córdoba</td><td>Kit básico</td><td><span class="tag tag-success">Efectiva</span></td><td>20/06</td></tr>
+        <tr><td>51847</td><td>Burger King Rosario</td><td>Santa Fe</td><td>Backlight</td><td><span class="tag tag-danger">No efectiva</span></td><td>16/06</td></tr>
+      </table>
+      <div class="footer-note">Peya ve fotos y motivos · No accede a zona interna, líderes ni DNI de colocadores</div>
+    </div>
+  </div>
+
+  <!-- 5. APP INGRESO -->
+  <div class="screen" data-screen-content="app-ingreso">
+    <div class="screen-label">El colocador abre la app en su celular</div>
+
+    <div class="phone">
+      <div class="phone-header">pop.picnic.com.ar/colocador</div>
+
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 17px; font-weight: 500;">Cargar colocación</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-top: 2px;">Elegí tu zona y producto</div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <div class="input-label">Zona</div>
+        <select style="width: 100%;">
+          <option>CABA Norte</option>
+          <option>CABA Sur</option>
+          <option>Córdoba capital</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <div class="input-label">Producto a colocar</div>
+        <select style="width: 100%;">
+          <option>Kit básico</option>
+          <option>Backlight</option>
+          <option>Sombrilla</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <div class="input-label">PIN (4 dígitos)</div>
+        <input inputmode="numeric" maxlength="4" placeholder="• • • •" style="width: 100%; text-align: center; letter-spacing: 10px; font-size: 18px;">
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; height: 42px; font-size: 14px;">Ingresar</button>
+
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 14px; text-align: center;">¿No tenés el PIN? Pedíselo a tu líder.</div>
+    </div>
+  </div>
+
+  <!-- 6. APP LISTA -->
+  <div class="screen" data-screen-content="app-lista">
+    <div class="screen-label">Ya adentro: ve sus locales pendientes</div>
+
+    <div class="phone">
+      <div class="phone-header">CABA Norte · Kit básico · 114 pendientes</div>
+
+      <input placeholder="Buscar por nombre o dirección" style="width: 100%; margin-bottom: 14px;">
+
+      <div class="list-item">
+        <div style="font-size: 13px; font-weight: 500;">Café Havanna Las Cañitas</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-top: 2px;">Báez 246 · 11 4774 8821</div>
+      </div>
+      <div class="list-item">
+        <div style="font-size: 13px; font-weight: 500;">Subway Belgrano</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-top: 2px;">Cabildo 1934 · 11 4783 2104</div>
+      </div>
+      <div class="list-item" style="border-color: var(--accent); background: var(--accent-soft);">
+        <div style="font-size: 13px; font-weight: 500; color: var(--accent);">Pizza Hut Palermo</div>
+        <div style="font-size: 12px; color: var(--accent); margin-top: 2px;">Av Cabildo 234 · 11 4774 9912</div>
+      </div>
+      <div class="list-item">
+        <div style="font-size: 13px; font-weight: 500;">Starbucks Plaza Italia</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-top: 2px;">Av Santa Fe 4090 · 11 4831 5520</div>
+      </div>
+      <div class="list-item">
+        <div style="font-size: 13px; font-weight: 500;">Mostaza Núñez</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-top: 2px;">Av Cabildo 3902 · 11 4702 1180</div>
+      </div>
+
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 12px;">Tocá un local para cargar la visita</div>
+    </div>
+  </div>
+
+  <!-- 7. APP VISITA -->
+  <div class="screen" data-screen-content="app-visita">
+    <div class="screen-label">Toca un local: carga la visita</div>
+
+    <div class="phone">
+      <div class="phone-header">Cargar visita</div>
+
+      <div style="font-size: 15px; font-weight: 500;">Pizza Hut Palermo</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Grid 47286</div>
+
+      <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 8px; font-weight: 500;">Confirmá los datos del local</div>
+      <div style="margin-bottom: 8px;"><div class="input-label">Nombre</div><input value="Pizza Hut Palermo" style="width: 100%;"></div>
+      <div style="margin-bottom: 8px;"><div class="input-label">Tipo</div><input value="Restaurant" style="width: 100%;"></div>
+      <div style="margin-bottom: 8px;"><div class="input-label">Dirección</div><input value="Av Cabildo 234" style="width: 100%;"></div>
+      <div style="margin-bottom: 14px;"><div class="input-label">Teléfono</div><input value="11 4774 9912" style="width: 100%;"></div>
+
+      <button class="btn" style="width: 100%; margin-bottom: 18px;">✓ Confirmar información</button>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+        <div style="flex: 1;">
+          <div class="input-label">Foto antes</div>
+          <div class="photo-placeholder">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <div>Sacar foto</div>
+          </div>
+        </div>
+        <div style="flex: 1;">
+          <div class="input-label">Foto después</div>
+          <div class="photo-placeholder">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <div>Sacar foto</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px; font-size: 13px;">
+        <div style="margin-bottom: 8px;"><label style="cursor: pointer;"><input type="checkbox" checked style="margin-right: 6px;"> Sticker colocado</label></div>
+        <div><label style="cursor: pointer;"><input type="checkbox" checked style="margin-right: 6px;"> Saliente colocado</label></div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <div class="input-label">Comentario (opcional)</div>
+        <input placeholder="Notas adicionales..." style="width: 100%;">
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <div class="input-label">DNI del colocador</div>
+        <input inputmode="numeric" placeholder="Sin puntos" style="width: 100%;">
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; height: 42px; font-size: 14px;">Guardar visita</button>
+
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 10px; text-align: center;">Al guardar se registra fecha, hora y GPS automáticamente.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){
+        s.classList.toggle('active', s.dataset.screenContent === name);
+      });
+      buttons.forEach(function(b){
+        b.classList.toggle('active', b.dataset.screen === name);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+  })();
+</script>
+
+</body>
+</html>

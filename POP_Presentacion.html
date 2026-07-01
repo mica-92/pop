@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POP — Propuesta para Picnic</title>
+
+<!-- Favicon SVG embebido: círculo wine + P primary -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23671E1E'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23FFE5E5'/%3E%3Ctext x='50' y='68' font-family='Georgia, serif' font-size='52' font-weight='700' fill='%23F45454' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+<!-- Marked.js para parsear el MD -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Supabase client (placeholders en JS) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root {
+    --primary: #F45454;
+    --primary-hover: #E04545;
+    --primary-soft: #FFE5E5;
+    --secondary: #671E1E;
+    --secondary-soft: #F5E6E6;
+    --bg: #E8DEDD;
+    --bg-deep: #DDD0CE;
+    --surface: #FFFFFF;
+    --surface-soft: #F7EEEC;
+    --surface-warm: #F0E5E2;
+    --text: #2D2424;
+    --text-soft: #5C5050;
+    --text-muted: #8A7A7A;
+    --border: #D4C4C2;
+    --border-strong: #B8A4A2;
+    --success: #15803D;
+    --success-soft: #DCFCE7;
+    --warning: #92400E;
+    --warning-soft: #FEF3C7;
+    --radius: 8px;
+    --radius-lg: 12px;
+
+    --col-basica-bg: #FAF3F1;
+    --col-pro-bg: #F5E6E6;
+    --col-pro-border: #D4B5B8;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { font-size: 16px; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--secondary-soft);
+    color: var(--text);
+    line-height: 1.65;
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Marca de agua sutil de fondo */
+  body::before {
+    display: none;
+  }
+
+  /* Anti-copia */
+  .protected {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  /* SIDEBAR IZQUIERDO */
+  .sidebar {
+    width: 270px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 22px 14px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 18px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    background: var(--primary-soft);
+    border: 3px solid var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 20px;
+    font-family: 'Inter', serif;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .brand-text strong {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--secondary);
+    display: block;
+    font-family: 'Inter', serif;
+    letter-spacing: -0.3px;
+  }
+  .brand-text span {
+    font-size: 11px;
+    color: var(--text-soft);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .comment-toggle {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s ease;
+  }
+  .comment-toggle:hover { background: #4F1717; }
+  .comment-toggle svg { width: 14px; height: 14px; }
+  .comment-toggle .badge-count {
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .nav-section {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    padding: 12px 12px 6px;
+    font-weight: 700;
+  }
+  .nav-item {
+    display: block;
+    padding: 8px 12px;
+    font-size: 13.5px;
+    color: var(--text-soft);
+    cursor: pointer;
+    border-radius: var(--radius);
+    margin-bottom: 2px;
+    transition: all 0.15s ease;
+    border: none;
+    background: none;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+  }
+  .nav-item:hover { background: var(--surface-soft); color: var(--text); }
+  .nav-item.active { background: var(--primary-soft); color: var(--secondary); font-weight: 600; }
+  .nav-item .badge {
+    background: var(--secondary);
+    color: white;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 9px;
+    margin-left: 4px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* PANEL DE COMENTARIOS */
+  .comments-panel {
+    position: fixed;
+    top: 0;
+    left: 270px;
+    height: 100vh;
+    width: 380px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    box-shadow: 4px 0 20px rgba(103, 30, 30, 0.08);
+    transform: translateX(-110%);
+    transition: transform 0.3s ease;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+  }
+  .comments-panel.open { transform: translateX(0); }
+
+  .comments-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .comments-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--secondary);
+    font-family: 'Inter', serif;
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-soft);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+  .close-btn:hover { background: var(--border); }
+
+  .author-setup {
+    padding: 16px 20px;
+    background: var(--warning-soft);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .author-setup label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--warning); font-size: 12px; }
+  .author-setup input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+  }
+  .author-setup input:focus { border-color: var(--primary); }
+  .author-setup small { color: var(--text-soft); font-size: 11px; display: block; margin-top: 4px; }
+
+  .comments-status {
+    padding: 12px 20px;
+    background: var(--surface-soft);
+    font-size: 11px;
+    color: var(--text-soft);
+    border-bottom: 1px solid var(--border);
+  }
+  .comments-status.error { background: var(--primary-soft); color: var(--secondary); }
+  .comments-status.success { background: var(--success-soft); color: var(--success); }
+
+  .comments-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+  }
+  .comment {
+    background: var(--surface-soft);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--primary);
+  }
+  .comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+  .comment-author {
+    font-weight: 600;
+    color: var(--secondary);
+    font-size: 13px;
+  }
+  .comment-time {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .comment-section {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding: 2px 6px;
+    background: var(--bg);
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .comment-body {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .comments-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 20px;
+    font-size: 13px;
+  }
+
+  .comment-form {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .comment-form select,
+  .comment-form textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    margin-bottom: 8px;
+    outline: none;
+  }
+  .comment-form textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+  .comment-form select:focus,
+  .comment-form textarea:focus { border-color: var(--primary); }
+  .comment-form button {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .comment-form button:hover { background: var(--primary-hover); }
+  .comment-form button:disabled { background: var(--border); cursor: not-allowed; }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: 270px;
+    flex: 1;
+    padding: 36px 40px;
+    position: relative;
+    z-index: 1;
+    transition: margin-left 0.3s ease;
+    min-width: 0;
+  }
+  body.comments-open .main {
+    margin-left: 650px;
+  }
+  /* Cuando comentarios abiertos, ocultar TOC si no entra */
+  @media (max-width: 1500px) {
+    body.comments-open .toc-sidebar { display: none; }
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* HOMEPAGE */
+  .home-hero {
+    background: linear-gradient(135deg, var(--primary-soft) 0%, var(--surface-soft) 100%);
+    border-radius: 16px;
+    padding: 44px 40px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+  }
+  .home-hero-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .home-hero h1 {
+    font-family: 'Inter', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--secondary);
+    letter-spacing: -0.8px;
+    margin: 0 0 14px;
+    line-height: 1.15;
+  }
+  .home-hero p {
+    font-size: 16px;
+    color: var(--text);
+    margin: 10px 0 22px;
+    line-height: 1.6;
+  }
+  .home-hero button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .home-hero button:hover { background: var(--primary-hover); }
+
+  .home-cards {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .home-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+  .home-card h2 {
+    font-family: 'Inter', serif;
+    font-size: 26px;
+    color: var(--secondary);
+    margin: 0 0 16px;
+    letter-spacing: -0.4px;
+  }
+  .home-card h3 {
+    font-family: 'Inter', serif;
+    font-size: 18px;
+    color: var(--secondary);
+    margin: 20px 0 10px;
+  }
+  .home-card p { color: var(--text); margin: 10px 0; }
+  .home-card.contact { background: var(--surface-warm); }
+  .home-card.contact dl {
+    margin: 0;
+  }
+  .home-card.contact dt {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 14px;
+  }
+  .home-card.contact dt:first-child { margin-top: 0; }
+  .home-card.contact dd {
+    margin: 4px 0 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+  }
+
+  .fun-fact {
+    background: var(--surface-warm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .fun-fact-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-soft);
+    border: 3px solid var(--secondary);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Inter', serif;
+    line-height: 1;
+  }
+  .fun-fact-content strong {
+    color: var(--secondary);
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Inter', serif;
+    font-size: 15px;
+  }
+  .fun-fact-content p { margin: 0; color: var(--text); font-size: 14px; }
+
+  /* PROPUESTA - LAYOUT CON TOC */
+  .proposal-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .proposal-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .toc-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 32px;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: 18px 16px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+  .toc-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toc-link {
+    display: block;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: var(--text-soft);
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 1px;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    line-height: 1.3;
+  }
+  .toc-link:hover { background: var(--surface-soft); color: var(--text); }
+  .toc-link.h3 { padding-left: 22px; font-size: 12px; color: var(--text-muted); }
+  .toc-link.active { background: var(--primary-soft); color: var(--secondary); font-weight: 600; }
+
+  /* CONTENIDO MARKDOWN PARSEADO */
+  .proposal-content h1 {
+    font-family: 'Inter', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--secondary);
+    letter-spacing: -0.8px;
+    margin: 0 0 12px;
+    line-height: 1.15;
+  }
+  .proposal-content h2 {
+    font-family: 'Inter', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 44px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+    letter-spacing: -0.4px;
+  }
+  .proposal-content h3 {
+    font-family: 'Inter', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 28px 0 12px;
+    letter-spacing: -0.2px;
+  }
+  .proposal-content h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--secondary);
+    margin: 20px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .proposal-content p { margin: 12px 0; line-height: 1.7; }
+  .proposal-content ul, .proposal-content ol { padding-left: 22px; margin: 12px 0; }
+  .proposal-content li { margin: 8px 0; line-height: 1.6; }
+  .proposal-content strong { color: var(--secondary); font-weight: 600; }
+  .proposal-content em { color: var(--text); }
+  .proposal-content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 36px 0;
+  }
+  .proposal-content code {
+    background: var(--surface-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--secondary);
+  }
+  .proposal-content blockquote {
+    background: var(--surface-soft);
+    border-left: 3px solid var(--primary);
+    padding: 14px 18px;
+    margin: 18px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--text);
+  }
+
+  /* TABLAS */
+  .proposal-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 18px 0 26px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .proposal-content th {
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--surface-soft);
+    color: var(--secondary);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 2px solid var(--border);
+  }
+  .proposal-content td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .proposal-content tr:last-child td { border-bottom: none; }
+
+  /* Tabla comparativa (con columnas Básica y Pro) */
+  .proposal-content table.comparison-table .col-basica {
+    background: var(--col-basica-bg);
+    text-align: center;
+    font-weight: 500;
+  }
+  .proposal-content table.comparison-table .col-pro {
+    background: var(--col-pro-bg);
+    text-align: center;
+    font-weight: 500;
+    border-left: 1px solid var(--col-pro-border);
+    border-right: 1px solid var(--col-pro-border);
+  }
+  .proposal-content table.comparison-table th.col-basica-header {
+    background: #EFE4E2;
+    color: var(--secondary);
+    text-align: center;
+  }
+  .proposal-content table.comparison-table th.col-pro-header {
+    background: var(--secondary);
+    color: white;
+    text-align: center;
+    position: relative;
+  }
+  .proposal-content table.comparison-table th.col-pro-header::after {
+    content: "PRO";
+    position: absolute;
+    top: -2px;
+    right: 8px;
+    background: var(--primary);
+    color: white;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  /* SVG icons en tablas */
+  .icon-tick {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon-x {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0.5;
+  }
+
+  /* CALLOUTS */
+  .info-callout {
+    background: var(--surface-soft);
+    border-left: 4px solid var(--secondary);
+    padding: 14px 18px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .info-callout strong { color: var(--secondary); }
+
+  /* PRICING CARDS */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 24px 0 32px;
+  }
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    position: relative;
+  }
+  .pricing-card.pro {
+    border: 2px solid var(--secondary);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+  }
+  .pricing-card.pro::before {
+    content: "RECOMENDADA";
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--secondary);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .pricing-card h3 {
+    font-family: 'Inter', serif;
+    font-size: 22px;
+    color: var(--secondary);
+    margin: 0 0 4px;
+    font-weight: 700;
+    border: none;
+    padding: 0;
+    letter-spacing: -0.2px;
+  }
+  .pricing-card .price {
+    font-family: 'Inter', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--secondary);
+    letter-spacing: -0.8px;
+    margin: 14px 0 4px;
+    line-height: 1.1;
+  }
+  .pricing-card .price-detail {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pricing-card ul li {
+    padding: 6px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .pricing-card ul li::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* CODE BLOCK pricing (oculto, se reemplaza) */
+  .proposal-content pre code.language-pricing { display: none; }
+  .proposal-content pre:has(code.language-pricing) { display: none; }
+
+  /* IFRAME MOCKUPS */
+  .iframe-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: calc(100vh - 80px);
+  }
+  .iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .iframe-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .iframe-title {
+    font-weight: 600;
+    color: var(--secondary);
+    font-size: 14px;
+    font-family: 'Inter', serif;
+  }
+  .iframe-link {
+    font-size: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .iframe-link:hover { text-decoration: underline; }
+  .iframe-wrapper iframe {
+    height: calc(100% - 50px);
+  }
+
+  /* LOADING STATE */
+  .loading {
+    padding: 80px 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .toc-sidebar { display: none; }
+    .proposal-content { max-width: none; }
+  }
+  @media (max-width: 800px) {
+    .sidebar { width: 100%; height: auto; position: relative; }
+    .main { margin-left: 0; padding: 24px; }
+    .comments-panel { width: 100%; left: 0; }
+    body.comments-open .main { margin-left: 0; }
+    .home-cards { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .home-hero { padding: 36px 28px; }
+    .home-hero h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR IZQUIERDO -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text">
+      <strong>POP</strong>
+      <span>Propuesta para Picnic</span>
+    </div>
+  </div>
+
+  <button class="comment-toggle" id="commentToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Comentarios <span class="badge-count" id="commentCount">0</span>
+  </button>
+
+  <div class="nav-section">Inicio</div>
+  <button class="nav-item active" data-section="home">Bienvenida</button>
+
+  <div class="nav-section">Propuesta</div>
+  <button class="nav-item" data-section="propuesta">Propuesta POP</button>
+
+  <div class="nav-section">Mockups del sistema</div>
+  <button class="nav-item" data-section="mockup-carga">Carga de Excel</button>
+  <button class="nav-item" data-section="mockup-admin">Dashboard Admin</button>
+  <button class="nav-item" data-section="mockup-modales">Modales de detalle</button>
+  <button class="nav-item" data-section="mockup-reportes">Constructor de Reportes <span class="badge">PRO</span></button>
+  <button class="nav-item" data-section="mockup-zonas">Zonas y Líder <span class="badge">PRO</span></button>
+  <button class="nav-item" data-section="mockup-peya">Portal Peya</button>
+  <button class="nav-item" data-section="mockup-colocador">App del Colocador</button>
+  <button class="nav-item" data-section="mockup-settings">Settings, Reglas y Log</button>
+</aside>
+
+<!-- PANEL DE COMENTARIOS -->
+<aside class="comments-panel" id="commentsPanel">
+  <div class="comments-header">
+    <h3>Comentarios</h3>
+    <button class="close-btn" id="closeComments">×</button>
+  </div>
+
+  <div class="author-setup" id="authorSetup">
+    <label>Antes de comentar, ¿cómo te llamás?</label>
+    <input type="text" id="authorInput" placeholder="Tu nombre">
+    <small>Solo necesitás indicarlo una vez por sesión.</small>
+  </div>
+
+  <div class="comments-status" id="commentsStatus">
+    Configurar Supabase para habilitar comentarios.
+  </div>
+
+  <div class="comments-list" id="commentsList">
+    <div class="comments-empty">Sin comentarios todavía.</div>
+  </div>
+
+  <div class="comment-form">
+    <select id="commentSection">
+      <option value="general">Comentario general</option>
+    </select>
+    <textarea id="commentBody" placeholder="Escribí tu comentario..."></textarea>
+    <button id="submitComment">Enviar comentario</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HOMEPAGE -->
+  <div class="section active" data-content="home">
+    <div class="home-hero">
+      <div class="home-hero-tag">Propuesta de desarrollo · Julio 2026</div>
+      <h1>POP — Plataforma Operativa de PLVs</h1>
+      <p>Plataforma web diseñada a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya, reemplazando el flujo actual sobre PEYA Trade con un ecosistema unificado que coordina establecimientos, productos y períodos sobre una nueva arquitectura.</p>
+      <button onclick="window.showSection('propuesta')">Ver propuesta completa →</button>
+    </div>
+
+    <div class="home-cards">
+      <div class="home-card protected">
+        <h3>Resumen de la Propuesta</h3>
+        <p>El presente documento constituye la propuesta formal para el desarrollo de la <strong>Plataforma Operativa de PLVs (POP)</strong>, diseñada a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya.</p>
+        <ol>
+          <li><strong>Resumen Ejecutivo</strong></li>
+          <li><strong>Alcance del Proyecto</strong></li>
+          <li><strong>Diferencia entre Versiones las versiones Básica y Pro</strong></li>
+          <li><strong>Inventario Completo de Funcionalidades</strong> </li>
+          <li><strong>Plan de Trabajo</strong></li>
+          <li><strong>Inversión</strong></li>
+          <li><strong>Infraestructura y Costos Operativos</strong></li>
+          <li><strong>Plan de Mantenimiento Post-entrega</strong></li>
+          <li><strong>Capacitación</strong></li>
+          <li><strong>Modalidad de Contratación</strong></li>
+          <li><strong>Términos Generales</strong></li>
+          <li><strong>Módulos Adicionales</strong></li>
+          <li><strong>Próximos Pasos</strong></li>
+        </ol>
+        <p>Adicionalmente, la propuesta incluye una sección completa de <strong>Mockups del Sistema</strong>, accesible desde la barra lateral izquierda, que ilustra la experiencia de usuario en cada uno de los cuatro roles contemplados: <strong>Administrador Picnic</strong>, <strong>Colocador en Terreno</strong>, <strong>Líder Regional</strong> y <strong>Cliente Peya</strong>.</p>
+        <p style="font-size: 13px; color: var(--text-soft); margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px;">
+          <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
+        </p>
+      </div>
+      
+      <div class="home-card contact protected">
+        <h2>Contacto</h2>
+        <dl>
+          <dt>Presentada por</dt>
+          <dd>María Micaela Ninni</dd>
+
+          <dt>Email</dt>
+          <dd>micaninni92@gmail.com</dd>
+
+          <dt>Cliente</dt>
+          <dd>Picnic</dd>
+
+          <dt>Fecha</dt>
+          <dd>Julio 2026</dd>
+
+          <dt>Versión</dt>
+          <dd>1.0</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROPUESTA (LEÍDA DEL MD) -->
+  <div class="section" data-content="propuesta">
+    <div class="proposal-layout">
+      <div class="proposal-content protected" id="proposalContent">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          Cargando la propuesta...
+        </div>
+      </div>
+      <aside class="toc-sidebar" id="tocSidebar">
+        <div class="toc-title">Tabla de contenidos</div>
+        <div id="tocLinks"></div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- MOCKUPS -->
+  <div class="section" data-content="mockup-carga">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Carga de Excel</span>
+        <a href="POP_Mockup_CargaExcel.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_CargaExcel.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-admin">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Dashboard del Administrador</span>
+        <a href="POP_Mockup_DashboardAdmin.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_DashboardAdmin.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-modales">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Modales de detalle</span>
+        <a href="POP_Mockup_Modales.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_Modales.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-reportes">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Constructor de Reportes (Pro)</span>
+        <a href="POP_Mockup_ConstructorReportes.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_ConstructorReportes.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-zonas">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Gestión de Zonas y Dashboard del Líder (Pro)</span>
+        <a href="POP_Mockup_ZonasLider.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_ZonasLider.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-peya">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Portal Peya</span>
+        <a href="POP_Mockup_DashboardPeya.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_DashboardPeya.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-colocador">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · App del Colocador (PWA / Web Mobile)</span>
+        <a href="POP_Mockup_AppColocador.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_AppColocador.html"></iframe>
+    </div>
+  </div>
+
+  <div class="section" data-content="mockup-settings">
+    <div class="iframe-wrapper">
+      <div class="iframe-header">
+        <span class="iframe-title">Mockup · Settings, Reglas y Log</span>
+        <a href="POP_Mockup_Settings_Reglas_Log.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
+      </div>
+      <iframe src="POP_Mockup_Settings_Reglas_Log.html"></iframe>
+    </div>
+  </div>
+
+</main>
+
+<script>
+//=================== CONFIG ===================
+// REEMPLAZAR ESTOS VALORES CON LOS DE TU PROYECTO SUPABASE
+const SUPABASE_URL = 'https://fljzhgfmgswqxhatezhn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsanpoZ2ZtZ3N3cXhoYXRlemhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MjAzNjMsImV4cCI6MjA5NTI5NjM2M30.N81oX2944Ap2xQzzFAtbGo3OcFHr-dDsw11rj760ArA';
+
+//=================== ANTI-COPIA ===================
+document.addEventListener('contextmenu', e => {
+  if (e.target.closest('.protected')) e.preventDefault();
+});
+document.addEventListener('keydown', e => {
+  // Ctrl+C / Cmd+C en contenido protegido (excepto inputs)
+  if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+    const isInput = e.target.matches('input, textarea');
+    if (!isInput && document.getSelection().toString() && e.target.closest('.protected')) {
+      e.preventDefault();
+    }
+  }
+});
+
+//=================== NAVEGACION ===================
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.toggle('active', s.dataset.content === name);
+  });
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.section === name);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Si vamos a propuesta y aún no cargó, cargar
+  if (name === 'propuesta' && !proposalLoaded) {
+    loadProposal();
+  }
+}
+window.showSection = showSection;
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => showSection(item.dataset.section));
+});
+
+//=================== CARGA DEL MD ===================
+let proposalLoaded = false;
+let proposalSections = [];
+
+async function loadProposal() {
+  const container = document.getElementById('proposalContent');
+  try {
+    const response = await fetch('POP_Propuesta_Final.md');
+    if (!response.ok) throw new Error('Status ' + response.status);
+    const md = await response.text();
+
+    // Parse markdown
+    marked.setOptions({ breaks: false, gfm: true });
+    let html = marked.parse(md);
+
+    container.innerHTML = html;
+
+    // Post-procesamiento
+    postProcessProposal(container);
+
+    // Generar TOC
+    buildTOC(container);
+
+    // Llenar select de secciones para comentarios
+    fillCommentSections();
+
+    proposalLoaded = true;
+  } catch (err) {
+    const isFileProtocol = window.location.protocol === 'file:';
+    container.innerHTML = `
+      <div class="loading">
+        <p style="color: var(--secondary); font-weight: 600; font-size: 16px;">No se pudo cargar la propuesta automáticamente.</p>
+        ${isFileProtocol ? `
+          <p style="font-size: 14px; color: var(--text); margin-top: 16px;">
+            Estás abriendo el HTML como archivo local (<code>file://</code>) y los navegadores bloquean la lectura de archivos por seguridad.
+          </p>
+          <p style="font-size: 13px; color: var(--text-soft); margin-top: 12px;">
+            <strong>Soluciones:</strong>
+          </p>
+          <ul style="font-size: 13px; color: var(--text-soft); text-align: left; max-width: 500px; margin: 12px auto;">
+            <li>Subí los archivos a GitHub Pages (la propuesta va a funcionar perfectamente ahí).</li>
+            <li>O corré un servidor local: en la terminal, dentro de la carpeta del proyecto, ejecutá <code>python3 -m http.server 8000</code> y abrí <code>http://localhost:8000/POP_Presentacion.html</code></li>
+          </ul>
+        ` : `
+          <p style="font-size: 13px; color: var(--text-muted); margin-top: 12px;">
+            Asegurate que el archivo <code>POP_Propuesta_Final.md</code> esté en la misma carpeta que este HTML.<br>
+            Error técnico: ${err.message}
+          </p>
+        `}
+      </div>
+    `;
+    console.error('Error cargando propuesta:', err);
+  }
+}
+
+function postProcessProposal(container) {
+  // 1. Reemplazar emojis ✅ y ❌ por iconos SVG
+  const tickSVG = '<svg class="icon-tick" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const xSVG = '<svg class="icon-x" viewBox="0 0 24 24" fill="none" stroke="#9A9A9A" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>';
+
+  container.querySelectorAll('td').forEach(td => {
+    if (td.textContent.trim() === '✅') td.innerHTML = tickSVG;
+    else if (td.textContent.trim() === '❌') td.innerHTML = xSVG;
+  });
+
+  // 2. Detectar tablas comparativas (con columnas Básica y Pro) y aplicar clases
+  container.querySelectorAll('table').forEach(table => {
+    const headers = [...table.querySelectorAll('th')].map(h => h.textContent.trim());
+    const basicaIdx = headers.indexOf('Básica');
+    const proIdx = headers.indexOf('Pro');
+    if (basicaIdx > -1 && proIdx > -1) {
+      table.classList.add('comparison-table');
+      const allRows = table.querySelectorAll('tr');
+      allRows.forEach((row, rowIdx) => {
+        const cells = row.children;
+        if (cells[basicaIdx]) {
+          cells[basicaIdx].classList.add(rowIdx === 0 ? 'col-basica-header' : 'col-basica');
+        }
+        if (cells[proIdx]) {
+          cells[proIdx].classList.add(rowIdx === 0 ? 'col-pro-header' : 'col-pro');
+        }
+      });
+    }
+  });
+
+  // 3. Convertir bloque ```pricing en pricing-grid
+  container.querySelectorAll('pre code.language-pricing').forEach(codeEl => {
+    try {
+      const data = JSON.parse(codeEl.textContent);
+      const grid = document.createElement('div');
+      grid.className = 'pricing-grid';
+      grid.innerHTML = `
+        <div class="pricing-card">
+          <h3>${data.basica.title}</h3>
+          <div class="price">${data.basica.price}</div>
+          <div class="price-detail">${data.basica.detail}</div>
+          <ul>${data.basica.features.map(f => `<li>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="pricing-card pro">
+          <h3>${data.pro.title}</h3>
+          <div class="price">${data.pro.price}</div>
+          <div class="price-detail">${data.pro.detail}</div>
+          <ul>${data.pro.features.map(f => `<li>${f}</li>`).join('')}</ul>
+        </div>
+      `;
+      codeEl.closest('pre').replaceWith(grid);
+    } catch (e) {
+      console.error('Error parsing pricing block:', e);
+    }
+  });
+}
+
+function buildTOC(container) {
+  const tocLinks = document.getElementById('tocLinks');
+  const headings = container.querySelectorAll('h2');
+  proposalSections = [];
+
+  // Recopilo también H3 para los anchors de comentarios (pero sin renderizarlos en el TOC)
+  container.querySelectorAll('h2, h3').forEach((h, idx) => {
+    const id = 'sec-' + idx;
+    h.id = id;
+    proposalSections.push({ id, text: h.textContent.trim(), level: h.tagName });
+  });
+
+  headings.forEach(h => {
+    const link = document.createElement('a');
+    link.className = 'toc-link';
+    link.textContent = h.textContent.trim();
+    link.href = '#' + h.id;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    tocLinks.appendChild(link);
+  });
+
+  // Highlight active TOC link on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+        const activeLink = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -65% 0px' });
+  headings.forEach(h => observer.observe(h));
+}
+
+//=================== COMENTARIOS ===================
+let sbClient = null;
+let currentAuthor = sessionStorage.getItem('pop_author') || '';
+
+function fillCommentSections() {
+  const select = document.getElementById('commentSection');
+  select.innerHTML = '<option value="general">Comentario general</option>';
+  proposalSections.forEach(s => {
+    if (s.level === 'H2') {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.text;
+      select.appendChild(opt);
+    }
+  });
+}
+
+function initSupabase() {
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_ANON_KEY') {
+    setStatus('Comentarios deshabilitados · Configurar Supabase en el código del HTML para habilitarlos.', 'error');
+    document.getElementById('submitComment').disabled = true;
+    return false;
+  }
+  try {
+    if (!window.supabase || !window.supabase.createClient) {
+      setStatus('Cliente de Supabase no disponible (verificá conexión a internet).', 'error');
+      document.getElementById('submitComment').disabled = true;
+      return false;
+    }
+    sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    setStatus('Conectado · Los comentarios se guardan en Supabase.', 'success');
+    return true;
+  } catch (e) {
+    setStatus('Error conectando con Supabase: ' + e.message, 'error');
+    document.getElementById('submitComment').disabled = true;
+    return false;
+  }
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById('commentsStatus');
+  el.textContent = msg;
+  el.className = 'comments-status ' + (type || '');
+}
+
+async function loadComments() {
+  if (!sbClient) return;
+  try {
+    const { data, error } = await sbClient
+      .from('comments')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    renderComments(data || []);
+    document.getElementById('commentCount').textContent = (data || []).length;
+  } catch (e) {
+    setStatus('Error al cargar comentarios: ' + e.message, 'error');
+  }
+}
+
+function renderComments(comments) {
+  const list = document.getElementById('commentsList');
+  if (!comments.length) {
+    list.innerHTML = '<div class="comments-empty">Sin comentarios todavía. Sé el primero en aportar.</div>';
+    return;
+  }
+  list.innerHTML = comments.map(c => `
+    <div class="comment">
+      ${c.section_id !== 'general' ? `<div class="comment-section">${escapeHtml(c.section_title || c.section_id)}</div>` : ''}
+      <div class="comment-meta">
+        <span class="comment-author">${escapeHtml(c.author)}</span>
+        <span class="comment-time">${formatDate(c.created_at)}</span>
+      </div>
+      <div class="comment-body">${escapeHtml(c.body)}</div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+}
+
+async function submitComment() {
+  if (!sbClient) {
+    setStatus('Configurá Supabase primero.', 'error');
+    return;
+  }
+  const author = document.getElementById('authorInput').value.trim();
+  const body = document.getElementById('commentBody').value.trim();
+  const sectionId = document.getElementById('commentSection').value;
+  const sectionTitle = document.getElementById('commentSection').selectedOptions[0]?.textContent;
+
+  if (!author) {
+    setStatus('Ingresá tu nombre primero.', 'error');
+    document.getElementById('authorInput').focus();
+    return;
+  }
+  if (!body) {
+    setStatus('Escribí algún comentario.', 'error');
+    return;
+  }
+
+  const submitBtn = document.getElementById('submitComment');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando...';
+
+  try {
+    const { error } = await sbClient.from('comments').insert([{
+      section_id: sectionId,
+      section_title: sectionTitle,
+      author: author,
+      body: body
+    }]);
+    if (error) throw error;
+
+    sessionStorage.setItem('pop_author', author);
+    currentAuthor = author;
+    document.getElementById('commentBody').value = '';
+    setStatus('Comentario enviado ✓', 'success');
+    await loadComments();
+  } catch (e) {
+    setStatus('Error al enviar: ' + e.message, 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Enviar comentario';
+  }
+}
+
+document.getElementById('submitComment').addEventListener('click', submitComment);
+
+// Cargar nombre del autor si ya existe
+if (currentAuthor) {
+  document.getElementById('authorInput').value = currentAuthor;
+}
+
+// Toggle del panel de comentarios
+document.getElementById('commentToggle').addEventListener('click', () => {
+  document.getElementById('commentsPanel').classList.toggle('open');
+  document.body.classList.toggle('comments-open');
+});
+document.getElementById('closeComments').addEventListener('click', () => {
+  document.getElementById('commentsPanel').classList.remove('open');
+  document.body.classList.remove('comments-open');
+});
+
+// Inicializar Supabase al cargar (no rompe si no hay conexión / config)
+window.addEventListener('load', () => {
+  try {
+    if (initSupabase()) {
+      loadComments();
+    }
+  } catch (e) {
+    console.warn('Supabase init failed (no afecta la navegación):', e);
+  }
+});
+</script>
+
+</body>
+</html>
