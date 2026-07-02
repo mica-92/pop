@@ -2,19 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POP — Propuesta para Picnic</title>
 
-<!-- Favicon SVG embebido: círculo wine + P primary -->
+<!-- Favicon SVG: aro externo bordo + interior claro + P primary -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23671E1E'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23FFE5E5'/%3E%3Ctext x='50' y='68' font-family='Georgia, serif' font-size='52' font-weight='700' fill='%23F45454' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
-<!-- Marked.js para parsear el MD -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<!-- Supabase client (placeholders en JS) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -25,7 +23,6 @@
     --secondary: #671E1E;
     --secondary-soft: #F5E6E6;
     --bg: #E8DEDD;
-    --bg-deep: #DDD0CE;
     --surface: #FFFFFF;
     --surface-soft: #F7EEEC;
     --surface-warm: #F0E5E2;
@@ -44,11 +41,12 @@
     --col-basica-bg: #FAF3F1;
     --col-pro-bg: #F5E6E6;
     --col-pro-border: #D4B5B8;
+
+    --header-height: 64px;
   }
 
   * { box-sizing: border-box; }
-
-  html { font-size: 15.5px; }
+  html { font-size: 15.5px; scroll-behavior: smooth; }
 
   body {
     margin: 0;
@@ -56,15 +54,8 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.65;
-    display: flex;
-    min-height: 100vh;
-    position: relative;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-  }
-
-  /* Marca de agua sutil de fondo */
-  body::before {
-    display: none;
   }
 
   /* Anti-copia */
@@ -75,32 +66,32 @@
     -ms-user-select: none;
   }
 
-  /* SIDEBAR IZQUIERDO */
-  .sidebar {
-    width: 270px;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 22px 14px;
+  /* HEADER FIJO */
+  .header {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    overflow-y: auto;
-    flex-shrink: 0;
-    z-index: 10;
+    right: 0;
+    height: var(--header-height);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(103, 30, 30, 0.04);
   }
 
   .brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 0 8px 18px;
-    margin-bottom: 14px;
-    border-bottom: 1px solid var(--border);
   }
+
   .brand-mark {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     background: var(--primary-soft);
     border: 3px solid var(--secondary);
     border-radius: 50%;
@@ -109,121 +100,78 @@
     justify-content: center;
     color: var(--primary);
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'Playfair Display', serif;
-    flex-shrink: 0;
     line-height: 1;
+    flex-shrink: 0;
   }
+
   .brand-text strong {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--secondary);
     display: block;
     font-family: 'Playfair Display', serif;
     letter-spacing: -0.3px;
+    line-height: 1.2;
   }
+
   .brand-text span {
     font-size: 11px;
     color: var(--text-soft);
     display: block;
-    margin-top: 2px;
+    line-height: 1.2;
   }
 
-  .comment-toggle {
-    width: 100%;
-    padding: 10px 12px;
+  .menu-toggle {
     background: var(--secondary);
     color: white;
     border: none;
-    border-radius: var(--radius);
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-family: inherit;
     font-size: 13px;
     font-weight: 500;
-    cursor: pointer;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
     transition: background 0.15s ease;
   }
-  .comment-toggle:hover { background: #4F1717; }
-  .comment-toggle svg { width: 14px; height: 14px; }
-  .comment-toggle .badge-count {
-    background: var(--primary);
-    color: white;
-    border-radius: 10px;
-    padding: 1px 6px;
-    font-size: 10px;
-    font-weight: 700;
-    margin-left: 4px;
-  }
+  .menu-toggle:hover { background: #4F1717; }
+  .menu-toggle svg { width: 16px; height: 16px; }
+  .menu-toggle .menu-label { display: inline; }
 
-  .nav-section {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    padding: 12px 12px 6px;
-    font-weight: 700;
-  }
-  .nav-item {
-    display: block;
-    padding: 8px 12px;
-    font-size: 13.5px;
-    color: var(--text-soft);
-    cursor: pointer;
-    border-radius: var(--radius);
-    margin-bottom: 2px;
-    transition: all 0.15s ease;
-    border: none;
-    background: none;
-    text-align: left;
-    width: 100%;
-    font-family: inherit;
-  }
-  .nav-item:hover { background: var(--surface-soft); color: var(--text); }
-  .nav-item.active { background: var(--primary-soft); color: var(--secondary); font-weight: 600; }
-  .nav-item .badge {
-    background: var(--secondary);
-    color: white;
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 9px;
-    margin-left: 4px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  /* PANEL DE COMENTARIOS */
-  .comments-panel {
+  /* PANEL LATERAL - Menu (TOC + Comentarios) */
+  .menu-panel {
     position: fixed;
     top: 0;
-    left: 270px;
+    right: 0;
     height: 100vh;
-    width: 380px;
+    width: 400px;
+    max-width: 100vw;
     background: var(--surface);
-    border-right: 1px solid var(--border);
-    box-shadow: 4px 0 20px rgba(103, 30, 30, 0.08);
-    transform: translateX(-110%);
+    box-shadow: -4px 0 20px rgba(103, 30, 30, 0.12);
+    transform: translateX(100%);
     transition: transform 0.3s ease;
-    z-index: 9;
+    z-index: 200;
     display: flex;
     flex-direction: column;
   }
-  .comments-panel.open { transform: translateX(0); }
+  .menu-panel.open { transform: translateX(0); }
 
-  .comments-header {
+  .menu-header {
     padding: 18px 20px;
-    border-bottom: 1px solid var(--border);
     background: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
   }
-  .comments-header h3 {
+  .menu-header h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--secondary);
     font-family: 'Playfair Display', serif;
@@ -236,8 +184,8 @@
     cursor: pointer;
     line-height: 1;
     padding: 0;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,8 +193,89 @@
   }
   .close-btn:hover { background: var(--border); }
 
+  /* Tabs del menu */
+  .menu-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .menu-tab {
+    flex: 1;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-soft);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .menu-tab:hover { color: var(--text); }
+  .menu-tab.active {
+    color: var(--secondary);
+    border-bottom-color: var(--primary);
+    background: var(--surface-soft);
+  }
+  .menu-tab .badge {
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .menu-content {
+    flex: 1;
+    overflow-y: auto;
+    display: none;
+  }
+  .menu-content.active { display: flex; flex-direction: column; }
+
+  /* TOC */
+  .toc-list {
+    padding: 16px 12px;
+  }
+  .toc-link {
+    display: block;
+    padding: 8px 14px;
+    font-size: 13.5px;
+    color: var(--text-soft);
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 2px;
+    transition: all 0.15s ease;
+    line-height: 1.35;
+    border: none;
+    background: none;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+  }
+  .toc-link:hover { background: var(--surface-soft); color: var(--text); }
+  .toc-link.active {
+    background: var(--primary-soft);
+    color: var(--secondary);
+    font-weight: 600;
+  }
+  .toc-link.h3 { padding-left: 26px; font-size: 12.5px; color: var(--text-muted); }
+
+  /* Comentarios dentro del panel */
+  .comments-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
   .author-setup {
-    padding: 16px 20px;
+    padding: 14px 20px;
     background: var(--warning-soft);
     border-bottom: 1px solid var(--border);
     font-size: 13px;
@@ -265,11 +294,12 @@
   .author-setup small { color: var(--text-soft); font-size: 11px; display: block; margin-top: 4px; }
 
   .comments-status {
-    padding: 12px 20px;
+    padding: 10px 20px;
     background: var(--surface-soft);
     font-size: 11px;
     color: var(--text-soft);
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .comments-status.error { background: var(--primary-soft); color: var(--secondary); }
   .comments-status.success { background: var(--success-soft); color: var(--success); }
@@ -277,7 +307,7 @@
   .comments-list {
     flex: 1;
     overflow-y: auto;
-    padding: 16px 20px;
+    padding: 14px 18px;
   }
   .comment {
     background: var(--surface-soft);
@@ -293,15 +323,8 @@
     margin-bottom: 6px;
     gap: 8px;
   }
-  .comment-author {
-    font-weight: 600;
-    color: var(--secondary);
-    font-size: 13px;
-  }
-  .comment-time {
-    font-size: 10px;
-    color: var(--text-muted);
-  }
+  .comment-author { font-weight: 600; color: var(--secondary); font-size: 13px; }
+  .comment-time { font-size: 10px; color: var(--text-muted); }
   .comment-section {
     font-size: 10px;
     text-transform: uppercase;
@@ -314,23 +337,14 @@
     border-radius: 3px;
     display: inline-block;
   }
-  .comment-body {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.5;
-    white-space: pre-wrap;
-  }
-  .comments-empty {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 40px 20px;
-    font-size: 13px;
-  }
+  .comment-body { font-size: 13px; color: var(--text); line-height: 1.5; white-space: pre-wrap; }
+  .comments-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 13px; }
 
   .comment-form {
-    padding: 16px 20px;
+    padding: 14px 18px;
     border-top: 1px solid var(--border);
     background: var(--surface);
+    flex-shrink: 0;
   }
   .comment-form select,
   .comment-form textarea {
@@ -343,12 +357,7 @@
     margin-bottom: 8px;
     outline: none;
   }
-  .comment-form textarea {
-    resize: vertical;
-    min-height: 70px;
-  }
-  .comment-form select:focus,
-  .comment-form textarea:focus { border-color: var(--primary); }
+  .comment-form textarea { resize: vertical; min-height: 70px; }
   .comment-form button {
     width: 100%;
     padding: 10px;
@@ -364,32 +373,30 @@
   .comment-form button:hover { background: var(--primary-hover); }
   .comment-form button:disabled { background: var(--border); cursor: not-allowed; }
 
+  /* Overlay para cerrar menu al tocar fuera (mobile) */
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .menu-overlay.active { opacity: 1; pointer-events: auto; }
+
   /* MAIN CONTENT */
   .main {
-    margin-left: 270px;
-    flex: 1;
-    padding: 36px 40px;
-    position: relative;
-    z-index: 1;
-    transition: margin-left 0.3s ease;
-    min-width: 0;
-  }
-  body.comments-open .main {
-    margin-left: 650px;
-  }
-  /* Cuando comentarios abiertos, ocultar TOC si no entra */
-  @media (max-width: 1500px) {
-    body.comments-open .toc-sidebar { display: none; }
+    padding: calc(var(--header-height) + 32px) 32px 60px;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
-  .section { display: none; }
-  .section.active { display: block; }
-
-  /* HOMEPAGE */
+  /* HERO homepage */
   .home-hero {
     background: linear-gradient(135deg, var(--primary-soft) 0%, var(--surface-soft) 100%);
     border-radius: 16px;
-    padding: 44px 40px;
+    padding: 40px 36px;
     margin-bottom: 32px;
     border: 1px solid var(--border);
   }
@@ -403,7 +410,7 @@
   }
   .home-hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 700;
     color: var(--secondary);
     letter-spacing: -0.8px;
@@ -413,155 +420,36 @@
   .home-hero p {
     font-size: 16px;
     color: var(--text);
-    margin: 10px 0 22px;
-    max-width: 680px;
+    margin: 10px 0 0;
+    max-width: 720px;
     line-height: 1.6;
   }
-  .home-hero button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-  .home-hero button:hover { background: var(--primary-hover); }
 
-  .home-cards {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    margin-bottom: 32px;
-  }
-  .home-card {
-    background: var(--surface);
+  .contact-strip {
+    background: var(--surface-warm);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 32px;
+    padding: 20px 28px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
   }
-  .home-card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    color: var(--secondary);
-    margin: 0 0 16px;
-    letter-spacing: -0.4px;
-  }
-  .home-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    color: var(--secondary);
-    margin: 20px 0 10px;
-  }
-  .home-card p { color: var(--text); margin: 10px 0; }
-  .home-card.contact { background: var(--surface-warm); }
-  .home-card.contact dl {
-    margin: 0;
-  }
-  .home-card.contact dt {
-    font-size: 11px;
+  .contact-item .label {
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
     color: var(--text-muted);
-    font-weight: 600;
-    margin-top: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
   }
-  .home-card.contact dt:first-child { margin-top: 0; }
-  .home-card.contact dd {
-    margin: 4px 0 0;
-    font-size: 16px;
+  .contact-item .value {
+    font-size: 14px;
     font-weight: 500;
     color: var(--secondary);
   }
 
-  .fun-fact {
-    background: var(--surface-warm);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 20px 24px;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-top: 24px;
-  }
-  .fun-fact-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--primary-soft);
-    border: 3px solid var(--secondary);
-    color: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Playfair Display', serif;
-    line-height: 1;
-  }
-  .fun-fact-content strong {
-    color: var(--secondary);
-    display: block;
-    margin-bottom: 4px;
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-  }
-  .fun-fact-content p { margin: 0; color: var(--text); font-size: 14px; }
-
-  /* PROPUESTA - LAYOUT CON TOC */
-  .proposal-layout {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
-    width: 100%;
-  }
-  .proposal-content {
-    flex: 1;
-    min-width: 0;
-  }
-  .toc-sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 32px;
-    max-height: calc(100vh - 64px);
-    overflow-y: auto;
-    padding: 18px 16px;
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-  }
-  .toc-title {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .toc-link {
-    display: block;
-    padding: 6px 10px;
-    font-size: 13px;
-    color: var(--text-soft);
-    text-decoration: none;
-    border-radius: 6px;
-    margin-bottom: 1px;
-    transition: all 0.15s ease;
-    cursor: pointer;
-    line-height: 1.3;
-  }
-  .toc-link:hover { background: var(--surface-soft); color: var(--text); }
-  .toc-link.h3 { padding-left: 22px; font-size: 12px; color: var(--text-muted); }
-  .toc-link.active { background: var(--primary-soft); color: var(--secondary); font-weight: 600; }
-
-  /* CONTENIDO MARKDOWN PARSEADO */
+  /* PROPOSAL CONTENT (MD renderizado) */
   .proposal-content h1 {
     font-family: 'Playfair Display', serif;
     font-size: 38px;
@@ -576,10 +464,11 @@
     font-size: 26px;
     font-weight: 700;
     color: var(--secondary);
-    margin: 44px 0 16px;
+    margin: 48px 0 16px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--border);
     letter-spacing: -0.4px;
+    scroll-margin-top: calc(var(--header-height) + 20px);
   }
   .proposal-content h3 {
     font-family: 'Playfair Display', serif;
@@ -588,6 +477,7 @@
     color: var(--secondary);
     margin: 28px 0 12px;
     letter-spacing: -0.2px;
+    scroll-margin-top: calc(var(--header-height) + 20px);
   }
   .proposal-content h4 {
     font-size: 15px;
@@ -605,7 +495,7 @@
   .proposal-content hr {
     border: none;
     border-top: 1px solid var(--border);
-    margin: 36px 0;
+    margin: 40px 0;
   }
   .proposal-content code {
     background: var(--surface-soft);
@@ -634,6 +524,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    background: var(--surface);
   }
   .proposal-content th {
     text-align: left;
@@ -653,7 +544,7 @@
   }
   .proposal-content tr:last-child td { border-bottom: none; }
 
-  /* Tabla comparativa (con columnas Básica y Pro) */
+  /* Tabla comparativa */
   .proposal-content table.comparison-table .col-basica {
     background: var(--col-basica-bg);
     text-align: center;
@@ -690,20 +581,8 @@
     font-weight: 700;
   }
 
-  /* SVG icons en tablas */
-  .icon-tick {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .icon-x {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    opacity: 0.5;
-  }
+  .icon-tick { width: 18px; height: 18px; display: inline-block; vertical-align: middle; }
+  .icon-x { width: 16px; height: 16px; display: inline-block; vertical-align: middle; opacity: 0.5; }
 
   /* CALLOUTS */
   .info-callout {
@@ -728,7 +607,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 28px;
+    padding: 26px;
     position: relative;
   }
   .pricing-card.pro {
@@ -760,25 +639,21 @@
   }
   .pricing-card .price {
     font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--secondary);
     letter-spacing: -0.8px;
-    margin: 14px 0 4px;
+    margin: 12px 0 4px;
     line-height: 1.1;
   }
   .pricing-card .price-detail {
     font-size: 13px;
     color: var(--text-soft);
-    margin-bottom: 18px;
-    padding-bottom: 18px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
   }
-  .pricing-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  .pricing-card ul { list-style: none; padding: 0; margin: 0; }
   .pricing-card ul li {
     padding: 6px 0;
     font-size: 14px;
@@ -798,50 +673,64 @@
     margin-top: 1px;
   }
 
-  /* CODE BLOCK pricing (oculto, se reemplaza) */
   .proposal-content pre code.language-pricing { display: none; }
   .proposal-content pre:has(code.language-pricing) { display: none; }
 
-  /* IFRAME MOCKUPS */
-  .iframe-wrapper {
+  /* MOCKUP EMBED INLINE */
+  .mockup-embed {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    height: calc(100vh - 80px);
+    margin: 32px 0;
+    box-shadow: 0 2px 8px rgba(103, 30, 30, 0.06);
   }
-  .iframe-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-  .iframe-header {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
+  .mockup-header {
+    padding: 12px 18px;
     background: var(--surface-soft);
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
   }
-  .iframe-title {
-    font-weight: 600;
-    color: var(--secondary);
-    font-size: 14px;
+  .mockup-title {
     font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--secondary);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .iframe-link {
+  .mockup-title::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+  }
+  .mockup-link {
     font-size: 12px;
     color: var(--primary);
     text-decoration: none;
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
   }
-  .iframe-link:hover { text-decoration: underline; }
-  .iframe-wrapper iframe {
-    height: calc(100% - 50px);
+  .mockup-link:hover { text-decoration: underline; }
+  .mockup-frame {
+    width: 100%;
+    height: 600px;
+    border: none;
+    display: block;
+    background: white;
   }
 
-  /* LOADING STATE */
+  /* LOADING */
   .loading {
     padding: 80px 40px;
     text-align: center;
@@ -859,27 +748,69 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* RESPONSIVE */
-  @media (max-width: 1100px) {
-    .toc-sidebar { display: none; }
-    .proposal-content { max-width: none; }
-  }
-  @media (max-width: 800px) {
-    .sidebar { width: 100%; height: auto; position: relative; }
-    .main { margin-left: 0; padding: 24px; }
-    .comments-panel { width: 100%; left: 0; }
-    body.comments-open .main { margin-left: 0; }
-    .home-cards { grid-template-columns: 1fr; }
+  /* RESPONSIVE — MOBILE */
+  @media (max-width: 768px) {
+    html { font-size: 15px; }
+    :root { --header-height: 60px; }
+
+    .header { padding: 0 16px; }
+    .brand-text span { display: none; }
+    .brand-text strong { font-size: 15px; }
+    .menu-toggle { padding: 8px 12px; font-size: 12px; }
+    .menu-toggle .menu-label { display: none; }
+
+    .menu-panel { width: 100%; }
+
+    .main {
+      padding: calc(var(--header-height) + 20px) 18px 40px;
+    }
+
+    .home-hero { padding: 28px 22px; margin-bottom: 24px; }
+    .home-hero h1 { font-size: 28px; }
+    .home-hero p { font-size: 15px; }
+
+    .contact-strip {
+      padding: 16px 20px;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .contact-item { flex: 1 1 40%; min-width: 120px; }
+
+    .proposal-content h1 { font-size: 30px; }
+    .proposal-content h2 { font-size: 22px; margin: 36px 0 14px; }
+    .proposal-content h3 { font-size: 18px; }
+
     .pricing-grid { grid-template-columns: 1fr; }
-    .home-hero { padding: 36px 28px; }
-    .home-hero h1 { font-size: 36px; }
+
+    .mockup-frame { height: 500px; }
+
+    /* Tablas responsive: scroll horizontal */
+    .proposal-content table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .proposal-content td, .proposal-content th {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .home-hero h1 { font-size: 24px; }
+    .proposal-content h1 { font-size: 26px; }
+    .proposal-content h2 { font-size: 20px; }
+    .mockup-frame { height: 450px; }
+    .mockup-header { padding: 10px 14px; }
+    .mockup-title { font-size: 12.5px; }
+    .mockup-link { font-size: 11px; }
   }
 </style>
 </head>
+
 <body>
 
-<!-- SIDEBAR IZQUIERDO -->
-<aside class="sidebar">
+<!-- HEADER FIJO -->
+<header class="header">
   <div class="brand">
     <div class="brand-mark">P</div>
     <div class="brand-text">
@@ -887,214 +818,108 @@
       <span>Propuesta para Picnic</span>
     </div>
   </div>
-
-  <button class="comment-toggle" id="commentToggle">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    Comentarios <span class="badge-count" id="commentCount">0</span>
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+    <span class="menu-label">Menú</span>
   </button>
+</header>
 
-  <div class="nav-section">Inicio</div>
-  <button class="nav-item active" data-section="home">Bienvenida</button>
+<!-- OVERLAY para mobile -->
+<div class="menu-overlay" id="menuOverlay"></div>
 
-  <div class="nav-section">Propuesta</div>
-  <button class="nav-item" data-section="propuesta">Documento completo</button>
+<!-- PANEL LATERAL (Menu con TOC + Comentarios) -->
+<aside class="menu-panel" id="menuPanel" aria-hidden="true">
+  <div class="menu-header">
+    <h3>Navegación</h3>
+    <button class="close-btn" id="closeMenu" aria-label="Cerrar menú">×</button>
+  </div>
 
-  <div class="nav-section">Mockups del sistema</div>
-  <button class="nav-item" data-section="mockup-carga">Carga de Excel</button>
-  <button class="nav-item" data-section="mockup-admin">Dashboard Admin</button>
-  <button class="nav-item" data-section="mockup-modales">Modales de detalle</button>
-  <button class="nav-item" data-section="mockup-reportes">Constructor de Reportes <span class="badge">PRO</span></button>
-  <button class="nav-item" data-section="mockup-zonas">Zonas y Líder <span class="badge">PRO</span></button>
-  <button class="nav-item" data-section="mockup-peya">Portal Peya</button>
-  <button class="nav-item" data-section="mockup-colocador">App del Colocador</button>
-  <button class="nav-item" data-section="mockup-settings">Settings, Reglas y Log</button>
+  <div class="menu-tabs">
+    <button class="menu-tab active" data-tab="toc">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Contenido
+    </button>
+    <button class="menu-tab" data-tab="comments">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Comentarios <span class="badge" id="commentCount">0</span>
+    </button>
+  </div>
+
+  <!-- Tab TOC -->
+  <div class="menu-content active" id="tocPane">
+    <div class="toc-list" id="tocList">
+      <div class="loading" style="padding: 24px;">Cargando índice...</div>
+    </div>
+  </div>
+
+  <!-- Tab Comentarios -->
+  <div class="menu-content" id="commentsPane">
+    <div class="comments-body">
+      <div class="author-setup" id="authorSetup">
+        <label>¿Cómo te llamás?</label>
+        <input type="text" id="authorInput" placeholder="Tu nombre">
+        <small>Solo hace falta indicarlo una vez.</small>
+      </div>
+      <div class="comments-status" id="commentsStatus">
+        Configurar Supabase para habilitar comentarios.
+      </div>
+      <div class="comments-list" id="commentsList">
+        <div class="comments-empty">Sin comentarios todavía.</div>
+      </div>
+      <div class="comment-form">
+        <select id="commentSection">
+          <option value="general">Comentario general</option>
+        </select>
+        <textarea id="commentBody" placeholder="Escribí tu comentario..."></textarea>
+        <button id="submitComment">Enviar comentario</button>
+      </div>
+    </div>
+  </div>
 </aside>
 
-<!-- PANEL DE COMENTARIOS -->
-<aside class="comments-panel" id="commentsPanel">
-  <div class="comments-header">
-    <h3>Comentarios</h3>
-    <button class="close-btn" id="closeComments">×</button>
-  </div>
-
-  <div class="author-setup" id="authorSetup">
-    <label>Antes de comentar, ¿cómo te llamás?</label>
-    <input type="text" id="authorInput" placeholder="Tu nombre">
-    <small>Solo necesitás indicarlo una vez por sesión.</small>
-  </div>
-
-  <div class="comments-status" id="commentsStatus">
-    Configurar Supabase para habilitar comentarios.
-  </div>
-
-  <div class="comments-list" id="commentsList">
-    <div class="comments-empty">Sin comentarios todavía.</div>
-  </div>
-
-  <div class="comment-form">
-    <select id="commentSection">
-      <option value="general">Comentario general</option>
-    </select>
-    <textarea id="commentBody" placeholder="Escribí tu comentario..."></textarea>
-    <button id="submitComment">Enviar comentario</button>
-  </div>
-</aside>
-
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <main class="main">
 
-  <!-- HOMEPAGE -->
-  <div class="section active" data-content="home">
-    <div class="home-hero">
-      <div class="home-hero-tag">Propuesta de desarrollo · Junio 2026</div>
-      <h1>POP — Plataforma Operativa de PLVs</h1>
-      <p>Solución a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya, reemplazando el flujo actual sobre PEYA Trade con una plataforma propia que integra a los cuatro actores del proceso en un mismo ecosistema.</p>
-      <button onclick="window.showSection('propuesta')">Ver propuesta completa →</button>
+  <!-- HERO -->
+  <div class="home-hero">
+    <div class="home-hero-tag">Propuesta de desarrollo · Junio 2026</div>
+    <h1>POP — Plataforma Operativa de PLVs</h1>
+    <p>Plataforma web diseñada a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya, reemplazando el flujo actual sobre PEYA Trade con un ecosistema unificado que coordina establecimientos, productos y períodos sobre una nueva arquitectura.</p>
+  </div>
+
+  <!-- CONTACT STRIP -->
+  <div class="contact-strip">
+    <div class="contact-item">
+      <div class="label">Presentada por</div>
+      <div class="value">María Micaela Ninni</div>
     </div>
-
-    <div class="home-cards">
-      <div class="home-card protected">
-        <h2>Sobre esta propuesta</h2>
-        <p>POP es una plataforma web a medida que centraliza la operación de PLVs en una nueva base de datos, coordinando establecimientos, productos y períodos como un ecosistema unificado.</p>
-        <p>La solución reúne:</p>
-        <ul>
-          <li>Un panel central de gestión para el equipo de Picnic.</li>
-          <li>Una web app para colocadores en terreno (PWA).</li>
-          <li>Acceso simplificado para líderes regionales.</li>
-          <li>Portal de transparencia para Peya con visibilidad directa al avance de campañas.</li>
-        </ul>
-        <h3>Modalidades</h3>
-        <p>La propuesta presenta dos modalidades de implementación: <strong>Versión Básica</strong> (USD 9.275, 5 meses) y <strong>Versión Pro</strong> (USD 20.265, 6 meses). Ambas reemplazan completamente el flujo actual y entregan valor operativo desde el primer mes.</p>
-        <p>El documento completo con el detalle de funcionalidades, fases, inversión, infraestructura y términos generales está disponible en la sección <strong>Propuesta → Documento completo</strong>. Los mockups del sistema están accesibles desde la barra lateral izquierda.</p>
-
-        <div class="fun-fact">
-          <div class="fun-fact-icon">P</div>
-          <div class="fun-fact-content">
-            <strong>El origen del nombre</strong>
-            <p>POP toma su nombre de <em>Point of Purchase</em>, el término en inglés para PLV (Punto de Venta). La sigla resume en tres letras la esencia del proyecto: una plataforma operativa enfocada exactamente en eso, los puntos donde se concretan las colocaciones.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="home-card contact protected">
-        <h2>Contacto</h2>
-        <dl>
-          <dt>Presentada por</dt>
-          <dd>María Micaela Ninni</dd>
-
-          <dt>Email</dt>
-          <dd>[email]</dd>
-
-          <dt>Teléfono</dt>
-          <dd>[teléfono]</dd>
-
-          <dt>Cliente</dt>
-          <dd>Picnic</dd>
-
-          <dt>Fecha</dt>
-          <dd>Junio 2026</dd>
-
-          <dt>Versión</dt>
-          <dd>1.0</dd>
-        </dl>
-      </div>
+    <div class="contact-item">
+      <div class="label">Email</div>
+      <div class="value">[email]</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">Teléfono</div>
+      <div class="value">[teléfono]</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">Cliente</div>
+      <div class="value">Picnic</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">Versión</div>
+      <div class="value">1.0</div>
     </div>
   </div>
 
-  <!-- PROPUESTA (LEÍDA DEL MD) -->
-  <div class="section" data-content="propuesta">
-    <div class="proposal-layout">
-      <div class="proposal-content protected" id="proposalContent">
-        <div class="loading">
-          <div class="loading-spinner"></div>
-          Cargando la propuesta...
-        </div>
-      </div>
-      <aside class="toc-sidebar" id="tocSidebar">
-        <div class="toc-title">Tabla de contenidos</div>
-        <div id="tocLinks"></div>
-      </aside>
-    </div>
-  </div>
-
-  <!-- MOCKUPS -->
-  <div class="section" data-content="mockup-carga">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Carga de Excel</span>
-        <a href="POP_Mockup_CargaExcel.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_CargaExcel.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-admin">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Dashboard del Administrador</span>
-        <a href="POP_Mockup_DashboardAdmin.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_DashboardAdmin.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-modales">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Modales de detalle</span>
-        <a href="POP_Mockup_Modales.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_Modales.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-reportes">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Constructor de Reportes (Pro)</span>
-        <a href="POP_Mockup_ConstructorReportes.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_ConstructorReportes.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-zonas">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Gestión de Zonas y Dashboard del Líder (Pro)</span>
-        <a href="POP_Mockup_ZonasLider.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_ZonasLider.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-peya">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Portal Peya</span>
-        <a href="POP_Mockup_DashboardPeya.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_DashboardPeya.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-colocador">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · App del Colocador (PWA / Web Mobile)</span>
-        <a href="POP_Mockup_AppColocador.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_AppColocador.html"></iframe>
-    </div>
-  </div>
-
-  <div class="section" data-content="mockup-settings">
-    <div class="iframe-wrapper">
-      <div class="iframe-header">
-        <span class="iframe-title">Mockup · Settings, Reglas y Log</span>
-        <a href="POP_Mockup_Settings_Reglas_Log.html" target="_blank" class="iframe-link">Abrir en pestaña ↗</a>
-      </div>
-      <iframe src="POP_Mockup_Settings_Reglas_Log.html"></iframe>
+  <!-- PROPUESTA renderizada desde MD -->
+  <div class="proposal-content protected" id="proposalContent">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      Cargando la propuesta...
     </div>
   </div>
 
@@ -1102,7 +927,6 @@
 
 <script>
 //=================== CONFIG ===================
-// REEMPLAZAR ESTOS VALORES CON LOS DE TU PROYECTO SUPABASE
 const SUPABASE_URL = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
 
@@ -1111,7 +935,6 @@ document.addEventListener('contextmenu', e => {
   if (e.target.closest('.protected')) e.preventDefault();
 });
 document.addEventListener('keydown', e => {
-  // Ctrl+C / Cmd+C en contenido protegido (excepto inputs)
   if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
     const isInput = e.target.matches('input, textarea');
     if (!isInput && document.getSelection().toString() && e.target.closest('.protected')) {
@@ -1120,29 +943,40 @@ document.addEventListener('keydown', e => {
   }
 });
 
-//=================== NAVEGACION ===================
-function showSection(name) {
-  document.querySelectorAll('.section').forEach(s => {
-    s.classList.toggle('active', s.dataset.content === name);
-  });
-  document.querySelectorAll('.nav-item').forEach(n => {
-    n.classList.toggle('active', n.dataset.section === name);
-  });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+//=================== MENU TOGGLE ===================
+const menuPanel = document.getElementById('menuPanel');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuToggle = document.getElementById('menuToggle');
+const closeMenu = document.getElementById('closeMenu');
 
-  // Si vamos a propuesta y aún no cargó, cargar
-  if (name === 'propuesta' && !proposalLoaded) {
-    loadProposal();
-  }
+function openMenu() {
+  menuPanel.classList.add('open');
+  menuOverlay.classList.add('active');
+  menuPanel.setAttribute('aria-hidden', 'false');
 }
-window.showSection = showSection;
+function closeMenuFn() {
+  menuPanel.classList.remove('open');
+  menuOverlay.classList.remove('active');
+  menuPanel.setAttribute('aria-hidden', 'true');
+}
 
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => showSection(item.dataset.section));
+menuToggle.addEventListener('click', openMenu);
+closeMenu.addEventListener('click', closeMenuFn);
+menuOverlay.addEventListener('click', closeMenuFn);
+
+// Tabs dentro del menu
+document.querySelectorAll('.menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    if (target === 'toc') document.getElementById('tocPane').classList.add('active');
+    if (target === 'comments') document.getElementById('commentsPane').classList.add('active');
+  });
 });
 
 //=================== CARGA DEL MD ===================
-let proposalLoaded = false;
 let proposalSections = [];
 
 async function loadProposal() {
@@ -1152,42 +986,34 @@ async function loadProposal() {
     if (!response.ok) throw new Error('Status ' + response.status);
     const md = await response.text();
 
-    // Parse markdown
     marked.setOptions({ breaks: false, gfm: true });
     let html = marked.parse(md);
 
     container.innerHTML = html;
 
-    // Post-procesamiento
     postProcessProposal(container);
-
-    // Generar TOC
     buildTOC(container);
-
-    // Llenar select de secciones para comentarios
     fillCommentSections();
-
-    proposalLoaded = true;
   } catch (err) {
     const isFileProtocol = window.location.protocol === 'file:';
     container.innerHTML = `
       <div class="loading">
-        <p style="color: var(--secondary); font-weight: 600; font-size: 16px;">No se pudo cargar la propuesta automáticamente.</p>
+        <p style="color: var(--secondary); font-weight: 600; font-size: 16px;">No se pudo cargar la propuesta.</p>
         ${isFileProtocol ? `
           <p style="font-size: 14px; color: var(--text); margin-top: 16px;">
-            Estás abriendo el HTML como archivo local (<code>file://</code>) y los navegadores bloquean la lectura de archivos por seguridad.
+            Estás abriendo el HTML como archivo local (<code>file://</code>) y el navegador bloquea la lectura.
           </p>
           <p style="font-size: 13px; color: var(--text-soft); margin-top: 12px;">
             <strong>Soluciones:</strong>
           </p>
           <ul style="font-size: 13px; color: var(--text-soft); text-align: left; max-width: 500px; margin: 12px auto;">
-            <li>Subí los archivos a GitHub Pages (la propuesta va a funcionar perfectamente ahí).</li>
-            <li>O corré un servidor local: en la terminal, dentro de la carpeta del proyecto, ejecutá <code>python3 -m http.server 8000</code> y abrí <code>http://localhost:8000/POP_Presentacion.html</code></li>
+            <li>Subí los archivos a GitHub Pages.</li>
+            <li>O corré un servidor local: <code>python3 -m http.server 8000</code> y abrí <code>http://localhost:8000/POP_Presentacion.html</code></li>
           </ul>
         ` : `
           <p style="font-size: 13px; color: var(--text-muted); margin-top: 12px;">
-            Asegurate que el archivo <code>POP_Propuesta_Final.md</code> esté en la misma carpeta que este HTML.<br>
-            Error técnico: ${err.message}
+            Asegurate que <code>POP_Propuesta_Final.md</code> esté en la misma carpeta.<br>
+            Error: ${err.message}
           </p>
         `}
       </div>
@@ -1197,36 +1023,30 @@ async function loadProposal() {
 }
 
 function postProcessProposal(container) {
-  // 1. Reemplazar emojis ✅ y ❌ por iconos SVG
+  // 1. Emojis ✅ / ❌ → SVGs
   const tickSVG = '<svg class="icon-tick" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
   const xSVG = '<svg class="icon-x" viewBox="0 0 24 24" fill="none" stroke="#9A9A9A" stroke-width="3" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>';
-
   container.querySelectorAll('td').forEach(td => {
     if (td.textContent.trim() === '✅') td.innerHTML = tickSVG;
     else if (td.textContent.trim() === '❌') td.innerHTML = xSVG;
   });
 
-  // 2. Detectar tablas comparativas (con columnas Básica y Pro) y aplicar clases
+  // 2. Tablas comparativas Básica/Pro
   container.querySelectorAll('table').forEach(table => {
     const headers = [...table.querySelectorAll('th')].map(h => h.textContent.trim());
     const basicaIdx = headers.indexOf('Básica');
     const proIdx = headers.indexOf('Pro');
     if (basicaIdx > -1 && proIdx > -1) {
       table.classList.add('comparison-table');
-      const allRows = table.querySelectorAll('tr');
-      allRows.forEach((row, rowIdx) => {
+      table.querySelectorAll('tr').forEach((row, rowIdx) => {
         const cells = row.children;
-        if (cells[basicaIdx]) {
-          cells[basicaIdx].classList.add(rowIdx === 0 ? 'col-basica-header' : 'col-basica');
-        }
-        if (cells[proIdx]) {
-          cells[proIdx].classList.add(rowIdx === 0 ? 'col-pro-header' : 'col-pro');
-        }
+        if (cells[basicaIdx]) cells[basicaIdx].classList.add(rowIdx === 0 ? 'col-basica-header' : 'col-basica');
+        if (cells[proIdx]) cells[proIdx].classList.add(rowIdx === 0 ? 'col-pro-header' : 'col-pro');
       });
     }
   });
 
-  // 3. Convertir bloque ```pricing en pricing-grid
+  // 3. Pricing block
   container.querySelectorAll('pre code.language-pricing').forEach(codeEl => {
     try {
       const data = JSON.parse(codeEl.textContent);
@@ -1247,23 +1067,75 @@ function postProcessProposal(container) {
         </div>
       `;
       codeEl.closest('pre').replaceWith(grid);
-    } catch (e) {
-      console.error('Error parsing pricing block:', e);
+    } catch (e) { console.error('Error parsing pricing block:', e); }
+  });
+
+  // 4. MOCKUP EMBEDS
+  // Sintaxis soportada en el MD:
+  //   a) <div class="mockup" data-src="archivo.html" data-title="Título"></div>
+  //   b) ![](archivo.html)  — imagen markdown que apunta a un .html
+  //
+  // Ambas se transforman en un mockup-embed con header + iframe
+  processMockupEmbeds(container);
+}
+
+function processMockupEmbeds(container) {
+  // Opción A: divs con class="mockup"
+  container.querySelectorAll('div.mockup, div.mockup-embed').forEach(div => {
+    const src = div.dataset.src;
+    if (!src) return;
+    const title = div.dataset.title || div.textContent.trim() || src;
+    replaceMockupNode(div, src, title);
+  });
+
+  // Opción B: imágenes markdown apuntando a .html
+  // Marked convierte ![](x.html) en <img src="x.html">
+  container.querySelectorAll('img[src$=".html"]').forEach(img => {
+    const src = img.getAttribute('src');
+    const title = img.getAttribute('alt') || src;
+    // Reemplazar el <p> contenedor si el img está solo
+    const parent = img.parentElement;
+    if (parent && parent.tagName === 'P' && parent.children.length === 1 && parent.textContent.trim() === '') {
+      replaceMockupNode(parent, src, title);
+    } else {
+      replaceMockupNode(img, src, title);
     }
   });
 }
 
+function replaceMockupNode(node, src, title) {
+  const embed = document.createElement('div');
+  embed.className = 'mockup-embed';
+  embed.innerHTML = `
+    <div class="mockup-header">
+      <span class="mockup-title">${escapeHtml(title)}</span>
+      <a href="${escapeHtml(src)}" target="_blank" class="mockup-link">
+        Abrir en pestaña
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <iframe class="mockup-frame" src="${escapeHtml(src)}" loading="lazy" title="${escapeHtml(title)}"></iframe>
+  `;
+  node.replaceWith(embed);
+}
+
 function buildTOC(container) {
-  const tocLinks = document.getElementById('tocLinks');
+  const tocList = document.getElementById('tocList');
   const headings = container.querySelectorAll('h2');
   proposalSections = [];
 
-  // Recopilo también H3 para los anchors de comentarios (pero sin renderizarlos en el TOC)
+  // Capturo H2 y H3 para anchors de comentarios (pero solo H2 en el TOC)
   container.querySelectorAll('h2, h3').forEach((h, idx) => {
     const id = 'sec-' + idx;
     h.id = id;
     proposalSections.push({ id, text: h.textContent.trim(), level: h.tagName });
   });
+
+  tocList.innerHTML = '';
+  if (!headings.length) {
+    tocList.innerHTML = '<div class="comments-empty">Sin secciones detectadas.</div>';
+    return;
+  }
 
   headings.forEach(h => {
     const link = document.createElement('a');
@@ -1273,11 +1145,13 @@ function buildTOC(container) {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // En mobile, cerrar menu al elegir
+      if (window.innerWidth < 900) closeMenuFn();
     });
-    tocLinks.appendChild(link);
+    tocList.appendChild(link);
   });
 
-  // Highlight active TOC link on scroll
+  // Highlight activo on scroll
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1286,7 +1160,7 @@ function buildTOC(container) {
         if (activeLink) activeLink.classList.add('active');
       }
     });
-  }, { rootMargin: '-30% 0px -65% 0px' });
+  }, { rootMargin: '-20% 0px -70% 0px' });
   headings.forEach(h => observer.observe(h));
 }
 
@@ -1309,13 +1183,13 @@ function fillCommentSections() {
 
 function initSupabase() {
   if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_ANON_KEY') {
-    setStatus('Comentarios deshabilitados · Configurar Supabase en el código del HTML para habilitarlos.', 'error');
+    setStatus('Comentarios deshabilitados · Configurá Supabase en el código del HTML.', 'error');
     document.getElementById('submitComment').disabled = true;
     return false;
   }
   try {
     if (!window.supabase || !window.supabase.createClient) {
-      setStatus('Cliente de Supabase no disponible (verificá conexión a internet).', 'error');
+      setStatus('Cliente de Supabase no disponible (verificá conexión).', 'error');
       document.getElementById('submitComment').disabled = true;
       return false;
     }
@@ -1378,29 +1252,17 @@ function formatDate(iso) {
 }
 
 async function submitComment() {
-  if (!sbClient) {
-    setStatus('Configurá Supabase primero.', 'error');
-    return;
-  }
+  if (!sbClient) { setStatus('Configurá Supabase primero.', 'error'); return; }
   const author = document.getElementById('authorInput').value.trim();
   const body = document.getElementById('commentBody').value.trim();
   const sectionId = document.getElementById('commentSection').value;
   const sectionTitle = document.getElementById('commentSection').selectedOptions[0]?.textContent;
-
-  if (!author) {
-    setStatus('Ingresá tu nombre primero.', 'error');
-    document.getElementById('authorInput').focus();
-    return;
-  }
-  if (!body) {
-    setStatus('Escribí algún comentario.', 'error');
-    return;
-  }
+  if (!author) { setStatus('Ingresá tu nombre primero.', 'error'); document.getElementById('authorInput').focus(); return; }
+  if (!body) { setStatus('Escribí algún comentario.', 'error'); return; }
 
   const submitBtn = document.getElementById('submitComment');
   submitBtn.disabled = true;
   submitBtn.textContent = 'Enviando...';
-
   try {
     const { error } = await sbClient.from('comments').insert([{
       section_id: sectionId,
@@ -1409,7 +1271,6 @@ async function submitComment() {
       body: body
     }]);
     if (error) throw error;
-
     sessionStorage.setItem('pop_author', author);
     currentAuthor = author;
     document.getElementById('commentBody').value = '';
@@ -1424,28 +1285,13 @@ async function submitComment() {
 }
 
 document.getElementById('submitComment').addEventListener('click', submitComment);
+if (currentAuthor) document.getElementById('authorInput').value = currentAuthor;
 
-// Cargar nombre del autor si ya existe
-if (currentAuthor) {
-  document.getElementById('authorInput').value = currentAuthor;
-}
-
-// Toggle del panel de comentarios
-document.getElementById('commentToggle').addEventListener('click', () => {
-  document.getElementById('commentsPanel').classList.toggle('open');
-  document.body.classList.toggle('comments-open');
-});
-document.getElementById('closeComments').addEventListener('click', () => {
-  document.getElementById('commentsPanel').classList.remove('open');
-  document.body.classList.remove('comments-open');
-});
-
-// Inicializar Supabase al cargar (no rompe si no hay conexión / config)
+//=================== INIT ===================
 window.addEventListener('load', () => {
+  loadProposal();
   try {
-    if (initSupabase()) {
-      loadComments();
-    }
+    if (initSupabase()) loadComments();
   } catch (e) {
     console.warn('Supabase init failed (no afecta la navegación):', e);
   }
