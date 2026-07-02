@@ -48,12 +48,12 @@
 
   * { box-sizing: border-box; }
 
-  html { font-size: 14px; }
+  html { font-size: 15.5px; }
 
   body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background-color: var(--secondary-soft);
+    background: var(--bg);
     color: var(--text);
     line-height: 1.65;
     display: flex;
@@ -110,7 +110,7 @@
     color: var(--primary);
     font-weight: 700;
     font-size: 20px;
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     flex-shrink: 0;
     line-height: 1;
   }
@@ -119,7 +119,7 @@
     font-weight: 700;
     color: var(--secondary);
     display: block;
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     letter-spacing: -0.3px;
   }
   .brand-text span {
@@ -226,7 +226,7 @@
     font-size: 16px;
     font-weight: 700;
     color: var(--secondary);
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
   }
   .close-btn {
     background: none;
@@ -402,7 +402,7 @@
     margin-bottom: 10px;
   }
   .home-hero h1 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 42px;
     font-weight: 700;
     color: var(--secondary);
@@ -414,6 +414,7 @@
     font-size: 16px;
     color: var(--text);
     margin: 10px 0 22px;
+    max-width: 680px;
     line-height: 1.6;
   }
   .home-hero button {
@@ -443,14 +444,14 @@
     padding: 32px;
   }
   .home-card h2 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 26px;
     color: var(--secondary);
     margin: 0 0 16px;
     letter-spacing: -0.4px;
   }
   .home-card h3 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 18px;
     color: var(--secondary);
     margin: 20px 0 10px;
@@ -499,14 +500,14 @@
     flex-shrink: 0;
     font-size: 18px;
     font-weight: 700;
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     line-height: 1;
   }
   .fun-fact-content strong {
     color: var(--secondary);
     display: block;
     margin-bottom: 4px;
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 15px;
   }
   .fun-fact-content p { margin: 0; color: var(--text); font-size: 14px; }
@@ -562,7 +563,7 @@
 
   /* CONTENIDO MARKDOWN PARSEADO */
   .proposal-content h1 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 38px;
     font-weight: 700;
     color: var(--secondary);
@@ -571,7 +572,7 @@
     line-height: 1.15;
   }
   .proposal-content h2 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 26px;
     font-weight: 700;
     color: var(--secondary);
@@ -581,7 +582,7 @@
     letter-spacing: -0.4px;
   }
   .proposal-content h3 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 700;
     color: var(--secondary);
@@ -748,7 +749,7 @@
     letter-spacing: 1px;
   }
   .pricing-card h3 {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 22px;
     color: var(--secondary);
     margin: 0 0 4px;
@@ -758,7 +759,7 @@
     letter-spacing: -0.2px;
   }
   .pricing-card .price {
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 36px;
     font-weight: 700;
     color: var(--secondary);
@@ -827,7 +828,7 @@
     font-weight: 600;
     color: var(--secondary);
     font-size: 14px;
-    font-family: 'Inter', serif;
+    font-family: 'Playfair Display', serif;
   }
   .iframe-link {
     font-size: 12px;
@@ -896,7 +897,7 @@
   <button class="nav-item active" data-section="home">Bienvenida</button>
 
   <div class="nav-section">Propuesta</div>
-  <button class="nav-item" data-section="propuesta">Propuesta POP</button>
+  <button class="nav-item" data-section="propuesta">Documento completo</button>
 
   <div class="nav-section">Mockups del sistema</div>
   <button class="nav-item" data-section="mockup-carga">Carga de Excel</button>
@@ -942,40 +943,39 @@
 <!-- MAIN -->
 <main class="main">
 
-<!-- HOMEPAGE -->
+  <!-- HOMEPAGE -->
   <div class="section active" data-content="home">
     <div class="home-hero">
-      <div class="home-hero-tag">Propuesta de desarrollo · Julio 2026</div>
+      <div class="home-hero-tag">Propuesta de desarrollo · Junio 2026</div>
       <h1>POP — Plataforma Operativa de PLVs</h1>
-      <p>Plataforma web diseñada a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya, reemplazando el flujo actual sobre PEYA Trade con un ecosistema unificado que coordina establecimientos, productos y períodos sobre una nueva arquitectura.</p>
+      <p>Solución a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya, reemplazando el flujo actual sobre PEYA Trade con una plataforma propia que integra a los cuatro actores del proceso en un mismo ecosistema.</p>
       <button onclick="window.showSection('propuesta')">Ver propuesta completa →</button>
     </div>
 
     <div class="home-cards">
       <div class="home-card protected">
-        <h3>Resumen de la Propuesta</h3>
-        <p>El presente documento constituye la propuesta formal para el desarrollo de la <strong>Plataforma Operativa de PLVs (POP)</strong>, diseñada a medida para modernizar y automatizar la gestión de colocación de PLVs que Picnic opera para Peya.</p>
-        <ol>
-          <li><strong>Resumen Ejecutivo</strong></li>
-          <li><strong>Alcance del Proyecto</strong></li>
-          <li><strong>Diferencia entre Versiones las versiones Básica y Pro</strong></li>
-          <li><strong>Inventario Completo de Funcionalidades</strong> </li>
-          <li><strong>Plan de Trabajo</strong></li>
-          <li><strong>Inversión</strong></li>
-          <li><strong>Infraestructura y Costos Operativos</strong></li>
-          <li><strong>Plan de Mantenimiento Post-entrega</strong></li>
-          <li><strong>Capacitación</strong></li>
-          <li><strong>Modalidad de Contratación</strong></li>
-          <li><strong>Términos Generales</strong></li>
-          <li><strong>Módulos Adicionales</strong></li>
-          <li><strong>Próximos Pasos</strong></li>
-        </ol>
-        <p>Adicionalmente, la propuesta incluye una sección completa de <strong>Mockups del Sistema</strong>, accesible desde la barra lateral izquierda, que ilustra la experiencia de usuario en cada uno de los cuatro roles contemplados: <strong>Administrador Picnic</strong>, <strong>Colocador en Terreno</strong>, <strong>Líder Regional</strong> y <strong>Cliente Peya</strong>.</p>
-        <p style="font-size: 13px; color: var(--text-soft); margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px;">
-          <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
-        </p>
+        <h2>Sobre esta propuesta</h2>
+        <p>POP es una plataforma web a medida que centraliza la operación de PLVs en una nueva base de datos, coordinando establecimientos, productos y períodos como un ecosistema unificado.</p>
+        <p>La solución reúne:</p>
+        <ul>
+          <li>Un panel central de gestión para el equipo de Picnic.</li>
+          <li>Una web app para colocadores en terreno (PWA).</li>
+          <li>Acceso simplificado para líderes regionales.</li>
+          <li>Portal de transparencia para Peya con visibilidad directa al avance de campañas.</li>
+        </ul>
+        <h3>Modalidades</h3>
+        <p>La propuesta presenta dos modalidades de implementación: <strong>Versión Básica</strong> (USD 9.275, 5 meses) y <strong>Versión Pro</strong> (USD 20.265, 6 meses). Ambas reemplazan completamente el flujo actual y entregan valor operativo desde el primer mes.</p>
+        <p>El documento completo con el detalle de funcionalidades, fases, inversión, infraestructura y términos generales está disponible en la sección <strong>Propuesta → Documento completo</strong>. Los mockups del sistema están accesibles desde la barra lateral izquierda.</p>
+
+        <div class="fun-fact">
+          <div class="fun-fact-icon">P</div>
+          <div class="fun-fact-content">
+            <strong>El origen del nombre</strong>
+            <p>POP toma su nombre de <em>Point of Purchase</em>, el término en inglés para PLV (Punto de Venta). La sigla resume en tres letras la esencia del proyecto: una plataforma operativa enfocada exactamente en eso, los puntos donde se concretan las colocaciones.</p>
+          </div>
+        </div>
       </div>
-      
+
       <div class="home-card contact protected">
         <h2>Contacto</h2>
         <dl>
@@ -983,13 +983,16 @@
           <dd>María Micaela Ninni</dd>
 
           <dt>Email</dt>
-          <dd>micaninni92@gmail.com</dd>
+          <dd>[email]</dd>
+
+          <dt>Teléfono</dt>
+          <dd>[teléfono]</dd>
 
           <dt>Cliente</dt>
           <dd>Picnic</dd>
 
           <dt>Fecha</dt>
-          <dd>Julio 2026</dd>
+          <dd>Junio 2026</dd>
 
           <dt>Versión</dt>
           <dd>1.0</dd>
@@ -1100,8 +1103,8 @@
 <script>
 //=================== CONFIG ===================
 // REEMPLAZAR ESTOS VALORES CON LOS DE TU PROYECTO SUPABASE
-const SUPABASE_URL = 'https://fljzhgfmgswqxhatezhn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsanpoZ2ZtZ3N3cXhoYXRlemhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MjAzNjMsImV4cCI6MjA5NTI5NjM2M30.N81oX2944Ap2xQzzFAtbGo3OcFHr-dDsw11rj760ArA';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
 
 //=================== ANTI-COPIA ===================
 document.addEventListener('contextmenu', e => {
