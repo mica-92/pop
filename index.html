@@ -982,7 +982,7 @@ let proposalSections = [];
 async function loadProposal() {
   const container = document.getElementById('proposalContent');
   try {
-    const response = await fetch('POP_Propuesta_Final.md');
+    const response = await fetch('POP_Propuesta_Final.md') + Date.now());
     if (!response.ok) throw new Error('Status ' + response.status);
     const md = await response.text();
 
