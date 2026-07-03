@@ -26,7 +26,7 @@ Generando en consecuencia:
 - **Inhabilitando un seguimiento eficienciente de la campaña**;
 - **Limitaciones en la capacidad de Picnic para anticiparse a las necesidades de su cliente para ofrecer soluciones proactivas.**
 
-> Con el objetivo de resolver los inconvenientes identificados **POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto - locales comerciales, PLVs, periodos, coordinadores y cliente - dentro de un ecosistema unificado.** y ofrece:
+ Con el objetivo de resolver los inconvenientes identificados **POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto - locales comerciales, PLVs, periodos, coordinadores y cliente - dentro de un ecosistema unificado.** y ofrece:
 > - **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los locales comerciales y la distribución de los mismos a los cordinadores;
 > - **Facilita la visualización del estado actual de cada campaña**, pudiendo determinar la permite la integración de periodos pasados con el actual para obtener un evolución temporal del  
 
