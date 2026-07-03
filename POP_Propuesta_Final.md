@@ -11,20 +11,24 @@
 
 ## 1. Resumen Ejecutivo
 
-**POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para Picnic con el objetivo de **modernizar y automatizar el control y seguimiento de la colocación de PLVs (Publicidad en Lugares de Venta)**. Actualmente, este proceso se realiza sobre la aplicación PeYa Trade (PYT), una herramienta que presenta limitaciones operativas significativas, dificultando la obtención y entrega de resultados oportunos y confiables a PedidosYa.
+**POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para Picnic con el objetivo de **modernizar y automatizar el control y seguimiento de la colocación de PLVs (Publicidad en Lugares de Venta)**. Actualmente, este proceso se realiza sobre la aplicación PeYa Trade (PYT), una herramienta que presenta limitaciones operativas significativas, dificultando la obtención y entrega de resultados precisos a PedidosYa.
 
 Las limitaciones del sistema actual se evidencian en el uso cotidiano de la aplicación. Estas radican principalmente en un deficiente manejo de la información, y pueden resumirse en 4 puntos centrales:
 
-- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar manualmente a Excel para cada reporte, generando demoras y restando confiabilidad a la toma de decisiones.
-- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la evolución de establecimientos entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades.
-- **Fragmentación de materiales PLV:** Información aislada por tipo de material (bicicletero, cartel, sticker) sin una vista consolidada por establecimiento; obliga a cruces manuales, incrementando errores y esfuerzo operativo en auditorías integrales.
+- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar manualmente a Excel para cada reporte, generando demoras y restando confiabilidad a la toma de decisiones;
+- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la evolución de establecimientos entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
+- **Fragmentación de materiales PLV:** Información aislada por tipo de material (bicicletero, cartel, sticker) sin una vista consolidada por establecimiento; obliga a cruces manuales, incrementando errores y esfuerzo operativo en auditorías integrales;
 - **Debilidades en el control operativo:** Carece de trazabilidad de visitas (quién, cuándo, condiciones), controles de acceso débiles y mala integración del registro fotográfico, lo que compromete la seguridad, integridad y auditabilidad del proceso.
 
-Esto obstaculiza la detección de cuellos de botella operativos —zonas o productos con bajo desempeño—, inhabilita un seguimiento eficienciente de la campaña y fundamentalmente **limita la capacidad de Picnic para anticiparse a las necesidades de su cliente para ofrecer soluciones proactivas.**
+Generando en consecuencia:
 
-**POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente las todas las diferentes dimensiones del proyecto - locales comerciales, PLVs, períodos, coordinadores y cliente - dentro de un ecosistema unificado.** -> switch to callout 
+- **Inconvenientes en la detección de cuellos de botella operativos** como lo pueden ser zonas o productos con bajo desempeño;
+- **Inhabilitando un seguimiento eficienciente de la campaña**;
+- **Limitaciones en la capacidad de Picnic para anticiparse a las necesidades de su cliente para ofrecer soluciones proactivas.**
 
-Esta nueva herramienta no solo agiliza y automatiza procesos que hoy se realizan a manualmente, sino que facilita la visualización del estado actual de cada campaña, permite la extracción de información y 
+> Con el objetivo de resolver los inconvenientes identificados **POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto - locales comerciales, PLVs, periodos, coordinadores y cliente - dentro de un ecosistema unificado.** y ofrece:
+> - **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los locales comerciales y la distribución de los mismos a los cordinadores;
+> - **Facilita la visualización del estado actual de cada campaña**, pudiendo determinar la permite la integración de periodos pasados con el actual para obtener un evolución temporal del  
 
 
 
