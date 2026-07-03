@@ -238,7 +238,7 @@ Incluye todo lo de la Básica más:
 ---
 
 ### Módulo 3 — Detalle de Establecimiento
-
+![Mockup: Settings, Reglas y Log de Auditoría](POP_Mockup_Settings_Reglas_Log.html)
 |Funcionalidad|Básica|Pro|
 |---|:-:|:-:|
 |Información general del establecimiento|✅|✅|
