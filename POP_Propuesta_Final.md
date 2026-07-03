@@ -1,5 +1,6 @@
 
-# Propuesta De Desarrollo: POP — Plataforma Operativa De PLVs
+# Propuesta De Desarrollo: 
+# POP — Plataforma Operativa De PLVs
 
 **Cliente:** Picnic
 **Presentada por:** María Micaela Ninni
