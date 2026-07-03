@@ -45,6 +45,39 @@ POP se diseña en coordinación constante con Picnic, incorporando directamente 
 **POP no es solo un reemplazo: es la oportunidad de transformar la gestión de PLVs en una ventaja competitiva, devolviéndole a Picnic el control, la velocidad y la inteligencia operativa que necesita para responder a su cliente y proyectarse a futuro.**
 
 
+### Comparativa rápida
+
+```pricing
+{
+  "basica": {
+    "title": "Versión Básica",
+    "price": "USD 9.275",
+    "detail": "265 horas · Agosto a Diciembre 2026",
+    "features": [
+      "Reemplazo completo de PEYA Trade",
+      "Dashboard con KPIs y filtros simples",
+      "App de campo sin autenticación",
+      "Portal de Peya con descarga de Excel",
+      "Log de auditoría básico"
+    ]
+  },
+  "pro": {
+    "title": "Versión Pro",
+    "price": "USD 20.265",
+    "detail": "579 horas · Agosto 2026 a Enero 2027",
+    "features": [
+      "Todo lo de Básica",
+      "Trazabilidad nominal completa (DNI + GPS)",
+      "Dashboard de Líderes Regionales",
+      "Constructor de Reportes dedicado",
+      "Gestión flexible de zonas",
+      "Filtros avanzados y vistas múltiples"
+    ]
+  }
+}
+```
+
+---
 ---
 
 ## 2. Alcance Del Proyecto
