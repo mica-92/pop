@@ -371,7 +371,6 @@ El desarrollo de POP se organiza en fases mensuales con entregables progresivos.
 <strong>Nota sobre tiempos:</strong> los cronogramas presentados consideran un ritmo de trabajo sostenible y realista. Pueden surgir demoras operativas por imprevistos propios del desarrollo (bugs complejos, decisiones a discutir, dependencias externas, etc.). Cuando ocurra, se comunica con anticipación y se ajusta el cronograma en conjunto.
 </div>
 
-
 ### Fases de Desarrollo
 
 Las fases son secuenciales y cada una entrega funcionalidad concreta y verificable. La estructura respeta un orden lógico: primero el cimiento técnico invisible, luego las herramientas de gestión, después la ejecución en campo, y finalmente la calibración y puesta en producción.
@@ -496,7 +495,7 @@ Una vez POP esté en producción, se ofrece un **plan flexible de mantenimiento 
 - Cancelable con 30 días de aviso.
 - Horas no utilizadas en el mes no se acumulan al siguiente.
 
-## 8. Módulos Adicionales
+## 7. Módulos Adicionales
 
 Más allá del alcance principal de las versiones _Basic_ y _Extended_, POP está diseñado para crecer en el tiempo según las necesidades reales que vayan surgiendo del uso. Esta sección presenta una serie de módulos y extensiones que pueden incorporarse posteriormente como proyectos puntuales, cada uno cotizable de forma independiente.
 
@@ -516,7 +515,7 @@ En concreto, algunos módulos requieren funcionalidades específicas de la versi
 
 Las horas indicadas son estimaciones preliminares para dimensionar el esfuerzo relativo de cada módulo. Cada uno incluye su propia propuesta detallada con alcance cerrado, horas definitivas, inversión y plazo cuando Picnic decida avanzar. La cotización se realiza al momento de la solicitud para reflejar las condiciones vigentes y el contexto del sistema en ese momento.
 
-## 10. Modalidad de Contratación
+## 8. Modalidad de Contratación
 
 Las dos versiones presentadas —_Basic_ y _Extended_— son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off, según el nivel de control y automatización que necesite en esta etapa.
 
@@ -530,7 +529,7 @@ Este mismo criterio aplica a los **módulos adicionales** descriptos en la Secci
 
 Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no contempladas** en esta propuesta, identificadas a partir del uso real o de nuevas necesidades operativas de Picnic. Cada una se conversa en su momento y se cotiza de forma independiente como propuesta complementaria, con su propio alcance, horas e inversión.
 
-## 7. Términos Generales
+## 9. Términos Generales
 
 **Propiedad del código.** El código fuente y todos los activos desarrollados son propiedad de Picnic una vez finalizado el desarrollo y abonado el total del proyecto. Se entrega el repositorio completo con su historial.
 
@@ -550,8 +549,4 @@ Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no
 
 ---
 
-*Documento sujeto a aceptación. Válido por hasta 31 de Julio 2026.*
-
-<strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
-
----
+*Documento sujeto a aceptación. Válido por hasta 31 de Julio 2026.* <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
