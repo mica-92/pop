@@ -1,8 +1,4 @@
- 
-
-> notas mica hoy por la mañana: cambiar líderes a coordinadores, quiero sacar fechas y dejar solo meses de implementación. cambiar establecimiento a locales comerciales. unificar peta pedidosya. cambiar _Basic_ y pro a _Basic_ y _Extended_
-
-## 1. Resumen Ejecutivo
+ ## 1. Resumen Ejecutivo
 
 **POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para Picnic con el objetivo de **modernizar y automatizar el control y seguimiento de la colocación de PLVs (Publicidad en Lugares de Venta)**. Actualmente, este proceso se realiza sobre la aplicación PeYa Trade (PYT), una herramienta que presenta limitaciones operativas significativas, dificultando la obtención y entrega de resultados precisos a PedidosYa.
 
@@ -444,7 +440,6 @@ La transición desde PEYA Trade hacia POP incluye capacitación sin costo para l
 
 Si Picnic identifica la necesidad de sesiones presenciales o videollamadas dedicadas de capacitación más allá del material escrito, se conversan y coordinan sin problema dentro del plan flex de mantenimiento.
 
-
 ## 6. Infraestructura y Costos Operativos
 
 POP requiere de servicios de terceros para funcionar en producción. Estos servicios se contratan a nombre de Picnic, lo que garantiza la propiedad de las cuentas, los datos y el acceso bajo su control en todo momento.
@@ -491,11 +486,9 @@ Una vez POP esté en producción, se ofrece un **plan flexible de mantenimiento 
 - Monitoreo proactivo de errores reportados por el sistema.
 - Asistencia para resolver inconvenientes que surjan dentro del proyecto principal en curso.
 
-**Excedente sobre 10 horas mensuales:**
-Si en un mes específico surge una necesidad que exceda las 10 horas, se conversa antes de avanzar y se acuerda cómo proceder (postergar, priorizar, o autorizar horas adicionales a la misma tarifa estándar de USD 35/hora).
+**Excedente sobre 10 horas mensuales:** Si en un mes específico surge una necesidad que exceda las 10 horas, se conversa antes de avanzar y se acuerda cómo proceder (postergar, priorizar, o autorizar horas adicionales a la misma tarifa estándar de USD 35/hora).
 
-**Desarrollos nuevos o cambios mayores** (no incluidos en el plan flex):
-Funcionalidades nuevas, cambios mayores de diseño, integraciones con sistemas externos, migración de datos históricos o módulos adicionales se cotizan aparte como proyecto puntual.
+**Desarrollos nuevos o cambios mayores**: Funcionalidades nuevas, cambios mayores de diseño, integraciones con sistemas externos, migración de datos históricos o módulos adicionales se cotizan aparte como proyecto puntual.
 
 **Condiciones generales:**
 
@@ -560,3 +553,5 @@ Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no
 *Documento sujeto a aceptación. Válido por hasta 31 de Julio 2026.*
 
 <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
+
+---
