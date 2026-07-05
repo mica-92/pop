@@ -106,7 +106,7 @@ A lo largo de esta sección se utiliza el término **PDV** (Punto de Venta) para
 
 ### 3.1 Panel de Gestión Central (Picnic)
 
-![Detalle de PDV y Visita](POP_Mockup_DetallePDV_Visita.html)
+![Panel de Gestion](POP_Mockup_PanelCentral.html)
 
 El Panel de Gestión Central es el centro de control del equipo de Picnic sobre la operación completa. Desde una única interfaz, el admin monitorea el estado de cada campaña, accede al detalle de cualquier PDV, supervisa el trabajo del equipo de campo y exporta la información que necesita para responder a PeYa en cualquier momento.
 
@@ -136,6 +136,8 @@ Los **KPIs se recalculan dinámicamente** según los filtros: al acotar por una 
 ---
 
 #### 3.1.1 Detalle de PDV
+
+![Detalle de PDV y Visita](POP_Mockup_DetallePDV_Visita.html)
 
 El detalle de PDV se abre desde cualquier vista del Panel de Gestión Central que liste puntos de venta, y permite al admin profundizar en un registro puntual sin perder el contexto del panel general. Responde a una necesidad operativa concreta: poder responderle a PeYa cuando pregunta por un PDV específico, auditar la actividad cuando algo no cuadra, y corregir información en el momento sin procesar datos por fuera del sistema.
 
@@ -172,8 +174,6 @@ El admin puede **cerrar o reabrir manualmente** la visita: una visita cerrada de
 | Acción: cerrar / reabrir visita manualmente | ✅ | ✅ |
 | ID del colocador | ❌ | ✅ |
 | GPS del dispositivo al guardar la visita | ❌ | ✅ |
-
----
 
 ### 3.2 App de Campo (colocadores)
 
@@ -212,8 +212,6 @@ La versión **_Extended_** convierte la app en una herramienta completa de gesti
 | Email automático al coordinador con ID + mensaje opcional | ❌ | ✅ |
 | Edición de datos del PDV + confirmación obligatoria | ❌ | ✅ |
 
----
-
 ### 3.3 Portal de Coordinadores (_Extended_)
 
 ![Portal de Coordinadores](POP_Mockup_PortalCoordinador.html)
@@ -234,8 +232,6 @@ El coordinador accede únicamente a lo que necesita para operar: no ve ID de col
 | Descarga Excel consolidado o multi-hoja por PLV | ❌ | ✅ |
 | Widget con el PIN de zona para compartir con colocadores | ❌ | ✅ |
 | Distribución manual vía Excel filtrado por provincia | ✅ | — |
-
----
 
 ### 3.4 Panel de Cliente (PeYa)
 
@@ -266,8 +262,6 @@ Lo que el cliente **no ve en ninguna versión**: zonas operativas internas de Pi
 | Pestañas separadas (Por PLV, Por Geografía, Histórico mensual) | ❌ | ✅ |
 | Constructor de Reportes propio (campos restringidos) | ❌ | ✅ |
 
----
-
 ## 4. Módulos Transversales
 
 Sobre las cuatro experiencias operan un conjunto de módulos que dan soporte al funcionamiento integral de la plataforma: la ingesta de datos, la configuración territorial, la reportería avanzada y la administración del sistema.
@@ -293,8 +287,6 @@ Cuando el admin sube un archivo, POP **detecta automáticamente todas las hojas*
 | Resolución de discrepancias con datos editados en campo | ❌ | ✅ |
 | Asignación de Cadena al PDV (atributo + filtro en reportes) | ❌ | ✅ |
 
----
-
 ### 4.2 Configuración de Zonas (_Extended_)
 
 ![Configuración de Zonas](POP_Mockup_Zonas.html)
@@ -319,8 +311,6 @@ Los cambios en zonas se aplican **solo a futuro**: las visitas históricas cerra
 | Asignación de coordinador por zona (nombre, email, PIN) | ❌ | ✅ |
 | Snapshot histórico de zona-coordinador-PIN en cada visita | ❌ | ✅ |
 
----
-
 ### 4.3 Constructor de Reportes (_Extended_)
 
 ![Constructor de Reportes](POP_Mockup_ConstructorReportes.html)
@@ -341,8 +331,6 @@ El admin ingresa a la sección Reportes y define tres cosas: el **período** (in
 | Excel multi-hoja (listado + estadísticas combinadas) | ❌ | ✅ |
 | Agregaciones configurables (por PLV, geo, cadena, motivo) | ❌ | ✅ |
 | Botón Excel del panel con filtros aplicados | ✅ | ✅ |
-
----
 
 ### 4.4 Settings, Reglas Automatizadas y Auditoría
 
@@ -379,70 +367,66 @@ El **Log de Auditoría** es el registro cronológico de toda la actividad releva
 | Settings → Gestión visual de mappings de hojas Partners | ❌ | ✅ |
 | Filtros avanzados en el log (tipo, usuario, ID, zona) | ❌ | ✅ |
 
-## 5. Plan de Trabajo
+## 5. Plan de Trabajo, Inversión y Soporte
 
-El desarrollo se organiza en fases mensuales con entregables progresivos. Cada fase culmina con una demo de avance y la conformidad escrita de Picnic antes de pasar a la siguiente.
+El desarrollo de POP se organiza en fases mensuales con entregables progresivos. Cada fase culmina con una demo de avance y la conformidad escrita de Picnic antes de pasar a la siguiente, lo que permite incorporar aprendizajes del uso real en etapas tempranas y ajustar prioridades sin comprometer la coherencia del sistema.
 
-<div class="info-callout"> <strong>Nota sobre tiempos:</strong> los cronogramas presentados consideran un ritmo de trabajo sostenible y realista. Pueden surgir demoras operativas por imprevistos propios del desarrollo (bugs complejos, decisiones a discutir, dependencias externas, etc.). Cuando ocurra, se comunica con anticipación y se ajusta el cronograma en conjunto. </div>
+<div class="info-callout">
+<strong>Nota sobre tiempos:</strong> los cronogramas presentados consideran un ritmo de trabajo sostenible y realista. Pueden surgir demoras operativas por imprevistos propios del desarrollo (bugs complejos, decisiones a discutir, dependencias externas, etc.). Cuando ocurra, se comunica con anticipación y se ajusta el cronograma en conjunto.
+</div>
 
-#### Plan para Versión _Basic_ (Agosto 2026 — Diciembre 2026)
 
-**Duración total:** 5 meses (~20 semanas).  
-**Volumen total:** 265 horas (~13 horas semanales promedio).
+### Fases de Desarrollo
 
-|Fase|Mes|Horas|Entregable principal|
-|---|---|---|---|
-|1. Foundation|Agosto|55|Setup técnico, modelo de datos, autenticación del admin, configuración inicial de PLVs y motivos.|
-|2. Carga + Panel de Gestión|Septiembre|60|Carga de Locales funcionando + Panel de Gestión Central con KPIs, tabla, filtros simples y exportación.|
-|3. Detalle + Panel de Cliente|Octubre|60|Detalle de Establecimiento y Detalle de Visita con historial + Panel de Cliente para Peya con vista de campañas y descarga.|
-|4. App de Campo + Log|Noviembre|55|App de Campo completa con flujo de visita + Log de Auditoría.|
-|5. Calibración + Producción|Diciembre|35|Testing exhaustivo, ajustes finales, deploy a producción, capacitación y soporte intensivo.|
+Las fases son secuenciales y cada una entrega funcionalidad concreta y verificable. La estructura respeta un orden lógico: primero el cimiento técnico invisible, luego las herramientas de gestión, después la ejecución en campo, y finalmente la calibración y puesta en producción.
 
-#### Plan para Versión Pro (Agosto 2026 — Enero 2027)
+#### Plan Versión _Basic_
 
-**Duración total:** 6 meses (~24 semanas).  
-**Volumen total:** 579 horas (~24 horas semanales promedio).
+**Duración estimada:** 5 a 6 meses · **Volumen total:** 300 horas (~60 horas mensuales promedio).
 
-|Fase|Mes|Horas|Entregable principal|
-|---|---|---|---|
-|1. Foundation + Zonas|Agosto|110|Setup técnico, modelo de datos, autenticación, Gestión de Zonas y Líderes desde Settings (módulo más complejo del proyecto).|
-|2. Carga Pro + Panel de Gestión Pro|Septiembre|110|Carga de Locales con detección de duplicados y discrepancias + Panel de Gestión Central con filtros avanzados y pestañas separadas.|
-|3. Detalle + Constructor de Reportes|Octubre|110|Detalle de Establecimiento y Detalle de Visita con trazabilidad nominal + Constructor de Reportes funcionando.|
-|4. App de Campo Pro + Portal de Líderes|Noviembre|110|App de Campo con PIN, ID, GPS, email a líder + Portal de Líderes funcionando.|
-|5. Panel de Cliente Pro + Log avanzado|Diciembre|85|Panel de Cliente con todas las pestañas y Constructor de Reportes propio + Log con filtros avanzados.|
-|6. Calibración + Producción|Enero|54|Testing exhaustivo, ajustes finales, deploy a producción, capacitación y soporte intensivo.|
+| Fase | Horas | Entregable principal |
+|---|:-:|---|
+| **Mes 1 — Arquitectura y base de datos** | 60 | Setup técnico, modelo de datos central (PDVs, PLVs, períodos, visitas), pipeline de importación, autenticación del admin y configuración inicial de PLVs y motivos. Sienta las bases sobre las que opera todo el sistema. |
+| **Mes 2 — Carga y Panel de Gestión** | 70 | Módulo de Carga de PDVs funcionando (detección de hojas, resumen pre-confirmación) + Panel de Gestión Central con KPIs, tabla unificada, filtros simples y exportación a Excel. |
+| **Mes 3 — Detalle y Panel de Cliente** | 70 | Detalle de PDV y Detalle de Visita con historial fotográfico completo + Panel de Cliente para PeYa con vista de campañas, filtros y descarga. |
+| **Mes 4 — App de Campo y Log** | 65 | App de Campo completa con el flujo de registro de visita (efectiva/no efectiva, fotos, motivos, compresión automática) + Log de Auditoría. |
+| **Mes 5 — Calibración y Producción** | 35 | Testing exhaustivo, ajustes finales, deploy a producción, capacitación y soporte intensivo de adopción. |
 
-#### Reuniones y Comunicación
+#### Plan Versión _Extended_
 
-- **Reuniones de revisión:** cada dos semanas con el equipo de Picnic.
-- **Demo al cierre de cada fase:** en vivo, con conformidad por escrito antes de pasar a la siguiente.
-- **Canal directo:** WhatsApp y email para consultas puntuales en horario laboral.
+**Duración estimada:** 7 a 8 meses · **Volumen total:** 650 horas (~93 horas mensuales promedio).
 
----
+| Fase | Horas | Entregable principal |
+|---|:-:|---|
+| **Mes 1 — Arquitectura ampliada** | 70 | Setup técnico y modelo de datos extendido, incorporando desde el inicio las dimensiones de zonas, coordinadores y cadenas. Autenticación y configuración base. |
+| **Mes 2 — Carga avanzada y Panel de Gestión** | 90 | Carga de PDVs con detección de duplicados y resolución de discrepancias + Panel de Gestión Central con filtros avanzados combinables y exportación. |
+| **Mes 3 — Pestañas analíticas** | 90 | Pestañas dedicadas Por PLV, Por Geografía con drill-down e Histórico de KPIs por mes, con selector de rango de fechas. |
+| **Mes 4 — Detalle, Panel de Cliente y Constructor** | 95 | Detalle de PDV y Visita con trazabilidad nominal (ID, GPS) + Panel de Cliente ampliado + Constructor de Reportes a medida. |
+| **Mes 5 — App de Campo con trazabilidad** | 100 | App de Campo con PIN de zona, ID obligatorio, captura de GPS, edición de datos del PDV en campo y aviso automático al coordinador. |
+| **Mes 6 — Zonas y Portal de Coordinadores** | 100 | Gestión visual de zonas (árbol jerárquico, validación de superposiciones), Portal de Coordinadores con acceso por PIN y snapshot histórico de zona-coordinador-PIN. |
+| **Mes 7 — Calibración y Producción** | 105 | Análisis histórico y comparativo, testing exhaustivo, deploy a producción, capacitación y soporte intensivo de adopción. |
 
-## 6. Inversión
+### Inversión
+
+Todos los valores se calculan sobre una **tarifa horaria de USD 35**.
 
 #### Versión _Basic_
 
-|Concepto|Horas|Inversión USD|Referencia ARS|
-|---|---|---|---|
-|Total desarrollo|265|**USD 9.275**|ARS ~14M|
-|Distribución mensual (promedio)|53|USD 1.855|ARS ~2.8M|
+| Concepto | Horas | Inversión USD | Referencia ARS |
+|---|:-:|---|---|
+| Total desarrollo | 300 | **USD 10.500** | ARS ~16M |
+| Distribución mensual (promedio) | 60 | USD 2.100 | ARS ~3,2M |
 
-#### Versión Pro
+#### Versión _Extended_
 
-|Concepto|Horas|Inversión USD|Referencia ARS|
-|---|---|---|---|
-|Total desarrollo|579|**USD 20.265**|ARS ~31M|
-|Distribución mensual (promedio)|96.5|USD 3.378|ARS ~5.1M|
+| Concepto | Horas | Inversión USD | Referencia ARS |
+|---|:-:|---|---|
+| Total desarrollo | 650 | **USD 22.750** | ARS ~34M |
+| Distribución mensual (promedio) | 93 | USD 3.250 | ARS ~4,9M |
 
 _Referencias en ARS calculadas al tipo de cambio aproximado al momento de la propuesta. El valor final en pesos puede variar según la cotización al momento de cada facturación._
 
-#### Tarifa Horaria
-
-USD 35 por hora.
-
-#### Forma de Pago
+### Forma de Pago
 
 **Pago mensual contra entregable de fase**, al cierre de cada mes:
 
@@ -450,9 +434,18 @@ USD 35 por hora.
 - La conformidad se otorga después de la demo de cierre de fase, con un plazo sugerido de 5 días hábiles de revisión por parte de Picnic.
 - Si una fase entrega menos horas de las estimadas, se factura solo lo trabajado efectivamente.
 
----
+### Capacitación
 
-## 7. Infraestructura y Costos Operativos
+La transición desde PEYA Trade hacia POP incluye capacitación sin costo para los equipos de Picnic y PeYa:
+
+- **Manual de usuario en formato escrito** entregado al cierre del proyecto, con instrucciones paso a paso de las principales operaciones.
+- **Material de apoyo** para distribuir a colocadores y coordinadores regionales, con instrucciones de uso de la App de Campo y del Portal de Coordinadores.
+- **Consultas y dudas durante el período de adopción** atendidas vía mensajería y email sin costo adicional.
+
+Si Picnic identifica la necesidad de sesiones presenciales o videollamadas dedicadas de capacitación más allá del material escrito, se conversan y coordinan sin problema dentro del plan flex de mantenimiento.
+
+
+## 6. Infraestructura y Costos Operativos
 
 POP requiere de servicios de terceros para funcionar en producción. Estos servicios se contratan a nombre de Picnic, lo que garantiza la propiedad de las cuentas, los datos y el acceso bajo su control en todo momento.
 
@@ -478,18 +471,16 @@ Estos costos son **independientes del modelo elegido (_Basic_ o Pro)**: son los 
 - **Acceso protegido** con autenticación diferenciada según rol.
 - **Aislamiento de datos:** la información del cliente solo es visible para usuarios autorizados.
 
----
-
-## 8. Plan de Mantenimiento Post-entrega
+### Mantenimiento Post-entrega
 
 Una vez POP esté en producción, se ofrece un **plan flexible de mantenimiento mensual** para garantizar la continuidad operativa y atender ajustes según necesidades emergentes.
 
-#### Plan Flex
-
-**Volumen base:** hasta 10 horas/mes facturadas a USD 35/hora.  
+**Volumen base:** hasta 10 horas/mes facturadas a USD 35/hora.
 **Inversión esperada mensual:** USD 0 a USD 350 según uso real.
 
-<div class="info-callout"> <strong>Modalidad:</strong> solo se factura el tiempo efectivamente utilizado. Si en un mes no surge ninguna necesidad de soporte, no hay facturación de mantenimiento ese mes. </div>
+<div class="info-callout">
+<strong>Modalidad:</strong> solo se factura el tiempo efectivamente utilizado. Si en un mes no surge ninguna necesidad de soporte, no hay facturación de mantenimiento ese mes.
+</div>
 
 **Cubierto sin facturación adicional bajo este esquema:**
 
@@ -501,12 +492,10 @@ Una vez POP esté en producción, se ofrece un **plan flexible de mantenimiento 
 - Asistencia para resolver inconvenientes que surjan dentro del proyecto principal en curso.
 
 **Excedente sobre 10 horas mensuales:**
-
 Si en un mes específico surge una necesidad que exceda las 10 horas, se conversa antes de avanzar y se acuerda cómo proceder (postergar, priorizar, o autorizar horas adicionales a la misma tarifa estándar de USD 35/hora).
 
 **Desarrollos nuevos o cambios mayores** (no incluidos en el plan flex):
-
-Funcionalidades nuevas, cambios mayores de diseño, integraciones con sistemas externos, migración de datos históricos, módulos adicionales — se cotizan aparte como proyecto puntual.
+Funcionalidades nuevas, cambios mayores de diseño, integraciones con sistemas externos, migración de datos históricos o módulos adicionales se cotizan aparte como proyecto puntual.
 
 **Condiciones generales:**
 
@@ -514,29 +503,41 @@ Funcionalidades nuevas, cambios mayores de diseño, integraciones con sistemas e
 - Cancelable con 30 días de aviso.
 - Horas no utilizadas en el mes no se acumulan al siguiente.
 
----
+## 8. Módulos Adicionales
 
-## 9. Capacitación
+Más allá del alcance principal de las versiones _Basic_ y _Extended_, POP está diseñado para crecer en el tiempo según las necesidades reales que vayan surgiendo del uso. Esta sección presenta una serie de módulos y extensiones que pueden incorporarse posteriormente como proyectos puntuales, cada uno cotizable de forma independiente.
 
-La transición desde PEYA Trade hacia POP incluye capacitación sin costo para los equipos de Picnic y Peya:
+Como se detalla en la Modalidad de Contratación, la estructura modular de POP permite sumar funcionalidades de a una, pero conviene que las que Picnic anticipe como probables se conversen desde el inicio: varios de estos módulos dependen de cómo se modele la base de datos y se estructure el flujo de información en las fases fundacionales, y contemplarlos temprano evita rehacer trabajo más adelante.
 
-- **Manual de usuario en formato escrito** entregado al cierre del proyecto, con instrucciones paso a paso de las principales operaciones.
-- **Material de apoyo** para distribuir a colocadores y líderes regionales (instrucciones de uso de la App de Campo y del Portal de Líderes).
-- **Consultas y dudas durante el período de adopción** atendidas vía mensajería y email sin costo adicional.
+En concreto, algunos módulos requieren funcionalidades específicas de la versión _Extended_ como pre-requisito técnico —por ejemplo, los módulos de seguimiento individual necesitan que se capture ID y GPS por visita, algo que la versión _Basic_ no contempla—. Otros son agnósticos a la versión inicial elegida y pueden incorporarse sobre cualquier implementación.
 
-Si Picnic identifica necesidad de sesiones presenciales o videollamadas dedicadas de capacitación más allá del material escrito, se conversan y coordinan sin problema dentro del plan flex de mantenimiento.
+| Módulo adicional | Descripción breve | Horas estimadas | Viabilidad |
+|---|---|:-:|---|
+| **Migración de base histórica** | Procesamiento, normalización e ingesta de los Excels históricos de Picnic (desde 2019) como períodos pasados consultables dentro de POP. | 30 – 60 | Disponible sobre _Basic_ o _Extended_. Cotizable como proyecto independiente según volumen y calidad de los datos a migrar. |
+| **Mapa interactivo y geo-analítica** | Vista de mapa con pins de estado por PDV, filtros geográficos y heatmaps de efectividad por zona. | 50 – 70 | Disponible sobre _Basic_ o _Extended_. Requiere integración con API de mapas, que puede incurrir en un costo adicional de servicio. |
+| **Comparativas y tendencias entre períodos** | Gráficos de evolución temporal de KPIs, comparativa lado a lado de dos períodos cualesquiera, detección de outliers y análisis por dimensión. | 40 – 60 | Disponible sobre _Basic_ o _Extended_. |
+| **Alertas y notificaciones automáticas** | Emails automáticos al admin ante condiciones configurables (PDVs con N intentos sin éxito, zonas con baja efectividad, inactividad del equipo de campo, etc.). | 30 – 50 | Disponible sobre _Basic_ o _Extended_. |
+| **Módulo de Seguimiento de Colocadores** | Análisis individual del desempeño de cada colocador a partir del ID capturado en cada visita: efectividad, distribución por PLV, motivos top, tendencia temporal y GPS matching. | 45 – 65 | Requiere _Extended_ implementado (depende de ID y GPS por visita). |
+| **Módulo de Seguimiento de Coordinadores** | Análisis individual del desempeño de cada coordinador regional a partir del snapshot histórico de zona-coordinador-PIN en cada visita. | 40 – 60 | Requiere _Extended_ implementado (depende del snapshot de zonas). |
+| **Sincronización offline en App de Campo** | Registro de visitas sin conexión, con guardado local y sincronización automática al recuperar señal. | 50 – 80 | Disponible sobre _Basic_ o _Extended_. |
 
----
+Las horas indicadas son estimaciones preliminares para dimensionar el esfuerzo relativo de cada módulo. Cada uno incluye su propia propuesta detallada con alcance cerrado, horas definitivas, inversión y plazo cuando Picnic decida avanzar. La cotización se realiza al momento de la solicitud para reflejar las condiciones vigentes y el contexto del sistema en ese momento.
 
 ## 10. Modalidad de Contratación
 
-Las dos versiones presentadas (_Basic_ y Pro) son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off.
+Las dos versiones presentadas —_Basic_ y _Extended_— son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off, según el nivel de control y automatización que necesite en esta etapa.
 
-<div class="info-callout"> <strong>Flexibilidad para incorporar funcionalidades Pro sobre _Basic_:</strong> si Picnic elige _Basic_ y posteriormente desea incorporar funcionalidades presentes en Pro, no es necesario contratar el paquete Pro completo. Cada funcionalidad adicional se conversa, se evalúa su impacto técnico (algunas requieren cambios de base de datos no triviales) y se cotiza individualmente según el alcance acordado, generando una propuesta complementaria. El trabajo ya realizado en _Basic_ no se descarta: las funcionalidades nuevas se incorporan sobre lo existente, permitiendo a Picnic crecer en el sistema según las necesidades reales que vayan surgiendo del uso. </div>
+Ahora bien, la elección de una versión no obliga a tomar o descartar la otra en bloque. Gracias a la **estructura modular** de POP, las funcionalidades pueden cotizarse de forma individual: si Picnic elige _Basic_ y más adelante desea incorporar capacidades presentes en _Extended_, no es necesario contratar el paquete completo, sino que cada funcionalidad se conversa, se evalúa y se cotiza por separado, generando una propuesta complementaria. El trabajo ya realizado nunca se descarta: lo nuevo se construye sobre lo existente.
 
----
+<div class="info-callout">
+<strong>Por qué conviene anticipar las funcionalidades deseadas:</strong> aunque el sistema permite sumar capacidades de a una, las funcionalidades que Picnic prevea como probables deben considerarse desde el inicio. Buena parte del trabajo fundacional consiste en modelar la base de datos y definir cómo fluye la información entre las distintas dimensiones del sistema; si una funcionalidad futura se contempla en esa etapa, la estructura se diseña para soportarla de forma eficiente. Incorporarla después, en cambio, puede requerir cambios de base de datos no triviales y rehacer parte de lo construido. Anticiparlas no obliga a desarrollarlas de entrada, pero permite dejar los cimientos preparados.
+</div>
 
-## 11. Términos Generales
+Este mismo criterio aplica a los **módulos adicionales** descriptos en la Sección 8: son cotizables de forma independiente y pueden sumarse en cualquier momento, pero varios dependen de decisiones estructurales que conviene tomar temprano. Los que requieren _Extended_ como pre-requisito, en particular, solo son viables si esa base fue implementada.
+
+Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no contempladas** en esta propuesta, identificadas a partir del uso real o de nuevas necesidades operativas de Picnic. Cada una se conversa en su momento y se cotiza de forma independiente como propuesta complementaria, con su propio alcance, horas e inversión.
+
+## 7. Términos Generales
 
 **Propiedad del código.** El código fuente y todos los activos desarrollados son propiedad de Picnic una vez finalizado el desarrollo y abonado el total del proyecto. Se entrega el repositorio completo con su historial.
 
@@ -556,69 +557,6 @@ Las dos versiones presentadas (_Basic_ y Pro) son **alternativas excluyentes al 
 
 ---
 
-## 12. Módulos Adicionales
-
-Más allá del alcance principal de las versiones _Basic_ y Pro, POP está diseñado para crecer en el tiempo según las necesidades reales que vayan surgiendo del uso. Esta sección presenta una serie de módulos y extensiones que pueden incorporarse posteriormente como proyectos puntuales, cada uno cotizable de forma independiente.
-
-Algunos módulos requieren funcionalidades específicas de la versión Pro como pre-requisito técnico (por ejemplo, los módulos analíticos individuales necesitan que se capture ID y GPS por visita, algo que la versión _Basic_ no contempla). Otros son agnósticos a la versión inicial elegida y pueden incorporarse sobre cualquier implementación.
-
-| Módulo adicional                             | Descripción breve                                                                                                                                                               | Viabilidad                                                                                                          |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Migración de base histórica**              | Procesamiento, normalización e ingesta de los Excels históricos de Picnic (desde 2019) como períodos pasados consultables dentro de POP.                                        | Disponible sobre _Basic_ o Pro. Cotizable como proyecto independiente según volumen y calidad de los datos a migrar. |
-| **Mapa interactivo y geo-analítica**         | Vista de mapa con pins de estado por local, filtros geográficos, heatmaps de efectividad por zona.                                                                              | Disponible sobre _Basic_ o Pro. Requiere integración con API de mapas con costo recurrente adicional.                |
-| **Comparativas y tendencias entre períodos** | Gráficos de evolución temporal de KPIs, comparativa lado a lado de dos períodos cualesquiera, detección de outliers y análisis por dimensión.                                   | Disponible sobre _Basic_ o Pro.                                                                                      |
-| **Alertas y notificaciones automáticas**     | Emails automáticos al admin ante condiciones configurables (locales con N intentos sin éxito, zonas con baja efectividad, inactividad del equipo de campo, etc.).               | Disponible sobre _Basic_ o Pro.                                                                                      |
-| **Módulo de Seguimiento de Colocadores**     | Análisis individual del desempeño de cada colocador a partir del ID capturado en cada visita: efectividad, distribución por PLV, motivos top, tendencia temporal, GPS matching. | Requiere Pro implementado (depende de ID y GPS por visita).                                                         |
-| **Módulo de Seguimiento de Líderes**         | Análisis individual del desempeño de cada líder regional a partir del snapshot histórico de zona-líder-PIN en cada visita.                                                      | Requiere Pro implementado (depende del snapshot de zonas).                                                          |
-
-Cada módulo adicional incluye su propia propuesta detallada con alcance, horas estimadas, inversión y plazo cuando Picnic decida avanzar con él. La cotización se realiza al momento de la solicitud para reflejar las condiciones vigentes y el contexto del sistema en ese momento.
-
----
-
-## 13. Próximos Pasos
-
-Si Picnic acuerda con la presente propuesta:
-
-1. **Firma de acuerdo** (esta propuesta + adenda de propiedad intelectual y confidencialidad).
-2. **Elección de modalidad** (_Basic_ o Pro).
-3. **Definición de stack tecnológico** (1 semana). Se documenta y comparte con Picnic.
-4. **Apertura de cuentas** de servicios de terceros a nombre de Picnic (~1 semana).
-5. **Kick-off del proyecto:** inicio de Fase 1 en la primera semana de agosto.
-6. **Primera reunión de revisión:** segunda quincena de agosto.
-
----
-
 *Documento sujeto a aceptación. Válido por hasta 31 de Julio 2026.*
 
 <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
-### Comparativa rápida
-
-```pricing
-{
-  "_Basic_a": {
-    "title": "Versión _Basic_",
-    "price": "USD 9.275",
-    "detail": "265 horas · Agosto a Diciembre 2026",
-    "features": [
-      "Reemplazo completo de PEYA Trade",
-      "Dashboard con KPIs y filtros simples",
-      "App de campo sin autenticación",
-      "Portal de Peya con descarga de Excel",
-      "Log de auditoría básico"
-    ]
-  },
-  "pro": {
-    "title": "Versión Pro",
-    "price": "USD 20.265",
-    "detail": "579 horas · Agosto 2026 a Enero 2027",
-    "features": [
-      "Todo lo de _Basic_",
-      "Trazabilidad nominal completa (DNI + GPS)",
-      "Dashboard de Líderes Regionales",
-      "Constructor de Reportes dedicado",
-      "Gestión flexible de zonas",
-      "Filtros avanzados y vistas múltiples"
-    ]
-  }
-}
-```
