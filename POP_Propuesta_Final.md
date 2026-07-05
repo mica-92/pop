@@ -1,11 +1,4 @@
-
-# Propuesta De Desarrollo: 
-# POP — Plataforma Operativa De PLVs
-
-**Cliente:** Picnic
-**Presentada por:** María Micaela Ninni
-**Fecha:** Julio 2026
-**Versión:** 1.0
+ 
 
 > notas mica hoy por la mañana: cambiar líderes a coordinadores, quiero sacar fechas y dejar solo meses de implementación. cambiar establecimiento a locales comerciales. unificar peta pedidosya. cambiar básica y pro a basic y extended
 
@@ -13,45 +6,97 @@
 
 **POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para Picnic con el objetivo de **modernizar y automatizar el control y seguimiento de la colocación de PLVs (Publicidad en Lugares de Venta)**. Actualmente, este proceso se realiza sobre la aplicación PeYa Trade (PYT), una herramienta que presenta limitaciones operativas significativas, dificultando la obtención y entrega de resultados precisos a PedidosYa.
 
-Las limitaciones del sistema actual se evidencian en el uso cotidiano de la aplicación. Estas radican principalmente en un deficiente manejo de la información, y pueden resumirse en 4 puntos centrales:
+**POP** responde a dos significados que confluyen en un mismo objetivo. Por un lado, *Plataforma Operativa de PLVs*, el sistema que organiza y da seguimiento a cada material publicitario en terreno. Por el otro, *Point of Purchase* en referencia al punto de venta (PDV), el lugar físico donde la marca y el consumidor se encuentran. **POP es la herramienta que hace que ese encuentro sea posible, medible y escalable.**
 
-- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar manualmente a Excel para cada reporte, generando demoras y restando confiabilidad a la toma de decisiones;
-- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la evolución de establecimientos entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
-- **Fragmentación de materiales PLV:** Información aislada por tipo de material (bicicletero, cartel, sticker) sin una vista consolidada por establecimiento; obliga a cruces manuales, incrementando errores y esfuerzo operativo en auditorías integrales;
-- **Debilidades en el control operativo:** Carece de trazabilidad de visitas (quién, cuándo, condiciones), controles de acceso débiles y mala integración del registro fotográfico, lo que compromete la seguridad, integridad y auditabilidad del proceso.
+### Diagnóstico Operativo Actual
+
+Las limitaciones de PYT se evidencian en el uso cotidiano de la aplicación. Estas radican principalmente en un deficiente manejo de la información, y pueden resumirse en 4 puntos centrales:
+
+- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar la información y la producción manual de cada reporte, generando demoras y restando confiabilidad a la toma de decisiones. Además, está construido sobre bibliotecas programáticas antiguas, lo que vuelve el programa lento e inestable en el uso diario;
+
+- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la evolución de los PDVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
+
+- **Fragmentación de la información:** La información se encuentra aislada por período, producto y tipo de material, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales;
+
+- **Debilidades en el control operativo:** Carece de trazabilidad de visitas, integración de coordinadores regionales en el flujo de trabajo, y controles de acceso sólidos; comprometiendo la seguridad, integridad y auditabilidad del proceso, y limitando la capacidad de supervisión efectiva del equipo en campo.
 
 Generando en consecuencia:
 
-- **Inconvenientes en la detección de cuellos de botella operativos** como lo pueden ser zonas o productos con bajo desempeño;
-- **Inhabilitando un seguimiento eficienciente de la campaña**;
-- **Limitaciones en la capacidad de Picnic para anticiparse a las necesidades de su cliente para ofrecer soluciones proactivas.**
+- **Inconvenientes en la detección de cuellos de botella operativos**, como zonas o productos con bajo desempeño, que no pueden identificarse a tiempo;
+- **Inhabilitando un seguimiento eficiente de la campaña**, al no contar con información confiable ni actualizada para la toma de decisiones;
+- **Limitaciones en la capacidad de Picnic para anticiparse a las necesidades de su cliente**, ofreciendo soluciones proactivas basadas en datos en lugar de reaccionar ante consultas o problemas sobre la marcha.
 
-> Con el objetivo de resolver los inconvenientes identificados **POP centraliza la operación con una interfaz rápida y moderna, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto - locales comerciales, PLVs, periodos, coordinadores y cliente - dentro de un ecosistema unificado.** y ofrece:
-> - **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los locales comerciales y la distribución de los mismos a los cordinadores;
-> - **Facilita la visualización del estado actual de cada campaña**, KPIs (_Key Performance Indicators_) en tiempo real desde el dashboard, integrando el análisis de datos en el flujo operativo diario para revisar, evaluar y ajustar estrategias con información actualizada;
-> - **Permite el análisis histórico y comparativo entre períodos**, con _dashboards_ personalizados para la consulta de periodos pasados y una correcta evaluación de la evolución temporal de los indicadores clave;
-> - **Promueve un entrecruzamiento natural de la información desde distintos ángulos** (establecimientos, productos, zonas geográficas y períodos), brindando una comprensión holística de la logística de la campaña que hoy requiere consultar múltiples archivos y hacer cruces manuales;
-> - 
+### Propuesta Operativa POP
 
+Con el objetivo de resolver los inconvenientes identificados, **POP centraliza la operación con una interfaz rápida y moderna**, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto — PDVs, PLVs, períodos, coordinadores y cliente — dentro de un ecosistema unificado, y ofrece:
 
+- **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los PDVs y la distribución de los mismos a los coordinadores;
 
-consulta de períodos pasados queda resuelta de forma nativa, garantizando a Picnic la capacidad de responder a Peya con la velocidad que la operación requiere.
+- **Facilita la visualización del estado actual de cada campaña**, con KPIs (*Key Performance Indicators*) en tiempo real desde el dashboard, integrando el análisis de datos en el flujo operativo diario para revisar, evaluar y ajustar estrategias con información actualizada;
 
-**POP reúne:**
+- **Permite el análisis histórico y comparativo entre períodos**, con dashboards personalizados para la consulta de períodos pasados y una correcta evaluación de la evolución temporal de los indicadores clave;
 
-- Un **Panel de Gestión Central** para el equipo de Picnic.
-- Una **App de Campo** para colocadores en terreno.
-- Un **Portal de Líderes** para acceso simplificado de los líderes regionales.
-- Un **Panel de Cliente** para que Peya posea visibilidad directa sobre el avance de sus campañas.
+- **Promueve un entrecruzamiento natural de la información** desde distintos ángulos (PDVs, productos, zonas geográficas y períodos), brindando una comprensión holística de la logística de la campaña que hoy requiere consultar múltiples archivos y hacer cruces manuales;
 
-Esta propuesta presenta dos modalidades de implementación: **Versión Básica** y **Versión Pro**. Ambas reemplazan el flujo de carga de datos manual actual, comparten la misma arquitectura técnica y entregan valor operativo desde el primer mes.
+- **Garantiza trazabilidad operativa en dos niveles de control**: a nivel de coordinadores regionales (asignación de zonas, distribución de tareas y monitoreo de desempeño por coordinador) y a nivel de visita (quién, cuándo, dónde, con registro fotográfico y log de auditoría), permitiendo a Picnic identificar problemas logísticos y medir la eficiencia de su operación en tiempo real;
 
-La ejecución se realiza en fases mensuales: entre **agosto y diciembre de 2026** para la Versión Básica (5 fases) y entre **agosto de 2026 y enero de 2027** para la Versión Pro (6 fases). Cada fase culmina con un entregable concreto y una demo de avance.
+- **Ofrece dashboards diferenciados por perfil de usuario** — gestión para Picnic, operativo para coordinadores regionales y transparencia para PeYa — con un panel de cliente que brinda acceso autónomo a KPIs, fotos y reportes, reduciendo pedidos de información ad-hoc y fortaleciendo la relación comercial;
 
-POP se diseña en coordinación constante con Picnic, incorporando directamente el aprendizaje acumulado sobre las dificultades y obstáculos que el equipo enfrenta hoy. **Cada decisión técnica responde a un problema operativo real y a una utilización eficiente y moderna de los datos disponibles, habilitando una visualización holística de cada campaña y el desarrollo de estrategias de marketing fundamentadas en información concreta.**
+- **Su arquitectura modular y su nueva estructura de datos** permiten que el software crezca junto con las necesidades de Picnic, incorporando nuevas funcionalidades sin replantear el sistema completo, protegiendo la inversión a largo plazo.
 
-**POP no es solo un reemplazo: es la oportunidad de transformar la gestión de PLVs en una ventaja competitiva, devolviéndole a Picnic el control, la velocidad y la inteligencia operativa que necesita para responder a su cliente y proyectarse a futuro.**
+POP organiza el ciclo de vida de una campaña de PLVs en torno a cuatro dimensiones operativas interconectadas, articuladas sobre un único modelo de datos compartido:
 
+- **Gestión central (Picnic):** administración de campañas, carga y configuración de PDVs, definición de productos y períodos, y supervisión general del avance desde un dashboard con KPIs en tiempo real. Es el núcleo desde el cual se estructura y controla toda la actividad de la plataforma.
+
+- **Coordinación territorial (coordinadores regionales):** acceso a zona asignada, visualización de listados operativos, distribución de tareas y monitoreo de desempeño en campo. Introduce una capa de supervisión intermedia que hoy no existe, permitiendo detectar desvíos y actuar sin escalar cada consulta al equipo central.
+
+- **Ejecución en punto de venta (colocadores):** registro de visitas desde app móvil optimizada para campo, con documentación fotográfica, registro de incidencias y confirmación de colocación en tiempo real, eliminando la demora entre la visita y la actualización de la base de datos.
+
+- **Rendición de cuentas al cliente (PeYa):** panel autónomo para consultar estado de campañas, KPIs, registros fotográficos y descarga de reportes, reduciendo la carga operativa del equipo de Picnic y fortaleciendo la transparencia en la relación comercial.
+
+Las cuatro dimensiones comparten un único modelo de datos, eliminando la fragmentación actual y garantizando que la información fluya sin fricciones desde el PDV hasta el reporte final, sin cruces manuales ni archivos intermedios.
+
+### Valor Agregado
+
+Más allá de resolver las limitaciones operativas actuales, POP construye activos estratégicos para Picnic.
+
+El primero es una **base de datos de PDVs operativa y verificada en campo**. El sistema consolida y mantiene actualizada la información de cada punto de venta — dirección, contacto, estado del PLV e historial de visitas —, construyendo un activo de información que no solo potencia la operación actual, sino que representa un recurso valioso para futuras campañas y análisis.
+
+El segundo es una **plataforma replicable para otros clientes**. La arquitectura modular de POP permite adaptar la solución a las necesidades de otros clientes de Picnic con modificaciones menores. La inversión en desarrollo no queda atada a un único cliente: el sistema puede extenderse y reutilizarse, multiplicando el retorno sobre la inversión inicial y posicionando a Picnic con una capacidad diferencial en su mercado.
+
+### Versiones de Implementación
+
+POP se presenta en dos versiones que comparten la misma arquitectura técnica y entregan valor operativo desde el primer mes de uso. La elección entre ambas no implica un cambio de plataforma sino de alcance: la Versión Extended es una expansión natural de la Básica, y cualquier funcionalidad desarrollada en la primera etapa es parte integral de la segunda.
+
+La **Versión Básica** cubre el flujo central de la operación. Incluye la carga y gestión de PDVs y productos, el registro de visitas con evidencia fotográfica, el dashboard de seguimiento con KPIs por período, producto y zona geográfica, y el sistema de reportes exportables. Está orientada a equipos que necesitan reemplazar el flujo manual de archivos Excel con una herramienta moderna, centralizada y confiable, y que buscan resultados operativos concretos desde el primer período de uso.
+
+La **Versión Extended** incorpora las capas de control operativo avanzado que habilitan una gestión más sofisticada de la campaña. Sobre la base funcional de la Versión Básica, agrega la gestión de coordinadores regionales con asignación de zonas y monitoreo de desempeño por coordinador, la trazabilidad nominal de visitas — registro de quién realizó cada acción y cuándo —, dashboards diferenciados por perfil de usuario con accesos segmentados para Picnic, coordinadores y PeYa, y herramientas de análisis histórico y comparativo entre períodos. Está diseñada para equipos que buscan no solo modernizar la operación, sino optimizar toda la cadena de gestión y construir inteligencia operativa acumulada sobre sus campañas.
+
+---
+
+### Fases de Implementación
+
+El desarrollo de POP se estructura en fases secuenciales, cada una con entregables concretos y una instancia de validación con el equipo de Picnic. Este esquema permite incorporar aprendizajes del uso real en etapas tempranas y ajustar prioridades sin comprometer la coherencia del sistema.
+
+**Fase 1 — Arquitectura y base de datos** *(mes 1)*  
+Se define y construye el modelo de datos central: PDVs, productos, períodos y estructura de visitas. Se configura el entorno de desarrollo y se establece el pipeline de importación de datos desde los archivos actuales. Esta fase sienta las bases técnicas sobre las que opera todo el sistema y no produce interfaz visible, pero es el cimiento que garantiza la integridad y escalabilidad de la plataforma.
+
+**Fase 2 — Dashboard de gestión y reportes** *(meses 2 y 3)*  
+Se desarrolla el dashboard principal para el equipo de Picnic, con visualización de KPIs por período, producto, zona geográfica y PDV. Se incorpora el sistema de filtros dinámicos, la vista de detalle por PDV con historial fotográfico, y el módulo de reportes exportables. Al cierre de esta fase, el equipo de Picnic cuenta con una herramienta funcional para el seguimiento y análisis de campañas en curso.
+
+**Fase 3 — Aplicación móvil para colocadores** *(mes 4)*  
+Se desarrolla la aplicación de campo optimizada para dispositivos móviles, que permite a los colocadores registrar visitas, cargar fotografías y reportar incidencias directamente desde el PDV. La información ingresada se refleja en tiempo real en el dashboard de gestión, cerrando el ciclo entre la ejecución en terreno y la supervisión central.
+
+**Fase 4 — Coordinadores y panel de cliente** *(mes 5 — Versión Básica / mes 6 — Versión Extended)*  
+En la Versión Básica, esta fase consolida el sistema con ajustes de usabilidad, pruebas de carga y documentación operativa. En la Versión Extended, se desarrollan adicionalmente el módulo de coordinadores regionales — con gestión de zonas, distribución de tareas y monitoreo de desempeño por coordinador —, el panel autónomo para PeYa con dashboards diferenciados y acceso segmentado, y las herramientas de análisis histórico y comparativo entre períodos.
+
+---
+
+### En Síntesis
+
+POP se diseña en coordinación constante con Picnic, incorporando directamente el aprendizaje acumulado sobre las dificultades y obstáculos que el equipo enfrenta hoy. Cada decisión técnica responde a un problema operativo real, y la plataforma se construye para habilitar una visualización holística de cada campaña, el desarrollo de estrategias fundamentadas en información concreta, y la capacidad de crecer sin replantear el sistema completo.
+
+POP no es solo un reemplazo: es la oportunidad de transformar la gestión de PLVs en una ventaja competitiva, devolviéndole a Picnic el control, la velocidad y la inteligencia operativa que necesita para responder a su cliente, diversificar su oferta y proyectarse a futuro.
 
 ### Comparativa rápida
 
