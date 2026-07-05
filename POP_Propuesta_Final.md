@@ -1,6 +1,6 @@
  
 
-> notas mica hoy por la mañana: cambiar líderes a coordinadores, quiero sacar fechas y dejar solo meses de implementación. cambiar establecimiento a locales comerciales. unificar peta pedidosya. cambiar básica y pro a basic y extended
+> notas mica hoy por la mañana: cambiar líderes a coordinadores, quiero sacar fechas y dejar solo meses de implementación. cambiar establecimiento a locales comerciales. unificar peta pedidosya. cambiar _Basic_ y pro a _Basic_ y _Extended_
 
 ## 1. Resumen Ejecutivo
 
@@ -14,7 +14,7 @@ Las limitaciones de PYT se evidencian en el uso cotidiano de la aplicación. Est
 
 - **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar la información y la producción manual de cada reporte, generando demoras y restando confiabilidad a la toma de decisiones. Además, está construido sobre bibliotecas programáticas antiguas, lo que vuelve el programa lento e inestable en el uso diario;
 
-- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la evolución de los PDVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
+- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la gestión de PDVs y PLVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
 
 - **Fragmentación de la información:** La información se encuentra aislada por período, producto y tipo de material, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales;
 
@@ -28,7 +28,7 @@ Generando en consecuencia:
 
 ### Propuesta Operativa POP
 
-Con el objetivo de resolver los inconvenientes identificados, **POP centraliza la operación con una interfaz rápida y moderna**, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto — PDVs, PLVs, períodos, coordinadores y cliente — dentro de un ecosistema unificado, y ofrece:
+Con el objetivo de resolver los inconvenientes identificados, **POP centraliza la operación con una interfaz rápida y moderna**, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto — PDVs, PLVs, períodos, coordinadores, controladores y cliente — dentro de un ecosistema unificado, y ofrece:
 
 - **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los PDVs y la distribución de los mismos a los coordinadores;
 
@@ -36,17 +36,17 @@ Con el objetivo de resolver los inconvenientes identificados, **POP centraliza l
 
 - **Permite el análisis histórico y comparativo entre períodos**, con dashboards personalizados para la consulta de períodos pasados y una correcta evaluación de la evolución temporal de los indicadores clave;
 
-- **Promueve un entrecruzamiento natural de la información** desde distintos ángulos (PDVs, productos, zonas geográficas y períodos), brindando una comprensión holística de la logística de la campaña que hoy requiere consultar múltiples archivos y hacer cruces manuales;
+- **Promueve un entrecruzamiento natural de la información** desde distintos ángulos (PDVs, PLVs, zonas geográficas y períodos), brindando una comprensión holística de la logística de la campaña que hoy requiere consultar múltiples archivos y hacer cruces manuales;
 
 - **Garantiza trazabilidad operativa en dos niveles de control**: a nivel de coordinadores regionales (asignación de zonas, distribución de tareas y monitoreo de desempeño por coordinador) y a nivel de visita (quién, cuándo, dónde, con registro fotográfico y log de auditoría), permitiendo a Picnic identificar problemas logísticos y medir la eficiencia de su operación en tiempo real;
 
-- **Ofrece dashboards diferenciados por perfil de usuario** — gestión para Picnic, operativo para coordinadores regionales y transparencia para PeYa — con un panel de cliente que brinda acceso autónomo a KPIs, fotos y reportes, reduciendo pedidos de información ad-hoc y fortaleciendo la relación comercial;
+- **Ofrece dashboards diferenciados por perfil de usuario** — gestión para Picnic, operativo para coordinadores regionales y transparencia para PeYa — con un panel de cliente que brinda acceso autónomo a KPIs, fotos y reportes, reduciendo pedidos de información ad-hoc y fortaleciendo la relación y transparencia comercial;
 
-- **Su arquitectura modular y su nueva estructura de datos** permiten que el software crezca junto con las necesidades de Picnic, incorporando nuevas funcionalidades sin replantear el sistema completo, protegiendo la inversión a largo plazo.
+- **Arquitectura modular y nueva estructura de datos** que permiten que el software crezca junto con las necesidades de Picnic, incorporando nuevas funcionalidades sin replantear el sistema completo, protegiendo la inversión a largo plazo.
 
 POP organiza el ciclo de vida de una campaña de PLVs en torno a cuatro dimensiones operativas interconectadas, articuladas sobre un único modelo de datos compartido:
 
-- **Gestión central (Picnic):** administración de campañas, carga y configuración de PDVs, definición de productos y períodos, y supervisión general del avance desde un dashboard con KPIs en tiempo real. Es el núcleo desde el cual se estructura y controla toda la actividad de la plataforma.
+- **Gestión central (Picnic):** administración de campañas, carga y configuración de PDVs, definición de PVLs y períodos, y supervisión general del avance desde un dashboard con KPIs en tiempo real. Es el núcleo desde el cual se estructura y controla toda la actividad de la plataforma.
 
 - **Coordinación territorial (coordinadores regionales):** acceso a zona asignada, visualización de listados operativos, distribución de tareas y monitoreo de desempeño en campo. Introduce una capa de supervisión intermedia que hoy no existe, permitiendo detectar desvíos y actuar sin escalar cada consulta al equipo central.
 
@@ -66,11 +66,11 @@ El segundo es una **plataforma replicable para otros clientes**. La arquitectura
 
 ### Versiones de Implementación
 
-POP se presenta en dos versiones que comparten la misma arquitectura técnica y entregan valor operativo desde el primer mes de uso. La elección entre ambas no implica un cambio de plataforma sino de alcance: la Versión Extended es una expansión natural de la Básica, y cualquier funcionalidad desarrollada en la primera etapa es parte integral de la segunda.
+POP se presenta en dos versiones que comparten la misma arquitectura técnica y entregan valor operativo desde el primer mes de uso. La elección entre ambas no implica un cambio de plataforma sino de alcance: la Versión _Extended_ es una expansión natural de la _Basic_, y cualquier funcionalidad desarrollada en la primera etapa es parte integral de la segunda.
 
-La **Versión Basic** cubre el flujo central de la operación. Incluye la carga y gestión de PDVs y productos, el registro de visitas con evidencia fotográfica, el dashboard de seguimiento con KPIs por período, producto y zona geográfica, y el sistema de reportes exportables. Está orientada a reemplazar el flujo manual de archivos Excel con una herramienta moderna, centralizada y confiable, y que buscan resultados operativos concretos desde el primer período de uso.
+La **Versión _Basic_** cubre el flujo central de la operación. Incluye la carga y gestión de PDVs y productos, el registro de visitas con evidencia fotográfica, el dashboard de seguimiento con KPIs por período, producto y zona geográfica, y el sistema de reportes exportables. Está orientada a reemplazar el flujo manual de archivos Excel con una herramienta moderna, centralizada y confiable, y que buscan resultados operativos concretos desde el primer período de uso.
 
-La **Versión Extended** incorpora las capas de control operativo avanzado que habilitan una gestión más sofisticada de la campaña. Sobre la base funcional de la Versión Básica, agrega la gestión de coordinadores regionales con asignación de zonas y monitoreo de desempeño por coordinador, la trazabilidad nominal de visitas — registro de quién realizó cada acción y cuándo —, dashboards diferenciados por perfil de usuario con accesos segmentados para Picnic, coordinadores y PeYa, y herramientas de análisis histórico y comparativo entre períodos. Está diseñada para equipos que buscan no solo modernizar la operación, sino optimizar toda la cadena de gestión y construir inteligencia operativa acumulada sobre sus campañas.
+La **Versión _Extended_** incorpora las capas de control operativo avanzado que habilitan una gestión más sofisticada de la campaña. Sobre la base funcional de la Versión _Basic_, agrega la gestión de coordinadores regionales con asignación de zonas y monitoreo de desempeño por coordinador, la trazabilidad nominal de visitas — registro de quién realizó cada acción y cuándo —, dashboards diferenciados por perfil de usuario con accesos segmentados para Picnic, coordinadores y PeYa, y herramientas de análisis histórico y comparativo entre períodos. Está diseñada para equipos que buscan no solo modernizar la operación, sino optimizar toda la cadena de gestión y construir inteligencia operativa acumulada sobre sus campañas.
 
 ### Fases de Implementación
 
@@ -86,7 +86,7 @@ Se desarrolla el dashboard principal para el equipo de Picnic, con visualizació
 Se desarrolla la aplicación de campo optimizada para dispositivos móviles, que permite a los colocadores registrar visitas, cargar fotografías y reportar incidencias directamente desde el PDV. La información ingresada se refleja en tiempo real en el dashboard de gestión, cerrando el ciclo entre la ejecución en terreno y la supervisión central.
 
 **Fase 4 — Coordinadores y panel de cliente**
-En la Versión Básica, esta fase consolida el sistema con ajustes de usabilidad, pruebas de carga y documentación operativa. En la Versión Extended, se desarrollan adicionalmente el módulo de coordinadores regionales — con gestión de zonas, distribución de tareas y monitoreo de desempeño por coordinador —, el panel autónomo para PeYa con dashboards diferenciados y acceso segmentado, y las herramientas de análisis histórico y comparativo entre períodos.
+En la Versión _Basic_, esta fase consolida el sistema con ajustes de usabilidad, pruebas de carga y documentación operativa. En la Versión _Extended_, se desarrollan adicionalmente el módulo de coordinadores regionales — con gestión de zonas, distribución de tareas y monitoreo de desempeño por coordinador —, el panel autónomo para PeYa con dashboards diferenciados y acceso segmentado, y las herramientas de análisis histórico y comparativo entre períodos.
 
 ### En Síntesis
 
@@ -98,7 +98,7 @@ POP no es solo un reemplazo: es la oportunidad de transformar la gestión de PLV
 
 POP se estructura en torno a **cuatro experiencias diferenciadas**, una por cada actor del proceso de colocación de PLVs. Cada experiencia está diseñada para que la persona responsable acceda exclusivamente a la información que necesita para su gestión, con Picnic como coordinador central y veedor de toda la cadena. Sobre estas cuatro experiencias operan un conjunto de **módulos transversales** —carga de datos, configuración, reportería y auditoría— que dan soporte al funcionamiento integral de la plataforma.
 
-Todas las experiencias y módulos comparten un **único modelo de datos**, lo que elimina la fragmentación actual y garantiza que la información fluya sin fricciones desde el punto de venta hasta el reporte final. La diferencia entre las versiones **Basic** y **Extended** no implica un cambio de plataforma sino de alcance: Extended es una expansión natural de Basic, y toda funcionalidad desarrollada en la primera es parte integral de la segunda.
+Todas las experiencias y módulos comparten un **único modelo de datos**, lo que elimina la fragmentación actual y garantiza que la información fluya sin fricciones desde el punto de venta hasta el reporte final. La diferencia entre las versiones **_Basic_** y **_Extended_** no implica un cambio de plataforma sino de alcance: _Extended_ es una expansión natural de _Basic_, y toda funcionalidad desarrollada en la primera es parte integral de la segunda.
 
 A lo largo de esta sección se utiliza el término **PDV** (Punto de Venta) para referirse a cada establecimiento físico donde se coloca material publicitario, y **coordinador regional** para el responsable de gestionar una zona operativa y su equipo de colocadores en campo.
 
@@ -114,9 +114,9 @@ Al ingresar, el admin visualiza el panel del período actual con los **KPIs core
 
 Los **KPIs se recalculan dinámicamente** según los filtros: al acotar por una provincia o producto específico, los números superiores se actualizan al instante, integrando el análisis de datos en el flujo operativo diario. El selector de período permite navegar a cualquier mes histórico cargado en POP, mostrando una vista consistente de la operación pasada como snapshot al cierre.
 
-**Basic vs Extended.** En ambas versiones el admin filtra por provincia y PLV combinándolos entre sí, lo cual resuelve la operatoria cotidiana. La versión **Extended** amplía radicalmente la capacidad analítica: incorpora filtros avanzados sobre todas las dimensiones disponibles (ciudad, barrio, zona, estado, motivo específico de no efectividad y cadena comercial), combinables libremente entre sí, y suma un selector de rango de fechas para análisis multi-período. Extended agrega además tres pestañas de análisis dedicado: una pestaña **Por PLV** que agrupa los PDVs por producto mostrando el desempeño independiente de cada uno; una pestaña **Por Geografía** con drill-down que permite navegar la jerarquía territorial (provincia → ciudad → barrio → zona) con KPIs agregados en cada nivel; y una pestaña de **Histórico de KPIs** que muestra los indicadores clave de cada período cerrado en una tabla comparativa mes a mes. Las columnas de zona, ciudad y barrio son visibles y ordenables en ambas versiones; la diferencia está en la capacidad de filtrar por esos niveles, no de verlos.
+**_Basic_ vs _Extended_.** En ambas versiones el admin filtra por provincia y PLV combinándolos entre sí, lo cual resuelve la operatoria cotidiana. La versión **_Extended_** amplía radicalmente la capacidad analítica: incorpora filtros avanzados sobre todas las dimensiones disponibles (ciudad, barrio, zona, estado, motivo específico de no efectividad y cadena comercial), combinables libremente entre sí, y suma un selector de rango de fechas para análisis multi-período. _Extended_ agrega además tres pestañas de análisis dedicado: una pestaña **Por PLV** que agrupa los PDVs por producto mostrando el desempeño independiente de cada uno; una pestaña **Por Geografía** con drill-down que permite navegar la jerarquía territorial (provincia → ciudad → barrio → zona) con KPIs agregados en cada nivel; y una pestaña de **Histórico de KPIs** que muestra los indicadores clave de cada período cerrado en una tabla comparativa mes a mes. Las columnas de zona, ciudad y barrio son visibles y ordenables en ambas versiones; la diferencia está en la capacidad de filtrar por esos niveles, no de verlos.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Login con email y contraseña | ✅ | ✅ |
 | Home con KPIs del período actual (total, visitados, efectivos, pendientes, abierto/cerrado, motivos) | ✅ | ✅ |
@@ -141,9 +141,9 @@ El detalle de PDV se abre desde cualquier vista del Panel de Gestión Central qu
 
 Muestra la **información general** del PDV —Grid, nombre del partner, business name, teléfono, dirección completa, estado abierto/cerrado— y permite editar los campos habilitados directamente, con cada modificación quedando registrada en el log de cambios con fecha, hora y descripción. El admin puede además **cerrar o reabrir manualmente** el PDV: cerrarlo lo retira de las listas operativas y no aparecerá para visitas en ningún período hasta que se reabra. Incluye un **historial cronológico completo** de todas las visitas que el PDV recibió a lo largo del tiempo, en cualquier período cargado, con fecha, PLV asociado, estado y motivo cuando corresponde, lo que permite responder preguntas como "¿cuántas veces fue visitado este PDV?", "¿qué productos ya tuvo?" o "¿siempre hay problemas para colocar acá?".
 
-**Basic vs Extended.** La versión **Extended** agrega el atributo **Cadena** como campo editable, lo que permite agrupar PDVs por marca comercial (Carrefour, McDonald's, Café Martínez, etc.) y filtrar o reportar sobre esa dimensión. La versión **Basic** no soporta el concepto de cadena: cada PDV es independiente. El resto del módulo es idéntico entre ambas versiones.
+**_Basic_ vs _Extended_.** La versión **_Extended_** agrega el atributo **Cadena** como campo editable, lo que permite agrupar PDVs por marca comercial (Carrefour, McDonald's, Café Martínez, etc.) y filtrar o reportar sobre esa dimensión. La versión **_Basic_** no soporta el concepto de cadena: cada PDV es independiente. El resto del módulo es idéntico entre ambas versiones.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Información general del PDV | ✅ | ✅ |
 | Edición de campos (nombre, teléfono, dirección, abierto/cerrado, zona) | ✅ | ✅ |
@@ -160,9 +160,9 @@ El detalle de visita se abre desde el historial del PDV o desde cualquier tabla 
 
 El admin puede **cerrar o reabrir manualmente** la visita: una visita cerrada deja de aparecer en las listas operativas del colocador, mientras que una reabierta vuelve a estar disponible para reintentar. Estas acciones quedan registradas en el log general de auditoría.
 
-**Basic vs Extended.** La versión **Extended** agrega trazabilidad nominal completa sobre cada visita: registra el **ID del colocador** que la realizó y captura el **GPS del dispositivo** al momento de guardarla. Esto habilita auditoría individual ("¿quién hizo esta visita?") y verificación de presencia en el PDV, contrastando el GPS capturado con las coordenadas del establecimiento. La versión **Basic** no captura ID ni GPS desde la app de campo, por lo que las visitas quedan operativamente anónimas: sirven para registrar el estado de las campañas pero no para auditar el trabajo individual de los colocadores. El resto de la información de la visita es idéntica entre ambas versiones.
+**_Basic_ vs _Extended_.** La versión **_Extended_** agrega trazabilidad nominal completa sobre cada visita: registra el **ID del colocador** que la realizó y captura el **GPS del dispositivo** al momento de guardarla. Esto habilita auditoría individual ("¿quién hizo esta visita?") y verificación de presencia en el PDV, contrastando el GPS capturado con las coordenadas del establecimiento. La versión **_Basic_** no captura ID ni GPS desde la app de campo, por lo que las visitas quedan operativamente anónimas: sirven para registrar el estado de las campañas pero no para auditar el trabajo individual de los colocadores. El resto de la información de la visita es idéntica entre ambas versiones.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Estado de la visita (efectiva / no efectiva) | ✅ | ✅ |
 | Motivo de no efectividad | ✅ | ✅ |
@@ -183,11 +183,11 @@ Está pensada para una realidad operativa específica: el colocador trabaja en l
 
 El registro de la visita consta de un **toggle Efectiva Sí/No**; si es efectiva, toggles de PLV con lógica especial para Kit Básico (sticker y saliente como toggles independientes para registrar qué pieza se colocó); si es no efectiva, un dropdown de motivo precargado desde Settings; comentarios opcionales; **foto antes obligatoria**; y **foto después obligatoria solo si la visita fue efectiva**. Las fotos se toman con la cámara nativa del dispositivo o se seleccionan desde la galería, a elección del colocador, y se **comprimen automáticamente en el dispositivo** antes de subir: cada foto pasa de aproximadamente 5MB a 250KB, lo que ahorra datos móviles del colocador, acelera la carga sobre conexiones lentas y reduce el costo de almacenamiento. Si la conexión falla al subir, la app retiene la foto y reintenta automáticamente. Al guardar, los datos quedan inmediatamente disponibles en el Panel de Gestión Central, el Portal de Coordinadores correspondiente y el Panel de Cliente de PeYa.
 
-**Basic vs Extended.** La diferencia entre ambas versiones de la App de Campo es la más significativa del sistema porque define el modelo de control sobre el trabajo en terreno. En la versión **Basic** las visitas son operativamente anónimas: no hay autenticación (cualquiera con la URL accede ingresando solo zona y PLV), no se identifica al colocador, no se captura ubicación al guardar, y los datos del PDV son de solo lectura. POP Basic funciona perfectamente para registrar el estado de las campañas, pero no para auditar el trabajo individual ni verificar presencia en el PDV.
+**_Basic_ vs _Extended_.** La diferencia entre ambas versiones de la App de Campo es la más significativa del sistema porque define el modelo de control sobre el trabajo en terreno. En la versión **_Basic_** las visitas son operativamente anónimas: no hay autenticación (cualquiera con la URL accede ingresando solo zona y PLV), no se identifica al colocador, no se captura ubicación al guardar, y los datos del PDV son de solo lectura. POP _Basic_ funciona perfectamente para registrar el estado de las campañas, pero no para auditar el trabajo individual ni verificar presencia en el PDV.
 
-La versión **Extended** convierte la app en una herramienta completa de gestión de equipo de campo. El acceso queda protegido con **PIN de zona** (el colocador ingresa zona, PLV y PIN en un solo paso, y POP valida que el PIN corresponda a la zona seleccionada); cada visita queda asociada al colocador específico mediante **ID obligatorio** (validación de 7-8 dígitos, sin prellenado entre visitas para forzar la identificación consciente); se captura el **GPS del dispositivo** al guardar, con manejo defensivo si el permiso está denegado (la visita se guarda igual con flag "sin GPS"); el colocador puede **editar los datos del PDV** si encuentra discrepancias con la realidad, confirmando obligatoriamente antes de guardar; y si falla tres veces consecutivas el PIN, aparece un botón **"Avisar a mi coordinador"** que envía un email automático al coordinador regional con el ID del colocador y un mensaje opcional, resolviendo en el momento problemas de coordinación que hoy implican llamadas o esperas. La sincronización offline no está incluida en la v1 de ninguna de las dos versiones; está disponible como extensión futura cotizable aparte.
+La versión **_Extended_** convierte la app en una herramienta completa de gestión de equipo de campo. El acceso queda protegido con **PIN de zona** (el colocador ingresa zona, PLV y PIN en un solo paso, y POP valida que el PIN corresponda a la zona seleccionada); cada visita queda asociada al colocador específico mediante **ID obligatorio** (validación de 7-8 dígitos, sin prellenado entre visitas para forzar la identificación consciente); se captura el **GPS del dispositivo** al guardar, con manejo defensivo si el permiso está denegado (la visita se guarda igual con flag "sin GPS"); el colocador puede **editar los datos del PDV** si encuentra discrepancias con la realidad, confirmando obligatoriamente antes de guardar; y si falla tres veces consecutivas el PIN, aparece un botón **"Avisar a mi coordinador"** que envía un email automático al coordinador regional con el ID del colocador y un mensaje opcional, resolviendo en el momento problemas de coordinación que hoy implican llamadas o esperas. La sincronización offline no está incluida en la v1 de ninguna de las dos versiones; está disponible como extensión futura cotizable aparte.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | URL pública accesible desde celular | ✅ | ✅ |
 | PWA instalable en home screen | ✅ | ✅ |
@@ -212,17 +212,17 @@ La versión **Extended** convierte la app en una herramienta completa de gestió
 
 ---
 
-### 3.3 Portal de Coordinadores (Extended)
+### 3.3 Portal de Coordinadores (_Extended_)
 
-El Portal de Coordinadores es un acceso individual, exclusivo de la versión **Extended**, que permite a cada coordinador regional gestionar su territorio de forma autónoma sin depender del equipo central. Cada coordinador ingresa mediante un **link único y un PIN de 4 dígitos**, sin necesidad de usuario y contraseña, a un dashboard inmediato y simple diseñado para operar el período actual.
+El Portal de Coordinadores es un acceso individual, exclusivo de la versión **_Extended_**, que permite a cada coordinador regional gestionar su territorio de forma autónoma sin depender del equipo central. Cada coordinador ingresa mediante un **link único y un PIN de 4 dígitos**, sin necesidad de usuario y contraseña, a un dashboard inmediato y simple diseñado para operar el período actual.
 
 Al ingresar, el coordinador ve los **KPIs operativos de su zona** en el período actual —total de PDVs, visitados, pendientes, efectivos, distribución por PLV— junto con la tabla completa de PDVs asignados, con sort, búsqueda y filtros por PLV, estado y motivo. Puede **descargar el listado en Excel**, consolidado o multi-hoja por PLV, para distribuir a sus colocadores, y ve el **PIN de su zona** en un widget destacado para compartir con su equipo, quienes lo usan para acceder a la App de Campo.
 
 El coordinador accede únicamente a lo que necesita para operar: no ve ID de colocadores, fotos de visitas, GPS, información de otras zonas ni períodos pasados. Esta acotación deliberada mantiene el foco operativo y protege la información sensible del resto de la operación.
 
-**Basic vs Extended.** En la versión **Basic** este portal no existe. La coordinación se resuelve manteniendo el flujo que Picnic tiene hoy: el admin descarga desde el Panel de Gestión Central los Excels filtrados por provincia y los envía manualmente a sus coordinadores regionales. La versión **Extended** habilita el acceso autónomo de cada coordinador, eliminando ese paso manual y descentralizando la distribución de tareas sin perder el control central.
+**_Basic_ vs _Extended_.** En la versión **_Basic_** este portal no existe. La coordinación se resuelve manteniendo el flujo que Picnic tiene hoy: el admin descarga desde el Panel de Gestión Central los Excels filtrados por provincia y los envía manualmente a sus coordinadores regionales. La versión **_Extended_** habilita el acceso autónomo de cada coordinador, eliminando ese paso manual y descentralizando la distribución de tareas sin perder el control central.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Portal con link único + PIN | ❌ | ✅ |
 | Vista de KPIs y tabla de la zona asignada | ❌ | ✅ |
@@ -241,9 +241,9 @@ PeYa visualiza los **KPIs del período actual** con desglose de motivos de no ef
 
 Lo que el cliente **no ve en ninguna versión**: zonas operativas internas de Picnic, identidad de los colocadores, coordenadas GPS de las visitas, ni información sobre coordinadores regionales o estructura del equipo de campo. Esta separación protege la operación interna de Picnic mientras entrega a PeYa total visibilidad sobre los resultados.
 
-**Basic vs Extended.** La versión **Basic** le entrega a PeYa una herramienta de consulta y descarga moderna con todo lo necesario para el seguimiento: KPIs, breakdowns, tabla filtrable, detalle con fotos y exportación. La versión **Extended** amplía la autonomía analítica del cliente con el selector de rango de fechas, los filtros avanzados combinables, las tres pestañas de análisis (Por PLV, Por Geografía con drill-down e Histórico mensual) y un **Constructor de Reportes propio** con campos restringidos que nunca expone ID, GPS ni zona operativa. En la práctica, con Extended PeYa tiene autonomía analítica completa sin necesidad de pedirle reportes específicos a Picnic; con Basic depende de Picnic para análisis no contemplados en las vistas estándar.
+**_Basic_ vs _Extended_.** La versión **_Basic_** le entrega a PeYa una herramienta de consulta y descarga moderna con todo lo necesario para el seguimiento: KPIs, breakdowns, tabla filtrable, detalle con fotos y exportación. La versión **_Extended_** amplía la autonomía analítica del cliente con el selector de rango de fechas, los filtros avanzados combinables, las tres pestañas de análisis (Por PLV, Por Geografía con drill-down e Histórico mensual) y un **Constructor de Reportes propio** con campos restringidos que nunca expone ID, GPS ni zona operativa. En la práctica, con _Extended_ PeYa tiene autonomía analítica completa sin necesidad de pedirle reportes específicos a Picnic; con _Basic_ depende de Picnic para análisis no contemplados en las vistas estándar.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Login email + contraseña gestionado por admin | ✅ | ✅ |
 | Vista solo lectura | ✅ | ✅ |
@@ -272,9 +272,9 @@ POP centraliza la ingesta de la información que PeYa envía mensualmente. El m�
 
 Cuando el admin sube un archivo, POP **detecta automáticamente todas las hojas** y presenta una pantalla de configuración donde se define, para cada una, el tipo de formato (Establecimientos estándar o Partners) y el PLV asociado, sin requerir mapeo manual de columnas. Las hojas que no aportan al flujo operativo —por ejemplo, reportes de instalaciones realizadas por agencias externas— pueden marcarse como "Ignorar" y quedan excluidas del procesamiento. Antes de impactar la base de datos, POP presenta un **resumen consolidado** indicando cuántos PDVs se cargarán, distribuidos por hoja y por producto; recién cuando el admin confirma, los datos se persisten y quedan inmediatamente disponibles para todos los actores del sistema. Cada carga queda registrada en el log de auditoría con detalle del archivo procesado, período asignado, hojas incluidas e ignoradas, y volumen total importado.
 
-**Basic vs Extended.** La versión **Extended** agrega dos capas de inteligencia sobre la carga. Por un lado, **detecta automáticamente duplicados** cuando el mismo PDV aparece con el mismo PLV en el mismo período, y ofrece tres formas de resolverlo según el caso operativo (descartar todos, reagregar como nuevas visitas, o seleccionar manualmente cuáles incorporar), cubriendo escenarios reales como cargas repetidas o errores en los envíos de PeYa. Por otro lado, **resuelve discrepancias** entre los datos que envía PeYa y las correcciones que los colocadores hacen en campo: si un colocador actualizó una dirección desactualizada durante una visita y en la siguiente carga PeYa vuelve a enviar la dirección vieja, POP detecta la discrepancia y le pregunta al admin si mantiene la versión corregida o la reemplaza, garantizando que el conocimiento operativo del equipo de campo no se pierda. Extended incorpora además la asignación del atributo **Cadena**, que en Basic no existe.
+**_Basic_ vs _Extended_.** La versión **_Extended_** agrega dos capas de inteligencia sobre la carga. Por un lado, **detecta automáticamente duplicados** cuando el mismo PDV aparece con el mismo PLV en el mismo período, y ofrece tres formas de resolverlo según el caso operativo (descartar todos, reagregar como nuevas visitas, o seleccionar manualmente cuáles incorporar), cubriendo escenarios reales como cargas repetidas o errores en los envíos de PeYa. Por otro lado, **resuelve discrepancias** entre los datos que envía PeYa y las correcciones que los colocadores hacen en campo: si un colocador actualizó una dirección desactualizada durante una visita y en la siguiente carga PeYa vuelve a enviar la dirección vieja, POP detecta la discrepancia y le pregunta al admin si mantiene la versión corregida o la reemplaza, garantizando que el conocimiento operativo del equipo de campo no se pierda. _Extended_ incorpora además la asignación del atributo **Cadena**, que en _Basic_ no existe.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Parser de archivo Excel (.xlsx) | ✅ | ✅ |
 | Detección de hojas con clasificación (Establecimientos / Partners / Ignorar) + asignación de PLV | ✅ | ✅ |
@@ -287,17 +287,17 @@ Cuando el admin sube un archivo, POP **detecta automáticamente todas las hojas*
 
 ---
 
-### 4.2 Configuración de Zonas (Extended)
+### 4.2 Configuración de Zonas (_Extended_)
 
-La configuración de zonas, exclusiva de la versión **Extended**, convierte la gestión territorial en una herramienta flexible que se adapta a la realidad cambiante del equipo de campo. Desde **Settings → Zonas**, el admin de Picnic crea, configura y administra las zonas que componen su estructura territorial: cuando un coordinador se incorpora, se va o se reorganiza una zona, el admin lo refleja directamente desde la interfaz.
+La configuración de zonas, exclusiva de la versión **_Extended_**, convierte la gestión territorial en una herramienta flexible que se adapta a la realidad cambiante del equipo de campo. Desde **Settings → Zonas**, el admin de Picnic crea, configura y administra las zonas que componen su estructura territorial: cuando un coordinador se incorpora, se va o se reorganiza una zona, el admin lo refleja directamente desde la interfaz.
 
 El modal de edición presenta un **árbol jerárquico de la geografía** con checkboxes a cada nivel (provincia → ciudad → barrio), donde marcar un nivel incluye automáticamente todos sus hijos, y desmarcar hijos individuales permite construir composiciones complejas como "Buenos Aires excepto Mar del Plata" o "CABA excepto Centro". Antes de guardar, el sistema **valida superposiciones** con otras zonas existentes y muestra un aviso si hay solapamiento, permitiendo confirmar o ajustar la selección. Un **attention box** en el panel del admin alerta cuando hay PDVs del período actual en geografías no asignadas a ninguna zona, y abre un modal de asignación masiva para resolverlas.
 
 Los cambios en zonas se aplican **solo a futuro**: las visitas históricas cerradas mantienen su snapshot original de zona, coordinador y PIN al momento de la visita, garantizando trazabilidad y permitiendo generar reportes pasados con la información correcta de quién era responsable en cada momento. Cada zona tiene asociado un coordinador regional con nombre, email y PIN de 4 dígitos, y genera automáticamente la URL única del Portal de Coordinadores.
 
-**Basic vs Extended.** En la versión **Basic** las zonas se definen al inicio del proyecto y quedan fijas en el sistema: no son modificables desde la interfaz y aparecen únicamente como columna en la tabla del Panel de Gestión Central, para ordenar y consultar. La versión **Extended** habilita la gestión visual completa, la validación de superposiciones y el snapshot histórico de zona-coordinador-PIN en cada visita.
+**_Basic_ vs _Extended_.** En la versión **_Basic_** las zonas se definen al inicio del proyecto y quedan fijas en el sistema: no son modificables desde la interfaz y aparecen únicamente como columna en la tabla del Panel de Gestión Central, para ordenar y consultar. La versión **_Extended_** habilita la gestión visual completa, la validación de superposiciones y el snapshot histórico de zona-coordinador-PIN en cada visita.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Zonas fijas definidas al inicio del proyecto | ✅ | — |
 | Sección Settings → Zonas con gestión visual | ❌ | ✅ |
@@ -311,15 +311,15 @@ Los cambios en zonas se aplican **solo a futuro**: las visitas históricas cerra
 
 ---
 
-### 4.3 Constructor de Reportes (Extended)
+### 4.3 Constructor de Reportes (_Extended_)
 
-El Constructor de Reportes es la herramienta de análisis dedicada de POP, disponible exclusivamente en la versión **Extended**. Permite al admin de Picnic generar reportes a medida combinando libremente filtros, columnas y formato de salida, sin depender de la vista del Panel de Gestión Central ni de su estructura predefinida. Responde a una necesidad recurrente que PeYa Trade no resuelve: **armar un reporte específico para una pregunta puntual sin tener que exportar todo y procesar manualmente en Excel**.
+El Constructor de Reportes es la herramienta de análisis dedicada de POP, disponible exclusivamente en la versión **_Extended_**. Permite al admin de Picnic generar reportes a medida combinando libremente filtros, columnas y formato de salida, sin depender de la vista del Panel de Gestión Central ni de su estructura predefinida. Responde a una necesidad recurrente que PeYa Trade no resuelve: **armar un reporte específico para una pregunta puntual sin tener que exportar todo y procesar manualmente en Excel**.
 
 El admin ingresa a la sección Reportes y define tres cosas: el **período** (individual o rango de fechas), los **filtros** a aplicar (geografía completa, PLV, estado, motivo, cadena, PDVs específicos, todos combinables entre sí) y el **tipo de output**. Hay dos formatos de salida que pueden generarse individualmente o en conjunto: un **listado** con elección libre de columnas (Grid, nombre, business name, dirección, zona, PLV, estado, fecha, ID del colocador, motivo, comentarios, GPS, etc.) y un **reporte estadístico** con KPIs agregados sobre el subset filtrado, con agregaciones configurables por dimensión (por PLV, por zona, por cadena, por motivo, o combinaciones como PLV × zona). El resultado se descarga como Excel; si el admin pidió listado más estadísticas, el archivo trae múltiples hojas. Para consultas muy grandes (más de 10.000 registros), POP procesa en background y notifica cuando el reporte está listo. Cada reporte generado queda registrado en el log con su configuración completa, lo que permite repetir o auditar consultas anteriores.
 
-**Basic vs Extended.** El Constructor de Reportes no existe en la versión **Basic**. Basic resuelve la exportación mediante el botón **Excel** del Panel de Gestión Central, que descarga la vista actual con los filtros aplicados conservando todas las columnas. Ese botón sigue existiendo y funcionando igual en ambas versiones, y cubre la mayoría de los casos cotidianos. El Constructor está pensado para los casos donde el admin necesita combinar dimensiones que no están todas a la vista, generar reportes estadísticos complejos o producir archivos multi-hoja. Es exclusivo del admin de Picnic; PeYa tiene su propio constructor con campos restringidos, descripto en el Panel de Cliente.
+**_Basic_ vs _Extended_.** El Constructor de Reportes no existe en la versión **_Basic_**. _Basic_ resuelve la exportación mediante el botón **Excel** del Panel de Gestión Central, que descarga la vista actual con los filtros aplicados conservando todas las columnas. Ese botón sigue existiendo y funcionando igual en ambas versiones, y cubre la mayoría de los casos cotidianos. El Constructor está pensado para los casos donde el admin necesita combinar dimensiones que no están todas a la vista, generar reportes estadísticos complejos o producir archivos multi-hoja. Es exclusivo del admin de Picnic; PeYa tiene su propio constructor con campos restringidos, descripto en el Panel de Cliente.
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Sección dedicada a generación de reportes a medida | ❌ | ✅ |
 | Selección libre de columnas a incluir | ❌ | ✅ |
@@ -342,9 +342,9 @@ Las **reglas de negocio automatizadas** funcionan en segundo plano sin intervenc
 
 El **Log de Auditoría** es el registro cronológico de toda la actividad relevante en POP, accesible exclusivamente desde el panel del admin y no expuesto a coordinadores ni a PeYa. Captura cada carga de PDVs con detalle completo, cada edición manual del admin (campo, valor anterior, valor nuevo), cada cierre o apertura manual, cada cambio de configuración y cada visita registrada por un colocador. La búsqueda por palabra clave permite encontrar rápidamente eventos relacionados con un Grid, un nombre o un archivo cargado; los filtros por rango de fechas acotan al período relevante; y la exportación a Excel habilita análisis externos.
 
-**Basic vs Extended.** En Settings, la versión **Extended** suma tres sub-secciones que Basic no tiene: gestión de **Cadenas comerciales** con detección automática por nombre (el sistema sugiere clasificaciones al detectar patrones como "McDonald's Recoleta" y "McDonald's Pacífico", y el admin confirma o edita antes de aplicar); **gestión visual de mappings** recordados de hojas Partners (el sistema recuerda el mapeo de columnas de la primera carga y lo aplica automáticamente en las siguientes); y **configuración flexible de las reglas de cierre automático**, donde el admin define el número N de intentos desde la interfaz en lugar de tenerlo fijo. Extended incluye además la Configuración de Zonas descripta arriba. En las reglas, Basic tiene N=3 fijo mientras que Extended lo hace configurable. En el Log, Extended registra información significativamente más rica en cada visita (ID del colocador, zona, PIN, GPS), captura las ediciones que los colocadores hacen en campo, registra los reportes generados desde el Constructor y suma filtros avanzados combinables (por tipo de evento, usuario, ID, zona). En síntesis, Basic resuelve trazabilidad operativa (qué pasó y cuándo) mientras que Extended resuelve **trazabilidad nominal completa** (qué pasó, cuándo, quién y dónde).
+**_Basic_ vs _Extended_.** En Settings, la versión **_Extended_** suma tres sub-secciones que _Basic_ no tiene: gestión de **Cadenas comerciales** con detección automática por nombre (el sistema sugiere clasificaciones al detectar patrones como "McDonald's Recoleta" y "McDonald's Pacífico", y el admin confirma o edita antes de aplicar); **gestión visual de mappings** recordados de hojas Partners (el sistema recuerda el mapeo de columnas de la primera carga y lo aplica automáticamente en las siguientes); y **configuración flexible de las reglas de cierre automático**, donde el admin define el número N de intentos desde la interfaz en lugar de tenerlo fijo. _Extended_ incluye además la Configuración de Zonas descripta arriba. En las reglas, _Basic_ tiene N=3 fijo mientras que _Extended_ lo hace configurable. En el Log, _Extended_ registra información significativamente más rica en cada visita (ID del colocador, zona, PIN, GPS), captura las ediciones que los colocadores hacen en campo, registra los reportes generados desde el Constructor y suma filtros avanzados combinables (por tipo de evento, usuario, ID, zona). En síntesis, _Basic_ resuelve trazabilidad operativa (qué pasó y cuándo) mientras que _Extended_ resuelve **trazabilidad nominal completa** (qué pasó, cuándo, quién y dónde).
 
-| Funcionalidad | Basic | Extended |
+| Funcionalidad | _Basic_ | _Extended_ |
 |---|:-:|:-:|
 | Settings → PLVs (crear, editar, marcar compuesto) | ✅ | ✅ |
 | Settings → Motivos (crear, editar, flag "cierra Sí/No") | ✅ | ✅ |
@@ -371,7 +371,7 @@ El desarrollo se organiza en fases mensuales con entregables progresivos. Cada f
 
 <div class="info-callout"> <strong>Nota sobre tiempos:</strong> los cronogramas presentados consideran un ritmo de trabajo sostenible y realista. Pueden surgir demoras operativas por imprevistos propios del desarrollo (bugs complejos, decisiones a discutir, dependencias externas, etc.). Cuando ocurra, se comunica con anticipación y se ajusta el cronograma en conjunto. </div>
 
-#### Plan para Versión Básica (Agosto 2026 — Diciembre 2026)
+#### Plan para Versión _Basic_ (Agosto 2026 — Diciembre 2026)
 
 **Duración total:** 5 meses (~20 semanas).  
 **Volumen total:** 265 horas (~13 horas semanales promedio).
@@ -408,7 +408,7 @@ El desarrollo se organiza en fases mensuales con entregables progresivos. Cada f
 
 ## 6. Inversión
 
-#### Versión Básica
+#### Versión _Basic_
 
 |Concepto|Horas|Inversión USD|Referencia ARS|
 |---|---|---|---|
@@ -446,7 +446,7 @@ POP requiere de servicios de terceros para funcionar en producción. Estos servi
 
 Este valor cubre los servicios necesarios para que POP funcione en producción: hosting de la aplicación, base de datos, almacenamiento de fotos, envío de emails, monitoreo y dominio personalizado. La variabilidad principal viene del volumen de fotografías acumuladas con el tiempo, pero se mantiene en ese orden de magnitud durante el uso normal del sistema.
 
-Estos costos son **independientes del modelo elegido (Básica o Pro)**: son los mismos en ambos casos. El upgrade a Pro no incrementa la infraestructura.
+Estos costos son **independientes del modelo elegido (_Basic_ o Pro)**: son los mismos en ambos casos. El upgrade a Pro no incrementa la infraestructura.
 
 #### Lo que está incluido en el desarrollo sin costo adicional
 
@@ -516,9 +516,9 @@ Si Picnic identifica necesidad de sesiones presenciales o videollamadas dedicada
 
 ## 10. Modalidad de Contratación
 
-Las dos versiones presentadas (Básica y Pro) son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off.
+Las dos versiones presentadas (_Basic_ y Pro) son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off.
 
-<div class="info-callout"> <strong>Flexibilidad para incorporar funcionalidades Pro sobre Básica:</strong> si Picnic elige Básica y posteriormente desea incorporar funcionalidades presentes en Pro, no es necesario contratar el paquete Pro completo. Cada funcionalidad adicional se conversa, se evalúa su impacto técnico (algunas requieren cambios de base de datos no triviales) y se cotiza individualmente según el alcance acordado, generando una propuesta complementaria. El trabajo ya realizado en Básica no se descarta: las funcionalidades nuevas se incorporan sobre lo existente, permitiendo a Picnic crecer en el sistema según las necesidades reales que vayan surgiendo del uso. </div>
+<div class="info-callout"> <strong>Flexibilidad para incorporar funcionalidades Pro sobre _Basic_:</strong> si Picnic elige _Basic_ y posteriormente desea incorporar funcionalidades presentes en Pro, no es necesario contratar el paquete Pro completo. Cada funcionalidad adicional se conversa, se evalúa su impacto técnico (algunas requieren cambios de base de datos no triviales) y se cotiza individualmente según el alcance acordado, generando una propuesta complementaria. El trabajo ya realizado en _Basic_ no se descarta: las funcionalidades nuevas se incorporan sobre lo existente, permitiendo a Picnic crecer en el sistema según las necesidades reales que vayan surgiendo del uso. </div>
 
 ---
 
@@ -544,16 +544,16 @@ Las dos versiones presentadas (Básica y Pro) son **alternativas excluyentes al 
 
 ## 12. Módulos Adicionales
 
-Más allá del alcance principal de las versiones Básica y Pro, POP está diseñado para crecer en el tiempo según las necesidades reales que vayan surgiendo del uso. Esta sección presenta una serie de módulos y extensiones que pueden incorporarse posteriormente como proyectos puntuales, cada uno cotizable de forma independiente.
+Más allá del alcance principal de las versiones _Basic_ y Pro, POP está diseñado para crecer en el tiempo según las necesidades reales que vayan surgiendo del uso. Esta sección presenta una serie de módulos y extensiones que pueden incorporarse posteriormente como proyectos puntuales, cada uno cotizable de forma independiente.
 
-Algunos módulos requieren funcionalidades específicas de la versión Pro como pre-requisito técnico (por ejemplo, los módulos analíticos individuales necesitan que se capture ID y GPS por visita, algo que la versión Básica no contempla). Otros son agnósticos a la versión inicial elegida y pueden incorporarse sobre cualquier implementación.
+Algunos módulos requieren funcionalidades específicas de la versión Pro como pre-requisito técnico (por ejemplo, los módulos analíticos individuales necesitan que se capture ID y GPS por visita, algo que la versión _Basic_ no contempla). Otros son agnósticos a la versión inicial elegida y pueden incorporarse sobre cualquier implementación.
 
 | Módulo adicional                             | Descripción breve                                                                                                                                                               | Viabilidad                                                                                                          |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Migración de base histórica**              | Procesamiento, normalización e ingesta de los Excels históricos de Picnic (desde 2019) como períodos pasados consultables dentro de POP.                                        | Disponible sobre Básica o Pro. Cotizable como proyecto independiente según volumen y calidad de los datos a migrar. |
-| **Mapa interactivo y geo-analítica**         | Vista de mapa con pins de estado por local, filtros geográficos, heatmaps de efectividad por zona.                                                                              | Disponible sobre Básica o Pro. Requiere integración con API de mapas con costo recurrente adicional.                |
-| **Comparativas y tendencias entre períodos** | Gráficos de evolución temporal de KPIs, comparativa lado a lado de dos períodos cualesquiera, detección de outliers y análisis por dimensión.                                   | Disponible sobre Básica o Pro.                                                                                      |
-| **Alertas y notificaciones automáticas**     | Emails automáticos al admin ante condiciones configurables (locales con N intentos sin éxito, zonas con baja efectividad, inactividad del equipo de campo, etc.).               | Disponible sobre Básica o Pro.                                                                                      |
+| **Migración de base histórica**              | Procesamiento, normalización e ingesta de los Excels históricos de Picnic (desde 2019) como períodos pasados consultables dentro de POP.                                        | Disponible sobre _Basic_ o Pro. Cotizable como proyecto independiente según volumen y calidad de los datos a migrar. |
+| **Mapa interactivo y geo-analítica**         | Vista de mapa con pins de estado por local, filtros geográficos, heatmaps de efectividad por zona.                                                                              | Disponible sobre _Basic_ o Pro. Requiere integración con API de mapas con costo recurrente adicional.                |
+| **Comparativas y tendencias entre períodos** | Gráficos de evolución temporal de KPIs, comparativa lado a lado de dos períodos cualesquiera, detección de outliers y análisis por dimensión.                                   | Disponible sobre _Basic_ o Pro.                                                                                      |
+| **Alertas y notificaciones automáticas**     | Emails automáticos al admin ante condiciones configurables (locales con N intentos sin éxito, zonas con baja efectividad, inactividad del equipo de campo, etc.).               | Disponible sobre _Basic_ o Pro.                                                                                      |
 | **Módulo de Seguimiento de Colocadores**     | Análisis individual del desempeño de cada colocador a partir del ID capturado en cada visita: efectividad, distribución por PLV, motivos top, tendencia temporal, GPS matching. | Requiere Pro implementado (depende de ID y GPS por visita).                                                         |
 | **Módulo de Seguimiento de Líderes**         | Análisis individual del desempeño de cada líder regional a partir del snapshot histórico de zona-líder-PIN en cada visita.                                                      | Requiere Pro implementado (depende del snapshot de zonas).                                                          |
 
@@ -566,7 +566,7 @@ Cada módulo adicional incluye su propia propuesta detallada con alcance, horas 
 Si Picnic acuerda con la presente propuesta:
 
 1. **Firma de acuerdo** (esta propuesta + adenda de propiedad intelectual y confidencialidad).
-2. **Elección de modalidad** (Básica o Pro).
+2. **Elección de modalidad** (_Basic_ o Pro).
 3. **Definición de stack tecnológico** (1 semana). Se documenta y comparte con Picnic.
 4. **Apertura de cuentas** de servicios de terceros a nombre de Picnic (~1 semana).
 5. **Kick-off del proyecto:** inicio de Fase 1 en la primera semana de agosto.
@@ -581,8 +581,8 @@ Si Picnic acuerda con la presente propuesta:
 
 ```pricing
 {
-  "basica": {
-    "title": "Versión Básica",
+  "_Basic_a": {
+    "title": "Versión _Basic_",
     "price": "USD 9.275",
     "detail": "265 horas · Agosto a Diciembre 2026",
     "features": [
@@ -598,7 +598,7 @@ Si Picnic acuerda con la presente propuesta:
     "price": "USD 20.265",
     "detail": "579 horas · Agosto 2026 a Enero 2027",
     "features": [
-      "Todo lo de Básica",
+      "Todo lo de _Basic_",
       "Trazabilidad nominal completa (DNI + GPS)",
       "Dashboard de Líderes Regionales",
       "Constructor de Reportes dedicado",
