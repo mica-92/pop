@@ -70,7 +70,7 @@ POP se presenta en dos versiones que comparten la misma arquitectura técnica y 
 
 La **Versión _Basic_** cubre el flujo central de la operación. Incluye la carga y gestión de PDVs y productos, el registro de visitas con evidencia fotográfica, el dashboard de seguimiento con KPIs por período, producto y zona geográfica, y el sistema de reportes exportables. Está orientada a reemplazar el flujo manual de archivos Excel con una herramienta moderna, centralizada y confiable, y que buscan resultados operativos concretos desde el primer período de uso.
 
-La **Versión _Extended_** incorpora las capas de control operativo avanzado que habilitan una gestión más sofisticada de la campaña. Sobre la base funcional de la Versión _Basic_, agrega la gestión de coordinadores regionales con asignación de zonas y monitoreo de desempeño por coordinador, la trazabilidad nominal de visitas — registro de quién realizó cada acción y cuándo —, dashboards diferenciados por perfil de usuario con accesos segmentados para Picnic, coordinadores y PeYa, y herramientas de análisis histórico y comparativo entre períodos. Está diseñada para equipos que buscan no solo modernizar la operación, sino optimizar toda la cadena de gestión y construir inteligencia operativa acumulada sobre sus campañas.
+La **Versión _Extended_** incorpora las capas de control operativo avanzado que habilitan una gestión más sofisticada de la campaña. Sobre la base funcional de la Versión _Basic_, agrega la gestión de coordinadores regionales con asignación de zonas y monitoreo de desempeño por coordinador, la trazabilidad nominal de visitas — registro de quién realizó cada acción y cuándo —, dashboards diferenciados por perfil de usuario con accesos segmentados para Picnic, coordinadores y PeYa, y herramientas de análisis histórico y comparativo entre períodos. Está diseñada no solo para modernizar la operación, sino optimizar toda la cadena de gestión y construir inteligencia operativa acumulada sobre sus campañas.
 
 ### Fases de Implementación
 
@@ -102,11 +102,11 @@ Todas las experiencias y módulos comparten un **único modelo de datos**, lo qu
 
 A lo largo de esta sección se utiliza el término **PDV** (Punto de Venta) para referirse a cada establecimiento físico donde se coloca material publicitario, y **coordinador regional** para el responsable de gestionar una zona operativa y su equipo de colocadores en campo.
 
----
-
 ## 3. Las Cuatro Experiencias
 
 ### 3.1 Panel de Gestión Central (Picnic)
+
+![Detalle de PDV y Visita](POP_Mockup_DetallePDV_Visita.html)
 
 El Panel de Gestión Central es el centro de control del equipo de Picnic sobre la operación completa. Desde una única interfaz, el admin monitorea el estado de cada campaña, accede al detalle de cualquier PDV, supervisa el trabajo del equipo de campo y exporta la información que necesita para responder a PeYa en cualquier momento.
 
@@ -177,6 +177,8 @@ El admin puede **cerrar o reabrir manualmente** la visita: una visita cerrada de
 
 ### 3.2 App de Campo (colocadores)
 
+![App de Campo](POP_Mockup_AppCampo.html)
+
 La App de Campo es la herramienta que usan los colocadores en terreno para cargar el resultado de cada visita en tiempo real. Es una aplicación web optimizada para celular (**PWA**), accesible desde cualquier dispositivo con navegador moderno y opcionalmente instalable en la home screen como una app nativa, abriéndose en pantalla completa. Reemplaza el flujo actual de cargar planillas, sacar fotos sueltas y consolidar todo después por otros canales.
 
 Está pensada para una realidad operativa específica: el colocador trabaja en la calle, con un celular en la mano, posiblemente con mala conectividad. Cada interacción tiene que ser **rápida, robusta y a prueba de errores**. Después de ingresar, el colocador ve la lista de PDVs pendientes de su zona y producto, con búsqueda por nombre o Grid. Al tocar cualquier PDV, se abre el modal de visita con la información del establecimiento —nombre del partner, business name, teléfono con tap-to-call, dirección con tap-to-open en Google Maps—.
@@ -214,6 +216,8 @@ La versión **_Extended_** convierte la app en una herramienta completa de gesti
 
 ### 3.3 Portal de Coordinadores (_Extended_)
 
+![Portal de Coordinadores](POP_Mockup_PortalCoordinador.html)
+
 El Portal de Coordinadores es un acceso individual, exclusivo de la versión **_Extended_**, que permite a cada coordinador regional gestionar su territorio de forma autónoma sin depender del equipo central. Cada coordinador ingresa mediante un **link único y un PIN de 4 dígitos**, sin necesidad de usuario y contraseña, a un dashboard inmediato y simple diseñado para operar el período actual.
 
 Al ingresar, el coordinador ve los **KPIs operativos de su zona** en el período actual —total de PDVs, visitados, pendientes, efectivos, distribución por PLV— junto con la tabla completa de PDVs asignados, con sort, búsqueda y filtros por PLV, estado y motivo. Puede **descargar el listado en Excel**, consolidado o multi-hoja por PLV, para distribuir a sus colocadores, y ve el **PIN de su zona** en un widget destacado para compartir con su equipo, quienes lo usan para acceder a la App de Campo.
@@ -234,6 +238,8 @@ El coordinador accede únicamente a lo que necesita para operar: no ve ID de col
 ---
 
 ### 3.4 Panel de Cliente (PeYa)
+
+![Panel de Cliente](POP_Mockup_PanelCliente.html)
 
 El Panel de Cliente es la ventana de transparencia que Picnic le ofrece a PeYa sobre el avance de sus campañas. Es de **solo lectura**: el cliente ingresa con su login propio, gestionado desde Settings por el admin de Picnic, y accede a una vista similar a la del Panel de Gestión Central pero con los campos operativos internos restringidos.
 
@@ -268,6 +274,8 @@ Sobre las cuatro experiencias operan un conjunto de módulos que dan soporte al 
 
 ### 4.1 Carga de PDVs
 
+![Carga de PDVs](POP_Mockup_CargaPDVs.html)
+
 POP centraliza la ingesta de la información que PeYa envía mensualmente. El módulo está diseñado para **absorber la realidad operativa actual de Picnic sin imponer pasos manuales de preparación**: el sistema procesa los archivos tal como vienen, en los formatos que PeYa envía habitualmente, y deja al admin el control sobre cómo se interpreta cada hoja antes de impactar la base de datos.
 
 Cuando el admin sube un archivo, POP **detecta automáticamente todas las hojas** y presenta una pantalla de configuración donde se define, para cada una, el tipo de formato (Establecimientos estándar o Partners) y el PLV asociado, sin requerir mapeo manual de columnas. Las hojas que no aportan al flujo operativo —por ejemplo, reportes de instalaciones realizadas por agencias externas— pueden marcarse como "Ignorar" y quedan excluidas del procesamiento. Antes de impactar la base de datos, POP presenta un **resumen consolidado** indicando cuántos PDVs se cargarán, distribuidos por hoja y por producto; recién cuando el admin confirma, los datos se persisten y quedan inmediatamente disponibles para todos los actores del sistema. Cada carga queda registrada en el log de auditoría con detalle del archivo procesado, período asignado, hojas incluidas e ignoradas, y volumen total importado.
@@ -288,6 +296,8 @@ Cuando el admin sube un archivo, POP **detecta automáticamente todas las hojas*
 ---
 
 ### 4.2 Configuración de Zonas (_Extended_)
+
+![Configuración de Zonas](POP_Mockup_Zonas.html)
 
 La configuración de zonas, exclusiva de la versión **_Extended_**, convierte la gestión territorial en una herramienta flexible que se adapta a la realidad cambiante del equipo de campo. Desde **Settings → Zonas**, el admin de Picnic crea, configura y administra las zonas que componen su estructura territorial: cuando un coordinador se incorpora, se va o se reorganiza una zona, el admin lo refleja directamente desde la interfaz.
 
@@ -313,6 +323,8 @@ Los cambios en zonas se aplican **solo a futuro**: las visitas históricas cerra
 
 ### 4.3 Constructor de Reportes (_Extended_)
 
+![Constructor de Reportes](POP_Mockup_ConstructorReportes.html)
+
 El Constructor de Reportes es la herramienta de análisis dedicada de POP, disponible exclusivamente en la versión **_Extended_**. Permite al admin de Picnic generar reportes a medida combinando libremente filtros, columnas y formato de salida, sin depender de la vista del Panel de Gestión Central ni de su estructura predefinida. Responde a una necesidad recurrente que PeYa Trade no resuelve: **armar un reporte específico para una pregunta puntual sin tener que exportar todo y procesar manualmente en Excel**.
 
 El admin ingresa a la sección Reportes y define tres cosas: el **período** (individual o rango de fechas), los **filtros** a aplicar (geografía completa, PLV, estado, motivo, cadena, PDVs específicos, todos combinables entre sí) y el **tipo de output**. Hay dos formatos de salida que pueden generarse individualmente o en conjunto: un **listado** con elección libre de columnas (Grid, nombre, business name, dirección, zona, PLV, estado, fecha, ID del colocador, motivo, comentarios, GPS, etc.) y un **reporte estadístico** con KPIs agregados sobre el subset filtrado, con agregaciones configurables por dimensión (por PLV, por zona, por cadena, por motivo, o combinaciones como PLV × zona). El resultado se descarga como Excel; si el admin pidió listado más estadísticas, el archivo trae múltiples hojas. Para consultas muy grandes (más de 10.000 registros), POP procesa en background y notifica cuando el reporte está listo. Cada reporte generado queda registrado en el log con su configuración completa, lo que permite repetir o auditar consultas anteriores.
@@ -333,6 +345,8 @@ El admin ingresa a la sección Reportes y define tres cosas: el **período** (in
 ---
 
 ### 4.4 Settings, Reglas Automatizadas y Auditoría
+
+![Settings, Reglas y Auditoría](POP_Mockup_Settings_Reglas_Log.html)
 
 Este módulo agrupa tres áreas administrativas que comparten un mismo principio: **el admin de Picnic mantiene el control operativo de POP desde un solo lugar mientras el sistema ejecuta automatizaciones que reducen el trabajo manual**.
 
