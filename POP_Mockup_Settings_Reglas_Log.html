@@ -2,115 +2,78 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POP — Settings, Reglas y Log</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POP — Settings, Reglas y Auditoría</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pop_mockups.css">
 <style>
-  :root {
-    --primary: #F45454;
-    --primary-hover: #E04545;
-    --primary-soft: #FFE5E5;
-    --secondary: #671E1E;
-    --secondary-soft: #F5E6E6;
-    --bg: #FDF1F2;
-    --surface: #FFFFFF;
-    --surface-soft: #FAE7E8;
-    --text: #474747;
-    --text-soft: #6B6B6B;
-    --text-muted: #9A9A9A;
-    --border: #EAD4D6;
-    --border-strong: #D4B5B8;
-    --success: #15803D;
-    --success-soft: #DCFCE7;
-    --warning: #92400E;
-    --warning-soft: #FEF3C7;
-    --radius: 8px;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
-  .container { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
-  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-  .brand-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
-  .brand-text strong { font-size: 16px; font-weight: 600; color: var(--secondary); }
-  .brand-text span { font-size: 12px; color: var(--text-soft); display: block; }
-  .nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .nav button { font-family: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 7px 13px; font-size: 12px; color: var(--text-soft); cursor: pointer; transition: all 0.15s ease; font-weight: 500; }
-  .nav button:hover { border-color: var(--border-strong); color: var(--text); }
-  .nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
-  .nav button .pro-badge { background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 9px; margin-left: 4px; }
-  .nav button.active .pro-badge { background: white; color: var(--primary); }
-  .screen { display: none; }
-  .screen.active { display: block; }
-  .screen-label { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--secondary); background: var(--secondary-soft); padding: 5px 12px; border-radius: var(--radius); margin-bottom: 18px; font-weight: 500; }
-  .screen-label.pro { background: var(--secondary); color: white; }
-  .layout { display: flex; gap: 20px; align-items: flex-start; }
-  .sidebar { width: 200px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
-  .sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer; }
-  .sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
-  .sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
-  .sidebar-sub { padding: 8px 12px 8px 28px; font-size: 12px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; cursor: pointer; }
-  .sidebar-sub:hover { background: var(--surface-soft); }
-  .sidebar-sub.active { background: var(--primary-soft); color: var(--secondary); font-weight: 500; }
-  .sidebar-sub-pro::after { content: "PRO"; background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 8px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
-  .main { flex: 1; min-width: 0; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-  .header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-  .header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
-  .header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--border); color: var(--text-soft); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
-  td { padding: 11px 8px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--surface-soft); }
-  input, select { font-family: inherit; font-size: 13px; height: 34px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); outline: none; }
-  input:focus, select:focus { border-color: var(--primary); }
-  button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
-  button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
-  button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
-  button.btn-primary:hover { background: var(--primary-hover); color: white; }
-  button.btn-large { height: 40px; padding: 0 18px; font-size: 13px; }
-  button.icon-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
-  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
-  .tag-success { background: var(--success-soft); color: var(--success); }
-  .tag-danger { background: var(--primary-soft); color: var(--secondary); }
-  .tag-warning { background: var(--warning-soft); color: var(--warning); }
-  .tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
-  .toggle-switch { display: inline-flex; gap: 4px; align-items: center; }
-  .toggle-state { display: inline-block; width: 32px; height: 18px; background: var(--border); border-radius: 9px; position: relative; cursor: pointer; }
-  .toggle-state.on { background: var(--success); }
-  .toggle-state::before { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition: left 0.2s; }
-  .toggle-state.on::before { left: 16px; }
-  .pro-pill { background: var(--secondary); color: white; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
-  .info-banner { background: var(--secondary-soft); border-left: 3px solid var(--secondary); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
-  .info-banner strong { color: var(--secondary); }
-  .warning-banner { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
-  .warning-banner strong { color: var(--warning); }
-  .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--secondary); margin: 18px 0 10px; font-weight: 600; }
-  .section-title:first-child { margin-top: 0; }
-  .number-input-wrapper { display: inline-flex; align-items: center; gap: 4px; }
-  .number-input-wrapper input { width: 60px; text-align: center; font-family: 'JetBrains Mono'; font-weight: 600; }
-  .step-button { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--surface); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-soft); }
-  .step-button:hover { border-color: var(--primary); color: var(--primary); }
-  .chain-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--surface-soft); border-radius: var(--radius); margin-bottom: 6px; }
-  .chain-row-name { font-weight: 500; color: var(--secondary); font-size: 13px; }
-  .chain-row-count { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
-  .suggestion-card { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; }
-  .suggestion-card .sc-title { font-size: 12px; font-weight: 600; color: var(--warning); margin-bottom: 4px; }
-  .suggestion-card .sc-desc { font-size: 12px; color: var(--text); margin-bottom: 8px; }
-  .suggestion-actions { display: flex; gap: 6px; }
-  .log-entry-row { padding: 12px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 130px 130px 1fr; gap: 16px; align-items: start; font-size: 13px; }
-  .log-entry-row:last-child { border-bottom: none; }
-  .log-time { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-muted); }
-  .log-type { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; padding: 3px 8px; border-radius: 8px; display: inline-block; }
-  .log-type-load { background: var(--success-soft); color: var(--success); }
-  .log-type-edit { background: var(--primary-soft); color: var(--secondary); }
-  .log-type-visit { background: var(--secondary-soft); color: var(--secondary); }
-  .log-type-close { background: var(--warning-soft); color: var(--warning); }
-  .log-type-report { background: #E0E7FF; color: #3730A3; }
-  .log-desc { color: var(--text); }
-  .log-meta { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+* { box-sizing: border-box; }
+.layout { display: flex; gap: 20px; align-items: flex-start; }
+.sidebar { width: 200px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
+.sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer; }
+.sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
+.sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
+.sidebar-sub { padding: 8px 12px 8px 28px; font-size: 12px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; cursor: pointer; }
+.sidebar-sub:hover { background: var(--surface-soft); }
+.sidebar-sub.active { background: var(--primary-soft); color: var(--secondary); font-weight: 500; }
+.sidebar-sub-pro::after { content: "PRO"; background: var(--secondary); color: white; padding: 1px 5px; border-radius: 4px; font-size: 8px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
+.main { flex: 1; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
+.header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--border); color: var(--text-soft); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
+td { padding: 11px 8px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-soft); }
+button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
+button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+button.btn-primary:hover { background: var(--primary-hover); color: white; }
+button.btn-large { height: 40px; padding: 0 18px; font-size: 13px; }
+button.icon-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 500; }
+.tag-success { background: var(--success-soft); color: var(--success); }
+.tag-danger { background: var(--primary-soft); color: var(--secondary); }
+.tag-warning { background: var(--warning-soft); color: var(--warning); }
+.tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
+.toggle-switch { display: inline-flex; gap: 4px; align-items: center; }
+.toggle-state { display: inline-block; width: 32px; height: 18px; background: var(--border); border-radius: 9px; position: relative; cursor: pointer; }
+.toggle-state.on { background: var(--success); }
+.toggle-state::before { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition: left 0.2s; }
+.toggle-state.on::before { left: 16px; }
+.pro-pill { background: var(--secondary); color: white; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
+.info-banner { background: var(--secondary-soft); border-left: 3px solid var(--secondary); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
+.info-banner strong { color: var(--secondary); }
+.warning-banner { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin-bottom: 14px; }
+.warning-banner strong { color: var(--warning); }
+.section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--secondary); margin: 18px 0 10px; font-weight: 600; }
+.section-title:first-child { margin-top: 0; }
+.number-input-wrapper { display: inline-flex; align-items: center; gap: 4px; }
+.number-input-wrapper input { width: 60px; text-align: center; font-family: 'JetBrains Mono'; font-weight: 600; }
+.step-button { width: 28px; height: 28px; border: 1px solid var(--border); background: var(--surface); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-soft); }
+.step-button:hover { border-color: var(--primary); color: var(--primary); }
+.chain-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--surface-soft); border-radius: var(--radius); margin-bottom: 6px; }
+.chain-row-name { font-weight: 500; color: var(--secondary); font-size: 13px; }
+.chain-row-count { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+.suggestion-card { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; }
+.suggestion-card .sc-title { font-size: 12px; font-weight: 600; color: var(--warning); margin-bottom: 4px; }
+.suggestion-card .sc-desc { font-size: 12px; color: var(--text); margin-bottom: 8px; }
+.suggestion-actions { display: flex; gap: 6px; }
+.log-entry-row { padding: 12px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 130px 130px 1fr; gap: 16px; align-items: start; font-size: 13px; }
+.log-entry-row:last-child { border-bottom: none; }
+.log-time { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--text-muted); }
+.log-type { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; padding: 3px 8px; border-radius: 8px; display: inline-block; }
+.log-type-load { background: var(--success-soft); color: var(--success); }
+.log-type-edit { background: var(--primary-soft); color: var(--secondary); }
+.log-type-visit { background: var(--secondary-soft); color: var(--secondary); }
+.log-type-close { background: var(--warning-soft); color: var(--warning); }
+.log-type-report { background: #E0E7FF; color: #3730A3; }
+.log-desc { color: var(--text); }
+.log-meta { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 </style>
 </head>
 <body>
@@ -127,7 +90,7 @@
   <div class="nav" role="tablist">
     <button data-screen="settings-plvs" class="active">1. Settings — PLVs</button>
     <button data-screen="settings-motivos">2. Settings — Motivos</button>
-    <button data-screen="settings-cadenas">3. Cadenas <span class="pro-badge">PRO</span></button>
+    <button data-screen="settings-cadenas">3. Cadenas <span class="pro-badge">EXTENDED</span></button>
     <button data-screen="settings-reglas">4. Reglas de cierre</button>
     <button data-screen="settings-users">5. Usuarios</button>
     <button data-screen="log">6. Log de auditoría</button>
@@ -381,7 +344,7 @@
 
   <!-- 3. SETTINGS CADENAS PRO -->
   <div class="screen" data-screen-content="settings-cadenas">
-    <div class="screen-label pro">Settings → Cadenas — solo Pro</div>
+    <div class="screen-label pro">Settings → Cadenas — solo Extended</div>
 
     <div class="layout">
       <div class="sidebar">
@@ -402,7 +365,7 @@
         <div class="card">
           <div class="header-row">
             <div>
-              <h2 class="header-title">Cadenas comerciales <span class="pro-pill">PRO</span></h2>
+              <h2 class="header-title">Cadenas comerciales <span class="pro-pill">EXTENDED</span></h2>
               <p class="header-subtitle">Identificá y agrupá locales por marca. El sistema sugiere cadenas detectadas en las cargas de Excel.</p>
             </div>
             <button class="btn btn-primary btn-large">+ Nueva cadena</button>
@@ -413,7 +376,7 @@
 
           <div class="suggestion-card">
             <div class="sc-title">⚡ Cadena sugerida: "Subway"</div>
-            <div class="sc-desc">Se detectaron 23 establecimientos con el patrón "Subway [ubicación]". Ejemplos: Subway Recoleta, Subway Pacífico, Subway Belgrano.</div>
+            <div class="sc-desc">Se detectaron 23 PDVs con el patrón "Subway [ubicación]". Ejemplos: Subway Recoleta, Subway Pacífico, Subway Belgrano.</div>
             <div class="suggestion-actions">
               <button class="btn btn-primary" style="font-size: 11px;">Crear cadena Subway</button>
               <button class="btn" style="font-size: 11px;">Ver locales</button>
@@ -423,7 +386,7 @@
 
           <div class="suggestion-card">
             <div class="sc-title">⚡ Cadena sugerida: "Día"</div>
-            <div class="sc-desc">Se detectaron 18 establecimientos con el patrón "Día [ubicación]". Ejemplos: Día Recoleta, Día Caballito, Día Mar del Plata.</div>
+            <div class="sc-desc">Se detectaron 18 PDVs con el patrón "Día [ubicación]". Ejemplos: Día Recoleta, Día Caballito, Día Mar del Plata.</div>
             <div class="suggestion-actions">
               <button class="btn btn-primary" style="font-size: 11px;">Crear cadena Día</button>
               <button class="btn" style="font-size: 11px;">Ver locales</button>
@@ -524,7 +487,7 @@
         <div class="card">
           <div class="header-row">
             <div>
-              <h2 class="header-title">Versión Pro <span class="pro-pill">PRO</span></h2>
+              <h2 class="header-title">Versión Extended <span class="pro-pill">EXTENDED</span></h2>
               <p class="header-subtitle">Configurable desde Settings</p>
             </div>
           </div>
@@ -553,17 +516,17 @@
         <div class="card">
           <div class="header-row">
             <div>
-              <h2 class="header-title">Versión Básica</h2>
+              <h2 class="header-title">Versión Basic</h2>
               <p class="header-subtitle">Regla fija — solo informativa</p>
             </div>
           </div>
 
           <div class="warning-banner">
-            <strong>Regla fija:</strong> en la versión Básica, el sistema cierra automáticamente un local tras <strong>3 visitas no efectivas consecutivas</strong> con motivos "deja abierto". Esta regla está fijada en el código y no es modificable.
+            <strong>Regla fija:</strong> en la versión Basic, el sistema cierra automáticamente un local tras <strong>3 visitas no efectivas consecutivas</strong> con motivos "deja abierto". Esta regla está fijada en el código y no es modificable.
           </div>
 
           <div style="font-size: 12px; color: var(--text-soft); margin-top: 10px;">
-            ¿Necesitás ajustar este número según operación? La versión Pro permite configurar la regla desde Settings.
+            ¿Necesitás ajustar este número según operación? La versión Extended permite configurar la regla desde Settings.
           </div>
         </div>
       </div>
@@ -697,7 +660,7 @@
             <div><span class="log-type log-type-visit">Visita</span></div>
             <div>
               <div class="log-desc">Visita registrada en <strong>Café Martínez Florida</strong> (Grid 41827) · Kit básico · <span style="color: var(--success);">Efectiva</span></div>
-              <div class="log-meta">DNI 35.421.876 · Zona CABA Norte · PIN 4837 · GPS -34.602, -58.378 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+              <div class="log-meta">ID 35.421.876 · Zona CABA Norte · PIN 4837 · GPS -34.602, -58.378 <span class="pro-pill" style="margin-left: 4px;">EXTENDED</span></div>
             </div>
           </div>
 
@@ -732,7 +695,7 @@
             <div class="log-time">18/06/2026 09:48:19</div>
             <div><span class="log-type log-type-load">Carga Excel</span></div>
             <div>
-              <div class="log-desc">Archivo <strong>Listado_Junio_AR.xlsx</strong> cargado · Período 2606 · 1.551 establecimientos · 12 duplicados descartados</div>
+              <div class="log-desc">Archivo <strong>Listado_Junio_AR.xlsx</strong> cargado · Período 2606 · 1.551 PDVs · 12 duplicados descartados</div>
               <div class="log-meta">Usuario: admin@picnic.com.ar · 8 hojas detectadas · 1 ignorada</div>
             </div>
           </div>
@@ -742,7 +705,7 @@
             <div><span class="log-type log-type-visit">Visita</span></div>
             <div>
               <div class="log-desc">Visita registrada en <strong>McDonald's Recoleta</strong> (Grid 38491) · Backlight · <span style="color: var(--secondary);">No efectiva — Local cerrado</span></div>
-              <div class="log-meta">DNI 28.345.711 · Zona CABA Norte · PIN 4837 · GPS -34.586, -58.396 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+              <div class="log-meta">ID 28.345.711 · Zona CABA Norte · PIN 4837 · GPS -34.586, -58.396 <span class="pro-pill" style="margin-left: 4px;">EXTENDED</span></div>
             </div>
           </div>
 
@@ -751,7 +714,7 @@
             <div><span class="log-type log-type-edit">Edición</span></div>
             <div>
               <div class="log-desc">Colocador editó <strong>Café Havanna Recoleta</strong> · Teléfono "11 4823 0102" → "11 4823 1234"</div>
-              <div class="log-meta">DNI 35.421.876 <span class="pro-pill" style="margin-left: 4px;">PRO</span></div>
+              <div class="log-meta">ID 35.421.876 <span class="pro-pill" style="margin-left: 4px;">EXTENDED</span></div>
             </div>
           </div>
 

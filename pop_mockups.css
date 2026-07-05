@@ -1,0 +1,320 @@
+/* ============================================================
+   pop_mockups.css — Hoja de estilos compartida de los mockups POP
+   Paleta alineada con la propuesta (bordó / rojo Picnic).
+   Cargar en cada mockup con:
+     <link rel="stylesheet" href="pop_mockups.css">
+   ============================================================ */
+
+:root {
+  --primary: #F45454;
+  --primary-hover: #E04545;
+  --primary-soft: #FFE5E5;
+  --secondary: #671E1E;
+  --secondary-soft: #F5E6E6;
+  --bg: #FDF1F2;
+  --surface: #FFFFFF;
+  --surface-soft: #FAE7E8;
+  --surface-warm: #F0E5E2;
+  --text: #474747;
+  --text-soft: #6B6B6B;
+  --text-muted: #9A9A9A;
+  --border: #EAD4D6;
+  --border-strong: #D4B5B8;
+  --success: #15803D;
+  --success-soft: #DCFCE7;
+  --warning: #92400E;
+  --warning-soft: #FEF3C7;
+  --danger: #B91C1C;
+  --danger-soft: #FEE2E2;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* Badge de versión Extended (antes PRO) */
+  --ext-bg: var(--secondary);
+  --ext-fg: #FFFFFF;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- LAYOUT ---------- */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ---------- BRAND ---------- */
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.brand-mark {
+  width: 36px; height: 36px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 16px;
+  flex-shrink: 0;
+}
+.brand-text strong { font-size: 16px; font-weight: 600; color: var(--secondary); }
+.brand-text span { font-size: 12px; color: var(--text-soft); display: block; }
+
+/* ---------- SCREEN NAV ---------- */
+.nav {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 28px; padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.nav button {
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 13px;
+  font-size: 12px;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+.nav button:hover { border-color: var(--border-strong); color: var(--text); }
+.nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Badge EXTENDED en la navegación (reemplaza el viejo PRO) */
+.nav button .ext-badge,
+.nav button .pro-badge {
+  background: var(--secondary);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 9px;
+  margin-left: 4px;
+}
+.nav button.active .ext-badge,
+.nav button.active .pro-badge { background: white; color: var(--primary); }
+
+/* ---------- SCREEN SYSTEM ---------- */
+.screen { display: none; }
+.screen.active { display: block; }
+.screen-label {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--secondary);
+  background: var(--secondary-soft);
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+.screen-label.ext,
+.screen-label.pro { background: var(--secondary); color: white; }
+
+/* ---------- PHONE FRAME (App de Campo, Portal) ---------- */
+.phones-row { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+.phone {
+  width: 360px;
+  background: #1a1a1a;
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow: 0 16px 40px rgba(103,30,30,0.18), 0 4px 12px rgba(103,30,30,0.08);
+  flex-shrink: 0;
+}
+.phone-screen {
+  background: var(--bg);
+  border-radius: 28px;
+  overflow: hidden;
+  height: 720px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.phone-notch {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a; height: 22px; width: 100px;
+  border-radius: 0 0 14px 14px; z-index: 10;
+}
+.phone-status {
+  padding: 7px 22px 4px;
+  font-size: 11px; font-weight: 600; color: var(--text);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.phone-status-right { display: flex; gap: 4px; align-items: center; font-size: 9px; }
+.phone-label { text-align: center; font-size: 12px; color: var(--text-soft); margin-top: 12px; font-weight: 500; }
+.phone-label-ext, .phone-label-pro { color: var(--secondary); font-weight: 600; }
+.phone-label-ext::after, .phone-label-pro::after {
+  content: "EXTENDED";
+  background: var(--secondary); color: white;
+  padding: 1px 6px; border-radius: 4px;
+  font-size: 9px; font-weight: 700;
+  margin-left: 6px; letter-spacing: 0.5px;
+}
+
+/* ---------- APP HEADER / BODY ---------- */
+.app-header {
+  padding: 16px 18px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.app-header .app-mark {
+  width: 32px; height: 32px;
+  background: var(--primary); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px;
+}
+.app-header .app-info strong { font-size: 14px; color: var(--secondary); display: block; }
+.app-header .app-info span { font-size: 11px; color: var(--text-soft); }
+.app-body { flex: 1; overflow-y: auto; padding: 16px 18px; }
+.app-body.scrollable { overflow-y: scroll; }
+
+/* ---------- FORMS ---------- */
+.form-group { margin-bottom: 14px; }
+.form-label {
+  font-size: 11px; font-weight: 600; color: var(--text-soft);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+input, select, textarea {
+  font-family: inherit; font-size: 14px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: var(--text);
+  outline: none; width: 100%;
+}
+input, select { height: 42px; padding: 0 14px; }
+textarea { padding: 10px 14px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+
+.pin-inputs { display: flex; gap: 8px; justify-content: center; }
+.pin-inputs input {
+  width: 56px; height: 56px; text-align: center;
+  font-size: 22px; font-family: 'JetBrains Mono'; font-weight: 600; padding: 0;
+}
+
+/* ---------- BUTTONS ---------- */
+button.app-btn {
+  font-family: inherit; font-size: 15px; font-weight: 600;
+  height: 50px; padding: 0 18px; border: none; border-radius: 12px;
+  background: var(--primary); color: white; cursor: pointer;
+  width: 100%; margin-top: 8px;
+}
+button.app-btn:disabled { background: var(--border); color: var(--text-muted); }
+button.app-btn-secondary { background: var(--surface); color: var(--secondary); border: 1px solid var(--border); }
+
+.btn {
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  padding: 9px 16px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--surface);
+  color: var(--text); cursor: pointer; transition: all 0.15s ease;
+}
+.btn:hover { border-color: var(--border-strong); }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-secondary { background: var(--secondary); color: white; border-color: var(--secondary); }
+.btn-danger { background: var(--danger-soft); color: var(--danger); border-color: transparent; }
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.section-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.6px; color: var(--secondary); margin-bottom: 12px;
+}
+
+/* ---------- KPI CARDS ---------- */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.kpi-value { font-size: 26px; font-weight: 700; color: var(--secondary); line-height: 1.1; }
+.kpi-label { font-size: 11px; color: var(--text-soft); margin-top: 3px; }
+.kpi-label-accent { color: var(--primary); font-weight: 600; }
+
+/* ---------- TABLES ---------- */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 10px 12px;
+  background: var(--surface-soft); color: var(--secondary);
+  font-weight: 600; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.4px; border-bottom: 1px solid var(--border);
+}
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+.sort-icon { opacity: 0.4; font-size: 10px; margin-left: 3px; }
+
+/* ---------- TAGS / BADGES ---------- */
+.tag {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 4px;
+}
+.tag-success { background: var(--success-soft); color: var(--success); }
+.tag-warning { background: var(--warning-soft); color: var(--warning); }
+.tag-danger { background: var(--danger-soft); color: var(--danger); }
+
+/* Badge EXTENDED (reemplaza tag-pro / pro-pill) */
+.tag-ext, .tag-pro, .pro-pill, .ext-pill {
+  display: inline-block;
+  background: var(--secondary); color: white;
+  padding: 2px 6px; border-radius: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.3px;
+}
+
+/* ---------- MODAL (screens que muestran modales) ---------- */
+.modal-title { font-size: 18px; font-weight: 700; color: var(--secondary); }
+.modal-subtitle { font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+
+/* ---------- INFO CALLOUT ---------- */
+.info-callout {
+  background: var(--surface-soft);
+  border-left: 4px solid var(--secondary);
+  padding: 12px 16px; border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px; margin: 14px 0;
+}
+.protected-info {
+  background: var(--surface-warm);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: 12px 14px; font-size: 12px; color: var(--text-soft);
+  margin: 14px 0;
+}
+
+/* ============================================================
+   RESPONSIVE — dynamic resizing para embeds en iframe / mobile
+   ============================================================ */
+@media (max-width: 768px) {
+  .container { padding: 20px 14px 40px; }
+  .nav { gap: 4px; }
+  .nav button { font-size: 11px; padding: 6px 10px; }
+
+  /* Phone frames: reducir para que entren en el iframe angosto */
+  .phones-row { gap: 20px; }
+  .phone { width: 300px; }
+  .phone-screen { height: 620px; }
+
+  .kpi-row { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+  .kpi-value { font-size: 22px; }
+
+  /* Tablas: scroll horizontal */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 520px; }
+}
+
+@media (max-width: 480px) {
+  .phone { width: 260px; padding: 8px; }
+  .phone-screen { height: 560px; border-radius: 22px; }
+  .phones-row { flex-direction: column; align-items: center; }
+  .modal-title { font-size: 16px; }
+}

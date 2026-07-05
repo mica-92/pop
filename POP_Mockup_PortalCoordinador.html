@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POP — Portal de Coordinadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pop_mockups.css">
+<style>
+.layout { display: flex; gap: 20px; align-items: flex-start; }
+.sidebar { width: 200px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
+.sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
+.sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
+.sidebar-section { padding: 8px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-top: 8px; }
+.sidebar-sub { padding: 8px 12px 8px 28px; font-size: 12px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; cursor: default; }
+.sidebar-sub:hover { background: var(--surface-soft); }
+.sidebar-sub.active { background: var(--primary-soft); color: var(--secondary); font-weight: 500; }
+.main { flex: 1; min-width: 0; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
+.header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-soft); }
+button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
+button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+button.btn-primary:hover { background: var(--primary-hover); color: white; }
+button.btn-large { height: 40px; padding: 0 18px; font-size: 13px; }
+button.icon-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.alert-box { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.alert-icon { width: 32px; height: 32px; background: var(--warning); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; font-weight: 700; }
+.alert-content { flex: 1; }
+.alert-title { font-size: 13px; font-weight: 600; color: var(--warning); }
+.alert-desc { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+.pin-mono { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--secondary); letter-spacing: 2px; }
+.geos-summary { font-size: 11px; color: var(--text-soft); max-width: 220px; line-height: 1.4; }
+.modal-backdrop { background: rgba(103, 30, 30, 0.4); padding: 32px 20px; border-radius: 12px; min-height: 600px; display: flex; align-items: flex-start; justify-content: center; }
+.modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 760px; max-width: 100%; border: 1px solid var(--border); }
+.modal-small { width: 600px; }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 17px; font-weight: 600; color: var(--secondary); margin: 0 0 2px; }
+.modal-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+.close-btn { width: 32px; height: 32px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; cursor: pointer; font-size: 18px; color: var(--text-soft); display: flex; align-items: center; justify-content: center; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 2fr 1fr 100px; gap: 12px; margin-bottom: 12px; }
+.form-field-label { font-size: 11px; font-weight: 500; color: var(--text-soft); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tree { font-size: 13px; background: var(--surface-soft); border-radius: var(--radius); padding: 12px; max-height: 320px; overflow-y: auto; }
+.tree-item { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 4px; cursor: pointer; }
+.tree-item:hover { background: rgba(255,255,255,0.6); }
+.tree-toggle { width: 14px; display: inline-block; color: var(--text-muted); font-size: 10px; }
+.tree-label { flex: 1; }
+.tree-checkbox { accent-color: var(--primary); }
+.tree-count { font-size: 11px; color: var(--text-muted); }
+.tree-child { padding-left: 22px; }
+.tree-checked > .tree-item > .tree-label { color: var(--secondary); font-weight: 500; }
+.tree-excluded > .tree-item > .tree-label { color: var(--text-muted); text-decoration: line-through; }
+.warning-banner { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin: 14px 0; }
+.warning-banner strong { color: var(--warning); }
+.action-row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+.kpi-accent { background: var(--primary-soft); border-color: var(--primary-soft); }
+.kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.pin-display-big { font-family: 'JetBrains Mono', monospace; letter-spacing: 8px; font-size: 28px; font-weight: 600; color: var(--primary); }
+.tag-success { background: var(--success-soft); color: var(--success); }
+.tag-danger { background: var(--primary-soft); color: var(--secondary); }
+.tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
+.login-card { max-width: 400px; margin: 60px auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px 30px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text"><strong>POP</strong><span>Portal de Coordinadores</span></div>
+  </div>
+  <div class="nav">
+    <button data-screen="lider-login" class="active">1. Coordinador ingresa</button>
+    <button data-screen="lider-dashboard">2. Dashboard del Coordinador</button>
+  </div>
+
+<div class="screen active" data-screen-content="lider-login">
+    <div class="screen-label">El coordinador entra a su URL — primera pantalla</div>
+
+    <div class="login-card">
+      <div class="brand-mark" style="width: 52px; height: 52px; margin: 0 auto 20px; font-size: 22px;">P</div>
+
+      <div style="font-size: 18px; font-weight: 600; color: var(--secondary); margin-bottom: 4px;">Costa Atlántica</div>
+      <div style="font-size: 13px; color: var(--text-soft); margin-bottom: 24px;">Dashboard de Coordinador Regional</div>
+
+      <div style="margin-bottom: 18px;">
+        <div class="form-field-label" style="text-align: left;">Ingresá tu PIN</div>
+        <input inputmode="numeric" maxlength="4" placeholder="• • • •" style="width: 100%; text-align: center; letter-spacing: 12px; font-size: 22px; height: 50px; font-family: 'JetBrains Mono'; font-weight: 600;">
+      </div>
+
+      <button class="btn btn-primary btn-large" style="width: 100%;">Ingresar al dashboard</button>
+
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 18px;">URL: <span style="font-family: 'JetBrains Mono';">pop.picnic.com.ar/zonas/costa_atlantica</span></div>
+    </div>
+  </div>
+
+  <!-- 6. COORDINADOR DASHBOARD -->
+<div class="screen" data-screen-content="lider-dashboard">
+    <div class="screen-label">Dashboard del Coordinador Regional</div>
+
+    <div class="card">
+      <div class="header-row">
+        <div>
+          <h2 class="header-title">Hola Sofía González</h2>
+          <p class="header-subtitle">Período actual: junio 2026 · 412 PDVs asignados</p>
+        </div>
+        <select style="width: 180px;">
+          <option>Costa Atlántica</option>
+          <option>+ otra zona si tuviera</option>
+        </select>
+      </div>
+
+      <div class="kpi-grid" style="grid-template-columns: 1.4fr 1fr 1fr 1fr;">
+        <div class="kpi kpi-accent" style="display: flex; flex-direction: column; gap: 4px;">
+          <div class="kpi-label" style="color: var(--secondary);">PIN de tu zona</div>
+          <div class="pin-display-big">3192</div>
+          <div class="kpi-sub" style="color: var(--secondary);">Compartilo con tus colocadores</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Locales</div>
+          <div class="kpi-value">412</div>
+          <div class="kpi-sub">114 pendientes</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Visitados</div>
+          <div class="kpi-value">298</div>
+          <div class="kpi-sub">72% del total</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Efectivos</div>
+          <div class="kpi-value">271</div>
+          <div class="kpi-sub">91% efectividad</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <input placeholder="Buscar por Grid o nombre" style="width: 280px;">
+        <div style="display: flex; gap: 6px;">
+          <select style="font-size: 12px; max-width: 130px;">
+            <option>PLV: Todos</option>
+            <option>Kit básico</option>
+            <option>Backlight</option>
+          </select>
+          <select style="font-size: 12px; max-width: 130px;">
+            <option>Estado: Todos</option>
+            <option>Pendiente</option>
+            <option>Efectiva</option>
+          </select>
+          <button class="btn">Descargar Excel ▾</button>
+        </div>
+      </div>
+
+      <table>
+        <tr>
+          <th>Grid</th>
+          <th>PDV</th>
+          <th>Dirección</th>
+          <th>PLV</th>
+          <th>Estado</th>
+          <th>Motivo</th>
+        </tr>
+        <tr>
+          <td>62847</td>
+          <td>Café Havanna Mar del Plata</td>
+          <td>Av. Constitución 5840</td>
+          <td>Kit básico</td>
+          <td><span class="tag tag-success">Efectiva</span></td>
+          <td style="color: var(--text-soft);">—</td>
+        </tr>
+        <tr>
+          <td>67182</td>
+          <td>McDonald's Mar del Plata Centro</td>
+          <td>San Martín 2876</td>
+          <td>Backlight</td>
+          <td><span class="tag tag-success">Efectiva</span></td>
+          <td style="color: var(--text-soft);">—</td>
+        </tr>
+        <tr>
+          <td>71234</td>
+          <td>Burger King Pinamar</td>
+          <td>Av. Bunge 1290</td>
+          <td>Kit básico</td>
+          <td><span class="tag tag-neutral">Pendiente</span></td>
+          <td style="color: var(--text-soft);">—</td>
+        </tr>
+        <tr>
+          <td>69015</td>
+          <td>Pizza Hut Villa Gesell</td>
+          <td>Av. 3 entre 104 y 105</td>
+          <td>Sombrilla</td>
+          <td><span class="tag tag-danger">Local cerrado</span></td>
+          <td>Estaba cerrado</td>
+        </tr>
+        <tr>
+          <td>72456</td>
+          <td>Subway Mar del Plata</td>
+          <td>Av. Independencia 1820</td>
+          <td>Kit básico</td>
+          <td><span class="tag tag-neutral">Pendiente</span></td>
+          <td style="color: var(--text-soft);">—</td>
+        </tr>
+      </table>
+
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">Mostrando 5 de 412 · El coordinador no ve ID ni fotos · La descarga refleja los filtros aplicados</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){ s.classList.toggle('active', s.dataset.screenContent === name); });
+      buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POP — App de Campo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pop_mockups.css">
+<style>
+* { box-sizing: border-box; }
+.phone-status-right { display: flex; gap: 4px; align-items: center; font-size: 9px; }
+.phone-label-pro { color: var(--secondary); font-weight: 600; }
+.phone-label-pro::after { content: "PRO"; background: var(--secondary); color: white; padding: 1px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; }
+button.app-btn-secondary { background: var(--surface); color: var(--secondary); border: 1px solid var(--border); }
+button.app-btn-danger { background: var(--surface); color: var(--primary); border: 1px solid var(--primary-soft); }
+.info-pill { background: var(--secondary-soft); color: var(--secondary); padding: 8px 12px; border-radius: 10px; font-size: 11px; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.visit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+.visit-card:hover { border-color: var(--primary); }
+.visit-card .vc-name { font-size: 14px; font-weight: 600; color: var(--secondary); }
+.visit-card .vc-meta { font-size: 11px; color: var(--text-soft); margin-top: 3px; }
+.vc-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.status-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+.status-pending { background: var(--secondary-soft); color: var(--secondary); }
+.status-retry { background: var(--warning-soft); color: var(--warning); }
+.search-bar { position: relative; margin-bottom: 14px; }
+.search-bar input { padding-left: 38px; }
+.search-bar::before { content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.4; }
+.modal-back { background: var(--bg); }
+.modal-section { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.modal-section:last-child { border-bottom: none; }
+.modal-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-soft); margin: 0 0 8px; font-weight: 600; }
+.estab-info { background: var(--surface-soft); border-radius: 10px; padding: 12px; }
+.estab-info-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 13px; }
+.estab-info-row strong { color: var(--secondary); }
+.readonly-mark { color: var(--text-muted); font-size: 11px; }
+.editable-mark { color: var(--primary); font-size: 12px; cursor: pointer; }
+.effective-toggle { display: flex; gap: 8px; }
+.effective-toggle .option {
+    flex: 1; padding: 12px; border: 2px solid var(--border); border-radius: 10px; text-align: center; font-weight: 600; cursor: pointer;
+    background: var(--surface);
+  }
+.effective-toggle .option.selected-yes { border-color: var(--success); background: var(--success-soft); color: var(--success); }
+.effective-toggle .option.selected-no { border-color: var(--primary); background: var(--primary-soft); color: var(--secondary); }
+.kb-toggles { display: flex; gap: 8px; margin-top: 8px; }
+.kb-toggle { flex: 1; padding: 10px 8px; border: 1px solid var(--border); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; }
+.kb-toggle.checked { background: var(--success-soft); color: var(--success); border-color: var(--success); font-weight: 600; }
+.photo-slots { display: flex; gap: 8px; }
+.photo-slot {
+    flex: 1; aspect-ratio: 1; border: 2px dashed var(--border-strong); border-radius: 10px;
+    background: var(--surface-soft); display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--text-muted); font-size: 11px; padding: 8px; text-align: center;
+  }
+.photo-slot.filled { border: 1px solid var(--border); background: var(--surface); position: relative; overflow: hidden; }
+.photo-slot.filled::before { content: "📷"; font-size: 28px; opacity: 0.4; }
+.photo-slot.filled .photo-label { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.6); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; }
+.photo-slot .add-icon { font-size: 24px; margin-bottom: 4px; }
+.photo-slot .required { color: var(--primary); font-size: 9px; margin-top: 2px; font-weight: 600; }
+.error-banner { background: var(--primary-soft); border: 1px solid var(--primary); border-radius: 10px; padding: 12px; font-size: 12px; color: var(--secondary); margin-bottom: 14px; }
+.error-banner strong { display: block; margin-bottom: 4px; }
+.leader-prompt { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: 10px; padding: 14px; font-size: 12px; color: var(--text); margin-bottom: 14px; }
+.leader-prompt strong { color: var(--warning); display: block; margin-bottom: 6px; font-size: 13px; }
+.pwa-prompt {
+    background: var(--secondary); color: white; padding: 14px 16px; border-radius: 12px;
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+.pwa-prompt-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.pwa-prompt-content { flex: 1; font-size: 12px; }
+.pwa-prompt-content strong { display: block; margin-bottom: 2px; font-size: 13px; }
+.pwa-prompt button { background: white; color: var(--secondary); border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+.gps-pill { background: var(--success-soft); color: var(--success); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.info-readonly { background: var(--secondary-soft); border-radius: 8px; padding: 8px 12px; font-size: 11px; color: var(--secondary); margin-bottom: 12px; }
+.compress-info { background: var(--surface-soft); padding: 8px 10px; border-radius: 8px; font-size: 10px; color: var(--text-soft); margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text">
+      <strong>POP — App del Colocador</strong>
+      <span>Web mobile · PWA instalable · Optimizada para celular</span>
+    </div>
+  </div>
+
+  <div class="nav" role="tablist">
+    <button data-screen="ingreso" class="active">1. Ingreso (Basic vs Extended)</button>
+    <button data-screen="pin-error">2. Error PIN + Coordinador <span class="pro-badge">EXTENDED</span></button>
+    <button data-screen="lista">3. Lista de pendientes</button>
+    <button data-screen="modal-basico">4. Modal visita Basic</button>
+    <button data-screen="modal-pro">5. Modal visita <span class="pro-badge">EXTENDED</span></button>
+  </div>
+
+  <!-- 1. INGRESO -->
+  <div class="screen active" data-screen-content="ingreso">
+    <div class="screen-label">Pantalla de ingreso — diferencias entre Basic y Extended</div>
+
+    <div class="phones-row">
+
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status">
+              <span>9:41</span>
+              <div class="phone-status-right">📶 🔋</div>
+            </div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>POP Colocador</strong>
+                <span>pop.picnic.com.ar/colocador</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <div class="pwa-prompt">
+                <div class="pwa-prompt-icon">📲</div>
+                <div class="pwa-prompt-content">
+                  <strong>Instalá POP en tu inicio</strong>
+                  Acceso más rápido y modo pantalla completa
+                </div>
+                <button>Instalar</button>
+              </div>
+
+              <div style="font-size: 18px; font-weight: 600; color: var(--secondary); margin-bottom: 4px;">Bienvenido</div>
+              <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 18px;">Seleccioná tu zona y producto para ver tus pendientes.</div>
+
+              <div class="form-group">
+                <div class="form-label">Zona</div>
+                <select>
+                  <option>CABA Centro</option>
+                  <option>CABA Norte</option>
+                  <option>CABA Sur</option>
+                  <option>GBA Norte</option>
+                  <option>Córdoba Capital</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">Producto (PLV)</div>
+                <select>
+                  <option>Kit básico</option>
+                  <option>Backlight</option>
+                  <option>Sombrilla</option>
+                  <option>Pizarra</option>
+                </select>
+              </div>
+
+              <button class="app-btn">Ver pendientes →</button>
+
+              <div class="info-pill">
+                🌐 Acceso libre sin autenticación
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Versión Basic</div>
+      </div>
+
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status">
+              <span>9:41</span>
+              <div class="phone-status-right">📶 🔋</div>
+            </div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>POP Colocador</strong>
+                <span>pop.picnic.com.ar/colocador</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <div class="pwa-prompt">
+                <div class="pwa-prompt-icon">📲</div>
+                <div class="pwa-prompt-content">
+                  <strong>Instalá POP en tu inicio</strong>
+                  Acceso más rápido y modo pantalla completa
+                </div>
+                <button>Instalar</button>
+              </div>
+
+              <div style="font-size: 18px; font-weight: 600; color: var(--secondary); margin-bottom: 4px;">Iniciá tu jornada</div>
+              <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 18px;">Tu coordinador te pasó la zona, el producto y el PIN.</div>
+
+              <div class="form-group">
+                <div class="form-label">Zona</div>
+                <select>
+                  <option>CABA Centro</option>
+                  <option>CABA Norte</option>
+                  <option>CABA Sur</option>
+                  <option>Costa Atlántica</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">Producto (PLV)</div>
+                <select>
+                  <option>Kit básico</option>
+                  <option>Backlight</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">PIN de la zona</div>
+                <div class="pin-inputs">
+                  <input value="3" maxlength="1" inputmode="numeric">
+                  <input value="1" maxlength="1" inputmode="numeric">
+                  <input value="9" maxlength="1" inputmode="numeric">
+                  <input value="2" maxlength="1" inputmode="numeric">
+                </div>
+              </div>
+
+              <button class="app-btn">Ingresar →</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label phone-label-pro">Versión Extended</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PIN ERROR + COORDINADOR -->
+  <div class="screen" data-screen-content="pin-error">
+    <div class="screen-label pro">3er error de PIN — botón "Avisar a mi coordinador" + email automático</div>
+
+    <div class="phones-row">
+
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>POP Colocador</strong>
+                <span>3er intento fallido</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <div class="error-banner">
+                <strong>PIN incorrecto</strong>
+                Llevás 3 intentos fallidos. Verificá con tu coordinador.
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">Zona</div>
+                <select><option>Costa Atlántica</option></select>
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">PIN de la zona</div>
+                <div class="pin-inputs">
+                  <input value="" maxlength="1" inputmode="numeric">
+                  <input value="" maxlength="1" inputmode="numeric">
+                  <input value="" maxlength="1" inputmode="numeric">
+                  <input value="" maxlength="1" inputmode="numeric">
+                </div>
+              </div>
+
+              <button class="app-btn">Reintentar</button>
+              <button class="app-btn app-btn-danger" style="margin-top: 10px;">⚠ Avisar a mi coordinador</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label phone-label-pro">Tras 3er error</div>
+      </div>
+
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>Avisar a tu coordinador</strong>
+                <span>Email automático a Sofía Ramírez</span>
+              </div>
+            </div>
+            <div class="app-body">
+              <div class="leader-prompt">
+                <strong>Tu coordinador va a recibir un email</strong>
+                Con tu ID y el mensaje opcional, tu coordinador podrá verificarte y darte el PIN correcto.
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">Tu ID (obligatorio)</div>
+                <input value="35.421.876" inputmode="numeric">
+              </div>
+
+              <div class="form-group">
+                <div class="form-label">Mensaje opcional</div>
+                <textarea placeholder="Ej: No me pasaron el PIN nuevo, estoy en el local..."></textarea>
+              </div>
+
+              <button class="app-btn">Enviar aviso</button>
+              <button class="app-btn app-btn-secondary" style="margin-top: 8px;">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label phone-label-pro">Formulario de aviso</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LISTA DE PENDIENTES -->
+  <div class="screen" data-screen-content="lista">
+    <div class="screen-label">Lista de locales pendientes — ambas versiones</div>
+
+    <div class="phones-row">
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>Pendientes</strong>
+                <span>CABA Norte · Kit básico · 47 PDVs</span>
+              </div>
+            </div>
+            <div class="app-body scrollable">
+              <div class="search-bar">
+                <input placeholder="Buscar por nombre o Grid...">
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">Café Martínez Florida</div>
+                <div class="vc-meta">Florida 537 · CABA</div>
+                <div class="vc-row">
+                  <span class="status-tag status-pending">Pendiente</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 41827</span>
+                </div>
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">McDonald's Recoleta</div>
+                <div class="vc-meta">Av. Las Heras 2230</div>
+                <div class="vc-row">
+                  <span class="status-tag status-pending">Pendiente</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 38491</span>
+                </div>
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">Carrefour Express Belgrano</div>
+                <div class="vc-meta">Av. Cabildo 1840</div>
+                <div class="vc-row">
+                  <span class="status-tag status-retry">Reintentar — Local cerrado</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 52103</span>
+                </div>
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">Starbucks Pacífico</div>
+                <div class="vc-meta">Av. Maipú 1660</div>
+                <div class="vc-row">
+                  <span class="status-tag status-pending">Pendiente</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 47286</span>
+                </div>
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">Burger King Pacífico</div>
+                <div class="vc-meta">Pacífico 234</div>
+                <div class="vc-row">
+                  <span class="status-tag status-pending">Pendiente</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 49021</span>
+                </div>
+              </div>
+
+              <div class="visit-card">
+                <div class="vc-name">Havanna Cabildo</div>
+                <div class="vc-meta">Av. Cabildo 2415</div>
+                <div class="vc-row">
+                  <span class="status-tag status-pending">Pendiente</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">Grid 51847</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Lista — igual en ambas versiones</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MODAL VISITA BASICO -->
+  <div class="screen" data-screen-content="modal-basico">
+    <div class="screen-label">Modal de visita — versión Basic · datos del PDV solo lectura</div>
+
+    <div class="phones-row">
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>Café Martínez Florida</strong>
+                <span>Grid 41827 · Kit básico</span>
+              </div>
+            </div>
+            <div class="app-body scrollable modal-back">
+              <div class="info-readonly">
+                🔒 Información del PDV — solo lectura
+              </div>
+
+              <div class="estab-info">
+                <div class="estab-info-row"><span>Nombre</span><strong>Café Martínez Florida</strong></div>
+                <div class="estab-info-row"><span>Tipo</span><strong>Coffee</strong></div>
+                <div class="estab-info-row"><span>Teléfono</span><strong style="color: var(--primary);">11 4555 3210 📞</strong></div>
+                <div class="estab-info-row"><span>Dirección</span><strong style="color: var(--primary);">Florida 537 📍</strong></div>
+              </div>
+
+              <div class="modal-section">
+                <h4>¿Visita efectiva?</h4>
+                <div class="effective-toggle">
+                  <div class="option selected-yes">✓ Sí</div>
+                  <div class="option">✕ No</div>
+                </div>
+              </div>
+
+              <div class="modal-section">
+                <h4>PLVs colocados (Kit básico)</h4>
+                <div class="kb-toggles">
+                  <div class="kb-toggle checked">Sticker ✓</div>
+                  <div class="kb-toggle checked">Saliente ✓</div>
+                </div>
+              </div>
+
+              <div class="modal-section">
+                <h4>Fotos</h4>
+                <div class="photo-slots">
+                  <div class="photo-slot filled">
+                    <div class="photo-label">Antes</div>
+                  </div>
+                  <div class="photo-slot filled">
+                    <div class="photo-label">Después</div>
+                  </div>
+                </div>
+                <div class="compress-info">Compresión automática: 1280px, 70% JPEG · 248 KB cada una</div>
+              </div>
+
+              <div class="modal-section">
+                <h4>Comentarios (opcional)</h4>
+                <textarea placeholder="Notas sobre la colocación..."></textarea>
+              </div>
+
+              <button class="app-btn" style="margin-top: 14px;">Guardar visita</button>
+              <button class="app-btn app-btn-secondary" style="margin-top: 8px;">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label">Modal Basic — sin edición · sin ID · sin GPS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. MODAL VISITA PRO -->
+  <div class="screen" data-screen-content="modal-pro">
+    <div class="screen-label pro">Modal de visita — versión Extended · edición + ID + GPS</div>
+
+    <div class="phones-row">
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-status"><span>9:41</span><div class="phone-status-right">📶 🔋</div></div>
+            <div class="app-header">
+              <div class="app-mark">P</div>
+              <div class="app-info">
+                <strong>Café Martínez Florida</strong>
+                <span>Grid 41827 · Kit básico</span>
+              </div>
+            </div>
+            <div class="app-body scrollable modal-back">
+              <div class="info-readonly" style="background: var(--primary-soft); color: var(--secondary);">
+                ✎ Datos editables — confirmá antes de guardar
+              </div>
+
+              <div class="estab-info">
+                <div class="estab-info-row"><span>Nombre</span><strong>Café Martínez Florida <span class="editable-mark">✎</span></strong></div>
+                <div class="estab-info-row"><span>Tipo</span><strong>Coffee <span class="editable-mark">✎</span></strong></div>
+                <div class="estab-info-row"><span>Teléfono</span><strong>11 4555 3210 <span class="editable-mark">✎</span></strong></div>
+                <div class="estab-info-row"><span>Dirección</span><strong>Florida 537 <span class="editable-mark">✎</span></strong></div>
+              </div>
+
+              <button class="app-btn app-btn-secondary" style="margin-top: 10px; font-size: 13px; height: 40px;">✓ Confirmar información del local</button>
+
+              <div class="modal-section">
+                <h4>¿Visita efectiva?</h4>
+                <div class="effective-toggle">
+                  <div class="option selected-yes">✓ Sí</div>
+                  <div class="option">✕ No</div>
+                </div>
+              </div>
+
+              <div class="modal-section">
+                <h4>PLVs colocados (Kit básico)</h4>
+                <div class="kb-toggles">
+                  <div class="kb-toggle checked">Sticker ✓</div>
+                  <div class="kb-toggle checked">Saliente ✓</div>
+                </div>
+              </div>
+
+              <div class="modal-section">
+                <h4>Fotos</h4>
+                <div class="photo-slots">
+                  <div class="photo-slot filled"><div class="photo-label">Antes</div></div>
+                  <div class="photo-slot filled"><div class="photo-label">Después</div></div>
+                </div>
+                <div class="compress-info">Compresión automática · GPS capturará al guardar</div>
+              </div>
+
+              <div class="modal-section">
+                <h4>Comentarios (opcional)</h4>
+                <textarea placeholder="Notas sobre la colocación..."></textarea>
+              </div>
+
+              <div class="modal-section">
+                <h4>Tu ID</h4>
+                <input value="35.421.876" inputmode="numeric" placeholder="ID sin puntos">
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 11px;">
+                <span class="gps-pill">📍 GPS listo</span>
+                <span style="color: var(--text-soft);">Se captura al guardar</span>
+              </div>
+
+              <button class="app-btn">Guardar visita</button>
+              <button class="app-btn app-btn-secondary" style="margin-top: 8px;">Cancelar</button>
+            </div>
+          </div>
+        </div>
+        <div class="phone-label phone-label-pro">Modal Pro — con edición + ID + GPS</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){ s.classList.toggle('active', s.dataset.screenContent === name); });
+      buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+
+    document.querySelectorAll('.effective-toggle .option').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        opt.parentElement.querySelectorAll('.option').forEach(function(o){
+          o.classList.remove('selected-yes', 'selected-no');
+        });
+        if (opt.textContent.includes('Sí')) opt.classList.add('selected-yes');
+        else opt.classList.add('selected-no');
+      });
+    });
+
+    document.querySelectorAll('.kb-toggle').forEach(function(t){
+      t.addEventListener('click', function(){
+        t.classList.toggle('checked');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

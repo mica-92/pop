@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POP — Configuración de Zonas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pop_mockups.css">
+<style>
+.layout { display: flex; gap: 20px; align-items: flex-start; }
+.sidebar { width: 200px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; }
+.sidebar-item { padding: 9px 12px; font-size: 13px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.sidebar-item:hover { background: var(--surface-soft); color: var(--text); }
+.sidebar-item.active { background: var(--primary-soft); color: var(--secondary); }
+.sidebar-section { padding: 8px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); margin-top: 8px; }
+.sidebar-sub { padding: 8px 12px 8px 28px; font-size: 12px; color: var(--text-soft); border-radius: var(--radius); margin-bottom: 2px; cursor: default; }
+.sidebar-sub:hover { background: var(--surface-soft); }
+.sidebar-sub.active { background: var(--primary-soft); color: var(--secondary); font-weight: 500; }
+.main { flex: 1; min-width: 0; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.header-title { font-size: 20px; font-weight: 600; color: var(--secondary); letter-spacing: -0.3px; margin: 0 0 2px; }
+.header-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface-soft); }
+button.btn { font-family: inherit; font-size: 12px; font-weight: 500; height: 34px; padding: 0 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
+button.btn:hover { border-color: var(--secondary); color: var(--secondary); }
+button.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+button.btn-primary:hover { background: var(--primary-hover); color: white; }
+button.btn-large { height: 40px; padding: 0 18px; font-size: 13px; }
+button.icon-btn { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.alert-box { background: var(--warning-soft); border: 1px solid var(--warning); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.alert-icon { width: 32px; height: 32px; background: var(--warning); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; font-weight: 700; }
+.alert-content { flex: 1; }
+.alert-title { font-size: 13px; font-weight: 600; color: var(--warning); }
+.alert-desc { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+.pin-mono { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--secondary); letter-spacing: 2px; }
+.geos-summary { font-size: 11px; color: var(--text-soft); max-width: 220px; line-height: 1.4; }
+.modal-backdrop { background: rgba(103, 30, 30, 0.4); padding: 32px 20px; border-radius: 12px; min-height: 600px; display: flex; align-items: flex-start; justify-content: center; }
+.modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 760px; max-width: 100%; border: 1px solid var(--border); }
+.modal-small { width: 600px; }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 17px; font-weight: 600; color: var(--secondary); margin: 0 0 2px; }
+.modal-subtitle { font-size: 12px; color: var(--text-soft); margin: 0; }
+.close-btn { width: 32px; height: 32px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; cursor: pointer; font-size: 18px; color: var(--text-soft); display: flex; align-items: center; justify-content: center; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 2fr 1fr 100px; gap: 12px; margin-bottom: 12px; }
+.form-field-label { font-size: 11px; font-weight: 500; color: var(--text-soft); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tree { font-size: 13px; background: var(--surface-soft); border-radius: var(--radius); padding: 12px; max-height: 320px; overflow-y: auto; }
+.tree-item { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 4px; cursor: pointer; }
+.tree-item:hover { background: rgba(255,255,255,0.6); }
+.tree-toggle { width: 14px; display: inline-block; color: var(--text-muted); font-size: 10px; }
+.tree-label { flex: 1; }
+.tree-checkbox { accent-color: var(--primary); }
+.tree-count { font-size: 11px; color: var(--text-muted); }
+.tree-child { padding-left: 22px; }
+.tree-checked > .tree-item > .tree-label { color: var(--secondary); font-weight: 500; }
+.tree-excluded > .tree-item > .tree-label { color: var(--text-muted); text-decoration: line-through; }
+.warning-banner { background: var(--warning-soft); border-left: 3px solid var(--warning); padding: 10px 12px; border-radius: var(--radius); font-size: 12px; color: var(--text); margin: 14px 0; }
+.warning-banner strong { color: var(--warning); }
+.action-row { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+.kpi-accent { background: var(--primary-soft); border-color: var(--primary-soft); }
+.kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.pin-display-big { font-family: 'JetBrains Mono', monospace; letter-spacing: 8px; font-size: 28px; font-weight: 600; color: var(--primary); }
+.tag-success { background: var(--success-soft); color: var(--success); }
+.tag-danger { background: var(--primary-soft); color: var(--secondary); }
+.tag-neutral { background: var(--surface-soft); color: var(--text-soft); }
+.login-card { max-width: 400px; margin: 60px auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px 30px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div class="brand-text"><strong>POP</strong><span>Configuración de Zonas</span></div>
+  </div>
+  <div class="nav">
+    <button data-screen="zonas-list" class="active">1. Lista de Zonas</button>
+    <button data-screen="zonas-edit">2. Edit Zona (árbol)</button>
+    <button data-screen="zonas-warning">3. Aviso superposición</button>
+    <button data-screen="zonas-huerfanas">4. Zonas no asignadas</button>
+  </div>
+
+<div class="screen active" data-screen-content="zonas-list">
+    <div class="screen-label">Settings → Zonas — vista principal</div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Cargar Excel
+        </div>
+        <div class="sidebar-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          Reportes
+        </div>
+        <div class="sidebar-item active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Configuración
+        </div>
+        <div class="sidebar-sub active">Zonas</div>
+        <div class="sidebar-sub">PLVs</div>
+        <div class="sidebar-sub">Motivos</div>
+        <div class="sidebar-sub">Cadenas</div>
+        <div class="sidebar-sub">Usuarios</div>
+      </div>
+
+      <div class="main">
+        <div class="alert-box">
+          <div class="alert-icon">!</div>
+          <div class="alert-content">
+            <div class="alert-title">Tenés 47 PDVs en geografías sin zona asignada</div>
+            <div class="alert-desc">Detectado en el período actual (junio 2026). Asigná las geografías huérfanas antes de continuar.</div>
+          </div>
+          <button class="btn btn-primary">Ver y asignar</button>
+        </div>
+
+        <div class="card">
+          <div class="header-row">
+            <div>
+              <h2 class="header-title">Zonas operativas</h2>
+              <p class="header-subtitle">8 zonas activas · Cada zona tiene un coordinador, un PIN y una composición geográfica.</p>
+            </div>
+            <button class="btn btn-primary btn-large">+ Nueva zona</button>
+          </div>
+
+          <table>
+            <tr>
+              <th>Zona</th>
+              <th>Coordinador</th>
+              <th>Email</th>
+              <th>PIN</th>
+              <th>Geos</th>
+              <th>Edit</th>
+              <th>Link al dashboard</th>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">CABA Norte</strong></td>
+              <td>María González</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">maria@picnic.com</a></td>
+              <td><span class="pin-mono">4837</span></td>
+              <td><div class="geos-summary">CABA: Centro, Norte, Belgrano, Palermo, Recoleta</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/caba_norte ↗</a></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">CABA Sur</strong></td>
+              <td>Pedro Martínez</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">pedro@picnic.com</a></td>
+              <td><span class="pin-mono">2916</span></td>
+              <td><div class="geos-summary">CABA: La Boca, Barracas, San Telmo, Constitución</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/caba_sur ↗</a></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">GBA Norte</strong></td>
+              <td>Laura Fernández</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">laura@picnic.com</a></td>
+              <td><span class="pin-mono">5621</span></td>
+              <td><div class="geos-summary">BA: Vicente López, San Isidro, Tigre, San Fernando</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/gba_norte ↗</a></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Córdoba Capital</strong></td>
+              <td>Diego López</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">diego@picnic.com</a></td>
+              <td><span class="pin-mono">7843</span></td>
+              <td><div class="geos-summary">Córdoba: Capital (todos los barrios)</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/cordoba_capital ↗</a></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">Costa Atlántica</strong></td>
+              <td>Sofía Ramírez</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">sofia@picnic.com</a></td>
+              <td><span class="pin-mono">3192</span></td>
+              <td><div class="geos-summary">BA: Mar del Plata + Pinamar + Villa Gesell - Camet Norte</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/costa_atlantica ↗</a></td>
+            </tr>
+            <tr>
+              <td><strong style="color: var(--secondary);">BA Interior</strong></td>
+              <td>Carlos Suárez</td>
+              <td><a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">carlos@picnic.com</a></td>
+              <td><span class="pin-mono">6754</span></td>
+              <td><div class="geos-summary">Toda Buenos Aires - GBA Norte - GBA Sur - Costa Atlántica</div></td>
+              <td><button class="btn icon-btn" title="Editar">✎</button></td>
+              <td><a href="#" style="color: var(--primary); font-size: 12px; text-decoration: none;">/zonas/ba_interior ↗</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. EDIT ZONA -->
+<div class="screen" data-screen-content="zonas-edit">
+    <div class="screen-label">Editar zona — modal con árbol de geografía</div>
+
+    <div class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title">Editar zona "Costa Atlántica"</h2>
+            <p class="modal-subtitle">Configurá coordinador, PIN y la composición geográfica</p>
+          </div>
+          <button class="close-btn">×</button>
+        </div>
+
+        <div class="section-title">Datos del coordinador</div>
+        <div class="form-row-3">
+          <div>
+            <div class="form-field-label">Nombre del coordinador</div>
+            <input value="Sofía Ramírez" style="width: 100%;">
+          </div>
+          <div>
+            <div class="form-field-label">Email</div>
+            <input value="sofia@picnic.com" style="width: 100%;">
+          </div>
+          <div>
+            <div class="form-field-label">PIN (4 dígitos)</div>
+            <input value="3192" maxlength="4" inputmode="numeric" style="width: 100%; font-family: 'JetBrains Mono'; letter-spacing: 3px; text-align: center; font-weight: 600;">
+          </div>
+        </div>
+
+        <div class="section-title">Nombre de la zona</div>
+        <input value="Costa Atlántica" style="width: 100%; margin-bottom: 4px;">
+
+        <div class="section-title">Composición geográfica</div>
+        <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 8px;">Marcá las regiones que componen esta zona. Podés incluir provincias enteras y excluir ciudades o barrios específicos.</div>
+
+        <div class="tree">
+          <div class="tree-item">
+            <span class="tree-toggle">▾</span>
+            <input type="checkbox" class="tree-checkbox" disabled>
+            <span class="tree-label">Argentina</span>
+            <span class="tree-count">24 provincias</span>
+          </div>
+          <div class="tree-child">
+            <div class="tree-item">
+              <span class="tree-toggle">▸</span>
+              <input type="checkbox" class="tree-checkbox">
+              <span class="tree-label">CABA</span>
+              <span class="tree-count">48 barrios</span>
+            </div>
+            <div class="tree-checked">
+              <div class="tree-item">
+                <span class="tree-toggle">▾</span>
+                <input type="checkbox" class="tree-checkbox" checked>
+                <span class="tree-label">Buenos Aires</span>
+                <span class="tree-count">135 localidades</span>
+              </div>
+              <div class="tree-child">
+                <div class="tree-checked">
+                  <div class="tree-item">
+                    <span class="tree-toggle"></span>
+                    <input type="checkbox" class="tree-checkbox" checked>
+                    <span class="tree-label">Mar del Plata</span>
+                    <span class="tree-count">82 barrios</span>
+                  </div>
+                </div>
+                <div class="tree-checked">
+                  <div class="tree-item">
+                    <span class="tree-toggle"></span>
+                    <input type="checkbox" class="tree-checkbox" checked>
+                    <span class="tree-label">Pinamar</span>
+                  </div>
+                </div>
+                <div class="tree-checked">
+                  <div class="tree-item">
+                    <span class="tree-toggle"></span>
+                    <input type="checkbox" class="tree-checkbox" checked>
+                    <span class="tree-label">Villa Gesell</span>
+                  </div>
+                </div>
+                <div class="tree-excluded">
+                  <div class="tree-item">
+                    <span class="tree-toggle"></span>
+                    <input type="checkbox" class="tree-checkbox">
+                    <span class="tree-label">Camet Norte</span>
+                    <span class="tree-count" style="color: var(--primary); font-weight: 500;">✕ excluido</span>
+                  </div>
+                </div>
+                <div class="tree-item" style="color: var(--text-muted); font-style: italic;">
+                  <span class="tree-toggle"></span>
+                  <span style="margin-left: 22px; font-size: 11px;">+ 131 localidades más sin seleccionar</span>
+                </div>
+              </div>
+            </div>
+            <div class="tree-item">
+              <span class="tree-toggle">▸</span>
+              <input type="checkbox" class="tree-checkbox">
+              <span class="tree-label">Córdoba</span>
+              <span class="tree-count">427 localidades</span>
+            </div>
+            <div class="tree-item">
+              <span class="tree-toggle">▸</span>
+              <input type="checkbox" class="tree-checkbox">
+              <span class="tree-label">Santa Fe</span>
+              <span class="tree-count">365 localidades</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--secondary-soft); border-radius: var(--radius); padding: 10px 14px; margin-top: 12px; font-size: 12px;">
+          <strong style="color: var(--secondary);">Composición resultante:</strong> Mar del Plata + Pinamar + Villa Gesell − Camet Norte
+        </div>
+
+        <div class="action-row">
+          <button class="btn" style="color: var(--primary); border-color: var(--primary-soft);">Eliminar zona</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn">Cancelar</button>
+            <button class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. WARNING SUPERPOSICION -->
+<div class="screen" data-screen-content="zonas-warning">
+    <div class="screen-label">Validación de superposición al guardar</div>
+
+    <div class="modal-backdrop">
+      <div class="modal modal-small">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title">Superposición detectada</h2>
+            <p class="modal-subtitle">La zona que estás definiendo se solapa con otras existentes</p>
+          </div>
+          <button class="close-btn">×</button>
+        </div>
+
+        <div style="background: var(--warning-soft); border-radius: var(--radius); padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 36px; height: 36px; background: var(--warning); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 700; font-size: 18px;">!</div>
+            <div>
+              <div style="font-weight: 600; color: var(--warning); font-size: 13px; margin-bottom: 6px;">Las siguientes geografías ya están asignadas a otras zonas:</div>
+              <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: var(--text);">
+                <li><strong>Mar del Plata</strong> ya está incluido en la zona <strong>"BA Interior"</strong> del coordinador Carlos Suárez</li>
+                <li><strong>Camet Norte</strong> está excluido en "BA Interior" pero incluido en otra zona</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--surface-soft); border-radius: var(--radius); padding: 14px; margin-bottom: 16px; font-size: 12px;">
+          <strong style="color: var(--secondary);">¿Cómo querés resolver esto?</strong>
+          <div style="margin-top: 10px;">
+            <div style="margin-bottom: 6px;">
+              <label style="cursor: pointer;"><input type="radio" name="resolution" checked style="accent-color: var(--primary);"> <strong>Mantener superposición</strong> — guardar igual, ambas zonas comparten estas geografías</label>
+            </div>
+            <div style="margin-bottom: 6px;">
+              <label style="cursor: pointer;"><input type="radio" name="resolution" style="accent-color: var(--primary);"> <strong>Reasignar a esta zona</strong> — se quitan de "BA Interior" y quedan solo acá</label>
+            </div>
+            <div>
+              <label style="cursor: pointer;"><input type="radio" name="resolution" style="accent-color: var(--primary);"> <strong>Ajustar selección</strong> — volver al editor y modificar manualmente</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn">Volver al editor</button>
+          <button class="btn btn-primary">Confirmar y guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ZONAS HUERFANAS -->
+<div class="screen" data-screen-content="zonas-huerfanas">
+    <div class="screen-label">Modal de zonas no asignadas</div>
+
+    <div class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title">Geografías sin zona asignada</h2>
+            <p class="modal-subtitle">47 PDVs del período actual están en geografías que no pertenecen a ninguna zona configurada</p>
+          </div>
+          <button class="close-btn">×</button>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-soft); margin-bottom: 12px;">Asigná cada geografía a una zona existente o creá una zona nueva.</div>
+
+        <table>
+          <tr>
+            <th>Provincia</th>
+            <th>Ciudad</th>
+            <th>Barrio</th>
+            <th>Locales</th>
+            <th>Asignar a</th>
+          </tr>
+          <tr>
+            <td>Mendoza</td>
+            <td>Mendoza Capital</td>
+            <td>—</td>
+            <td>18</td>
+            <td>
+              <select style="width: 180px;">
+                <option>— Elegí una zona —</option>
+                <option>+ Crear nueva zona</option>
+                <option>CABA Norte</option>
+                <option>Córdoba Capital</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Mendoza</td>
+            <td>Godoy Cruz</td>
+            <td>—</td>
+            <td>7</td>
+            <td><select style="width: 180px;"><option>— Elegí una zona —</option></select></td>
+          </tr>
+          <tr>
+            <td>Tucumán</td>
+            <td>San Miguel de Tucumán</td>
+            <td>—</td>
+            <td>12</td>
+            <td><select style="width: 180px;"><option>— Elegí una zona —</option></select></td>
+          </tr>
+          <tr>
+            <td>Salta</td>
+            <td>Salta Capital</td>
+            <td>—</td>
+            <td>6</td>
+            <td><select style="width: 180px;"><option>— Elegí una zona —</option></select></td>
+          </tr>
+          <tr>
+            <td>Buenos Aires</td>
+            <td>Bahía Blanca</td>
+            <td>—</td>
+            <td>4</td>
+            <td><select style="width: 180px;"><option>— Elegí una zona —</option></select></td>
+          </tr>
+        </table>
+
+        <div style="background: var(--surface-soft); border-radius: var(--radius); padding: 12px 14px; margin-top: 14px; font-size: 12px; color: var(--text-soft);">
+          <strong style="color: var(--secondary);">Tip:</strong> Si querés crear una zona nueva específica para alguna de estas geografías, podés hacerlo directamente desde el dropdown eligiendo "Crear nueva zona".
+        </div>
+
+        <div class="action-row">
+          <button class="btn">Volver más tarde</button>
+          <button class="btn btn-primary">Aplicar asignaciones</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. COORDINADOR LOGIN -->
+</div>
+
+<script>
+  (function(){
+    var screens = document.querySelectorAll('[data-screen-content]');
+    var buttons = document.querySelectorAll('[data-screen]');
+    function show(name){
+      screens.forEach(function(s){ s.classList.toggle('active', s.dataset.screenContent === name); });
+      buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.screen === name); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){ show(b.dataset.screen); });
+    });
+  })();
+</script>
+</body>
+</html>
