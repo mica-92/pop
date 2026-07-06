@@ -12,7 +12,7 @@ Las limitaciones de PYT se evidencian en el uso cotidiano de la aplicación. Est
 
 - **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la gestión de PDVs y PLVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
 
-- **Fragmentación de la información:** La información se encuentra aislada por período, PLV y tipo de material, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales;
+- **Fragmentación de la información:** La información se encuentra aislada por período, PLV, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales;
 
 - **Debilidades en el control operativo:** Carece de trazabilidad de visitas, integración de coordinadores regionales en el flujo de trabajo, y controles de acceso sólidos; comprometiendo la seguridad, integridad y auditabilidad del proceso, y limitando la capacidad de supervisión efectiva del equipo en campo.
 
@@ -36,7 +36,7 @@ Con el objetivo de resolver los inconvenientes identificados, **POP centraliza l
 
 - **Garantiza trazabilidad operativa en dos niveles de control**: a nivel de coordinadores regionales (asignación de zonas, distribución de tareas y monitoreo de desempeño por coordinador) y a nivel de visita (quién, cuándo, dónde, con registro fotográfico y log de auditoría), permitiendo a Picnic identificar problemas logísticos y medir la eficiencia de su operación en tiempo real;
 
-- **Ofrece dashboards diferenciados por perfil de usuario** — gestión para Picnic, operativo para coordinadores regionales y transparencia para PeYa — con un panel de cliente que brinda acceso autónomo a KPIs, fotos y reportes, reduciendo pedidos de información ad-hoc y fortaleciendo la relación y transparencia comercial;
+- **Ofrece dashboards diferenciados por perfil de usuario** — gestión para Picnic, operativo para coordinadores regionales y transparencia para PedidosYa — con un panel de cliente que brinda acceso autónomo a KPIs, fotos y reportes, reduciendo pedidos de información ad-hoc y fortaleciendo la relación y transparencia comercial;
 
 - **Arquitectura modular y nueva estructura de datos** que permiten que el software crezca junto con las necesidades de Picnic, incorporando nuevas funcionalidades sin replantear el sistema completo, protegiendo la inversión a largo plazo.
 
@@ -48,7 +48,7 @@ POP organiza el ciclo de vida de una campaña de PLVs en torno a cuatro dimensio
 
 - **Ejecución en punto de venta (colocadores):** registro de visitas desde app móvil optimizada para campo, con documentación fotográfica, registro de incidencias y confirmación de colocación en tiempo real, eliminando la demora entre la visita y la actualización de la base de datos.
 
-- **Rendición de cuentas al cliente (PeYa):** panel autónomo para consultar estado de campañas, KPIs, registros fotográficos y descarga de reportes, reduciendo la carga operativa del equipo de Picnic y fortaleciendo la transparencia en la relación comercial.
+- **Rendición de cuentas al cliente (PedidosYa):** panel autónomo para consultar estado de campañas, KPIs, registros fotográficos y descarga de reportes, reduciendo la carga operativa del equipo de Picnic y fortaleciendo la transparencia en la relación comercial.
 
 Las cuatro dimensiones comparten un único modelo de datos, eliminando la fragmentación actual y garantizando que la información fluya sin fricciones desde el PDV hasta el reporte final, sin cruces manuales ni archivos intermedios.
 
