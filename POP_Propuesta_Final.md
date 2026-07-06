@@ -433,11 +433,10 @@ _Referencias en ARS calculadas al tipo de cambio aproximado al momento de la pro
 
 La transición desde PEYA Trade hacia POP incluye capacitación sin costo para los equipos de Picnic y PeYa:
 
-- **Manual de usuario en formato escrito** entregado al cierre del proyecto, con instrucciones paso a paso de las principales operaciones.
 - **Material de apoyo** para distribuir a colocadores y coordinadores regionales, con instrucciones de uso de la App de Campo y del Portal de Coordinadores.
-- **Consultas y dudas durante el período de adopción** atendidas vía mensajería y email sin costo adicional.
+- **Consultas y dudas durante el período de adopción** atendidas vía mensajería y email sin costo adicional centralizadas por el equipo de Picnic.
 
-Si Picnic identifica la necesidad de sesiones presenciales o videollamadas dedicadas de capacitación más allá del material escrito, se conversan y coordinan sin problema dentro del plan flex de mantenimiento.
+Si Picnic identifica la necesidad de sesiones presenciales o virtuales dedicadas de capacitación más allá del material escrito, se conversan y coordinan sin problema dentro del plan de mantenimiento.
 
 ## 6. Infraestructura y Costos Operativos
 
@@ -445,9 +444,9 @@ POP requiere de servicios de terceros para funcionar en producción. Estos servi
 
 **Estimación mensual: USD 80 aproximados.**
 
-Este valor cubre los servicios necesarios para que POP funcione en producción: hosting de la aplicación, base de datos, almacenamiento de fotos, envío de emails, monitoreo y dominio personalizado. La variabilidad principal viene del volumen de fotografías acumuladas con el tiempo, pero se mantiene en ese orden de magnitud durante el uso normal del sistema.
+Este valor cubre los servicios necesarios para que POP funcione en producción: hosting de la aplicación, base de datos, almacenamiento de fotos, envío de emails, monitoreo y dominio personalizado. **La variabilidad principal viene del volumen de fotografías acumuladas con el tiempo, pero se mantiene en ese orden de magnitud durante el uso normal del sistema.**
 
-Estos costos son **independientes del modelo elegido (_Basic_ o Pro)**: son los mismos en ambos casos. El upgrade a Pro no incrementa la infraestructura.
+Estos costos son **independientes del modelo elegido (_Basic_ o _Extended_)**: son los mismos en ambos casos. El upgrade a Pro no incrementa la infraestructura.
 
 #### Lo que está incluido en el desarrollo sin costo adicional
 
@@ -519,13 +518,13 @@ Las horas indicadas son estimaciones preliminares para dimensionar el esfuerzo r
 
 Las dos versiones presentadas —_Basic_ y _Extended_— son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off, según el nivel de control y automatización que necesite en esta etapa.
 
-Ahora bien, la elección de una versión no obliga a tomar o descartar la otra en bloque. Gracias a la **estructura modular** de POP, las funcionalidades pueden cotizarse de forma individual: si Picnic elige _Basic_ y más adelante desea incorporar capacidades presentes en _Extended_, no es necesario contratar el paquete completo, sino que cada funcionalidad se conversa, se evalúa y se cotiza por separado, generando una propuesta complementaria. El trabajo ya realizado nunca se descarta: lo nuevo se construye sobre lo existente.
+Ahora bien, la elección de una versión no obliga a tomar o descartar la otra en bloque. Gracias a la **estructura modular** de POP, las funcionalidades pueden cotizarse de forma individual: si Picnic elige _Basic_ y más adelante desea incorporar capacidades presentes en _Extended_, no es necesario contratar el paquete completo, sino que cada funcionalidad se conversan, se evaluan y se cotizan por separado, generando una propuesta complementaria. El trabajo ya realizado nunca se descarta: lo nuevo se construye sobre lo existente.
 
 <div class="info-callout">
-<strong>Por qué conviene anticipar las funcionalidades deseadas:</strong> aunque el sistema permite sumar capacidades de a una, las funcionalidades que Picnic prevea como probables deben considerarse desde el inicio. Buena parte del trabajo fundacional consiste en modelar la base de datos y definir cómo fluye la información entre las distintas dimensiones del sistema; si una funcionalidad futura se contempla en esa etapa, la estructura se diseña para soportarla de forma eficiente. Incorporarla después, en cambio, puede requerir cambios de base de datos no triviales y rehacer parte de lo construido. Anticiparlas no obliga a desarrollarlas de entrada, pero permite dejar los cimientos preparados.
+<strong>Por qué conviene anticipar las funcionalidades deseadas:</strong> aunque el sistema permite sumar capacidades de a una, las funcionalidades que Picnic prevea como probables deben considerarse desde el inicio. Buena parte del trabajo fundacional consiste en modelar la base de datos y definir cómo fluye la información entre las distintas dimensiones del sistema; si una funcionalidad futura se contempla en esa etapa, la estructura se diseña para soportarla de forma eficiente. Incorporarla después, en cambio, puede requerir cambios de base de datos no triviales, rehacer parte de lo construido e incurrir en horas adicionales.
 </div>
 
-Este mismo criterio aplica a los **módulos adicionales** descriptos en la Sección 8: son cotizables de forma independiente y pueden sumarse en cualquier momento, pero varios dependen de decisiones estructurales que conviene tomar temprano. Los que requieren _Extended_ como pre-requisito, en particular, solo son viables si esa base fue implementada.
+Este mismo criterio aplica a los **módulos adicionales** descriptos en la Sección 7: son cotizables de forma independiente y pueden sumarse en cualquier momento, pero varios dependen de decisiones estructurales que conviene tomar temprano. Los que requieren _Extended_ como pre-requisito, en particular, solo son viables si esa base fue implementada.
 
 Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no contempladas** en esta propuesta, identificadas a partir del uso real o de nuevas necesidades operativas de Picnic. Cada una se conversa en su momento y se cotiza de forma independiente como propuesta complementaria, con su propio alcance, horas e inversión.
 
@@ -539,9 +538,9 @@ Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no
 
 **Cambios de alcance.** Cambios menores (ajustes de UI, textos, comportamientos pequeños) están contemplados en el buffer de cada fase. Cambios mayores que impliquen nuevo desarrollo se documentan y cotizan por escrito antes de ejecutarse.
 
-**Comunicación.** Reuniones de revisión quincenales con Picnic. Canal directo de WhatsApp/email para consultas puntuales durante días hábiles. Demo en vivo al cierre de cada fase.
+**Comunicación.** Reuniones de revisión quincenales con Picnic. Canal directo de WhatsApp/email para consultas puntuales durante días hábiles. Presentación de los avances en vivo al cierre de cada fase.
 
-**Garantía post-lanzamiento.** Durante los primeros 30 días posteriores a la salida a producción, cualquier bug originado en el desarrollo se corrige sin cargo adicional, incluso fuera del plan flex de mantenimiento.
+**Garantía post-lanzamiento.** Durante los primeros 30 días posteriores a la salida a producción, cualquier bug originado en el desarrollo se corrige sin cargo adicional, incluso fuera del plan de mantenimiento.
 
 **Aceptación de fase.** Cada fase se considera entregada una vez Picnic revisa el entregable y comunica conformidad. Plazo de revisión sugerido: 5 días hábiles.
 
@@ -549,4 +548,5 @@ Finalmente, es esperable que a lo largo del proyecto surjan **funcionalidades no
 
 ---
 
-*Documento sujeto a aceptación. Válido por hasta 31 de Julio 2026.* <strong>Nota:</strong> Esta propuesta es confidencial y de uso exclusivo de Picnic. Queda prohibida su reproducción total o parcial sin autorización expresa de la autora.
+<b>Esta propuesta tiene una validez de 30 días a partir de su fecha de presentación. El presente documento tiene carácter exclusivamente informativo y constituye una presentación de la propuesta, sin valor contractual. Su contenido es confidencial y de uso interno de Picnic: queda prohibida su distribución, reproducción o copia total o parcial sin autorización previa.</b>
+    
