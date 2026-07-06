@@ -379,55 +379,35 @@ El desarrollo de POP se organiza en fases mensuales con entregables progresivos.
 <strong>Nota sobre tiempos:</strong> los cronogramas presentados consideran un ritmo de trabajo sostenible y realista. Pueden surgir demoras operativas por imprevistos propios del desarrollo (bugs complejos, decisiones a discutir, dependencias externas, etc.). Cuando ocurra, se comunica con anticipación y se ajusta el cronograma en conjunto.
 </div>
 
-### Fases de Desarrollo
+### Fases de Desarrollo e Inversión
 
 Las fases son secuenciales y cada una entrega funcionalidad concreta y verificable. La estructura respeta un orden lógico: primero el cimiento técnico invisible, luego las herramientas de gestión, después la ejecución en campo, y finalmente la calibración y puesta en producción.
 
+Todos los valores se calculan sobre una **tarifa horaria de USD 35**.
+
 #### Plan Versión _Basic_
 
-**Duración estimada:** 5 a 6 meses · **Volumen total:** 300 horas (~60 horas mensuales promedio).
+**Duración estimada:** 6 meses · **Volumen total:** 400 horas (~67 horas mensuales promedio).
+
+| Concepto | Horas | Inversión USD | Referencia ARS |
+|---|:-:|---|---|
+| Total desarrollo | 400 | **USD 14.000** | ARS ~21,2M |
+| Distribución mensual (promedio) | 67 | USD 2.333 | ARS ~3,5M |
 
 | Fase | Horas | Entregable principal |
 |---|:-:|---|
-| **Mes 1 — Arquitectura y base de datos** | 60 | Setup técnico, modelo de datos central (PDVs, PLVs, períodos, visitas), pipeline de importación, autenticación del admin y configuración inicial de PLVs y motivos. Sienta las bases sobre las que opera todo el sistema. |
-| **Mes 2 — Carga y Panel de Gestión** | 70 | Módulo de Carga de PDVs funcionando (detección de hojas, resumen pre-confirmación) + Panel de Gestión Central con KPIs, tabla unificada, filtros simples y exportación a Excel. |
-| **Mes 3 — Detalle y Panel de Cliente** | 70 | Detalle de PDV y Detalle de Visita con historial fotográfico completo + Panel de Cliente para PedidosYa con vista de campañas, filtros y descarga. |
-| **Mes 4 — App de Campo y Log** | 65 | App de Campo completa con el flujo de registro de visita (efectiva/no efectiva, fotos, motivos, compresión automática) + Log de Auditoría. |
-| **Mes 5 — Calibración y Producción** | 35 | Testing exhaustivo, ajustes finales, deploy a producción, capacitación y soporte intensivo de adopción. |
+| **Mes 1 — Arquitectura y base de datos** | 70 | Setup técnico, modelo de datos central (PDVs, PLVs, períodos, visitas), pipeline de importación, autenticación del admin y configuración inicial de PLVs y motivos. Sienta las bases sobre las que opera todo el sistema. |
+| **Mes 2 — Carga y Panel de Gestión** | 80 | Módulo de Carga de PDVs funcionando (detección de hojas, resumen pre-confirmación) + Panel de Gestión Central con KPIs, tabla unificada, filtros simples y exportación a Excel. |
+| **Mes 3 — Detalle y Panel de Cliente** | 75 | Detalle de PDV y Detalle de Visita con historial fotográfico completo + Panel de Cliente para PedidosYa con vista de campañas, filtros y descarga. |
+| **Mes 4 — App de Campo y Log** | 75 | App de Campo completa con el flujo de registro de visita (efectiva/no efectiva, fotos, motivos, compresión automática) + Log de Auditoría. |
+| **Mes 5 — Reportes y Coordinadores** | 55 | Constructor de Reportes (exportación avanzada con elección de columnas y filtros combinables) + Portal de Coordinadores (solo Extended). |
+| **Mes 6 — Calibración y Producción** | 45 | Testing exhaustivo, ajustes finales, deploy a producción, capacitación y soporte intensivo de adopción. |
+
+_Referencias en ARS calculadas al tipo de cambio aproximado al momento de la propuesta. El valor final en pesos puede variar según la cotización al momento de cada facturación._
 
 #### Plan Versión _Extended_
 
-**Duración estimada:** 7 a 8 meses · **Volumen total:** 650 horas (~93 horas mensuales promedio).
-
-| Fase | Horas | Entregable principal |
-|---|:-:|---|
-| **Mes 1 — Arquitectura ampliada** | 70 | Setup técnico y modelo de datos extendido, incorporando desde el inicio las dimensiones de zonas, coordinadores y cadenas. Autenticación y configuración base. |
-| **Mes 2 — Carga avanzada y Panel de Gestión** | 90 | Carga de PDVs con detección de duplicados y resolución de discrepancias + Panel de Gestión Central con filtros avanzados combinables y exportación. |
-| **Mes 3 — Pestañas analíticas** | 90 | Pestañas dedicadas Por PLV, Por Geografía con drill-down e Histórico de KPIs por mes, con selector de rango de fechas. |
-| **Mes 4 — Detalle, Panel de Cliente y Constructor** | 95 | Detalle de PDV y Visita con trazabilidad nominal (ID, GPS) + Panel de Cliente ampliado + Constructor de Reportes a medida. |
-| **Mes 5 — App de Campo con trazabilidad** | 100 | App de Campo con PIN de zona, ID obligatorio, captura de GPS, edición de datos del PDV en campo y aviso automático al coordinador. |
-| **Mes 6 — Zonas y Portal de Coordinadores** | 100 | Gestión visual de zonas (árbol jerárquico, validación de superposiciones), Portal de Coordinadores con acceso por PIN y snapshot histórico de zona-coordinador-PIN. |
-| **Mes 7 — Calibración y Producción** | 105 | Análisis histórico y comparativo, testing exhaustivo, deploy a producción, capacitación y soporte intensivo de adopción. |
-
-### Inversión
-
-Todos los valores se calculan sobre una **tarifa horaria de USD 35**.
-
-#### Versión _Basic_
-
-| Concepto | Horas | Inversión USD | Referencia ARS |
-|---|:-:|---|---|
-| Total desarrollo | 300 | **USD 10.500** | ARS ~16M |
-| Distribución mensual (promedio) | 60 | USD 2.100 | ARS ~3,2M |
-
-#### Versión _Extended_
-
-| Concepto | Horas | Inversión USD | Referencia ARS |
-|---|:-:|---|---|
-| Total desarrollo | 650 | **USD 22.750** | ARS ~34M |
-| Distribución mensual (promedio) | 93 | USD 3.250 | ARS ~4,9M |
-
-_Referencias en ARS calculadas al tipo de cambio aproximado al momento de la propuesta. El valor final en pesos puede variar según la cotización al momento de cada facturación._
+_nota:_ Las fases y cotización serán presentadas cuando las funcionalidades sean identificadas. Se estima que la implementación completa tendrá una duración de al menos 8 meses.
 
 ### Forma de Pago
 
