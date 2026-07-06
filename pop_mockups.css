@@ -187,9 +187,9 @@ input, select, textarea {
   font-family: inherit; font-size: 14px;
   border: 1px solid var(--border); border-radius: 10px;
   background: var(--surface); color: var(--text);
-  outline: none; width: 100%;
+  outline: none;
 }
-input, select { height: 42px; padding: 0 14px; }
+input, select { padding: 0 14px; }
 textarea { padding: 10px 14px; resize: vertical; }
 input:focus, select:focus, textarea:focus { border-color: var(--primary); }
 
