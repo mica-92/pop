@@ -2,14 +2,14 @@
 
 **POP (Plataforma Operativa de PLVs)** es una plataforma web diseñada a medida para Picnic con el objetivo de **modernizar y automatizar el control y seguimiento de la colocación de PLVs (Publicidad en Lugares de Venta)**. Actualmente, este proceso se realiza sobre la aplicación PeYa Trade (PYT), una herramienta que presenta limitaciones operativas significativas, dificultando la obtención y entrega de resultados precisos al cliente, PedidosYa.
 
-El nombre **POP** responde al acrónimo de los dos objetivos fundamentales de este proyecto. Por un lado, representa ***Plataforma Operativa de PLVs***, el sistema neurálgico que organiza y da seguimiento a toda la cadena de gestión y colocación de material publicitario. Por el otro, responde al acrónimo anglosajón de *Point of Purchase* un concepto que se refiere al conjunto de materiales publicitarios, exhibidores y gráficos que se colocan en los puntos de venta físicos para captar la atención del cliente. **POP es la herramienta que vuelve tangible lo intangible: transforma el punto de venta en un activo medible, trazable y escalable.**
+El nombre **POP** tiene un doble significado que resume los dos ejes fundamentales del proyecto. Por un lado, representa ***Plataforma Operativa de PLVs***, el sistema neurálgico que organiza y da seguimiento a toda la cadena de gestión y colocación de material publicitario. Por el otro, responde al acrónimo anglosajón de *Point of Purchase* un concepto que se refiere al conjunto de materiales publicitarios, exhibidores y gráficos que se colocan en los puntos de venta físicos para captar la atención del cliente. **POP es la herramienta que vuelve tangible lo intangible: transforma el punto de venta en un activo medible, trazable y escalable.**
 
 ---
 #### NOTA
 
 A lo largo de este documento se utilizan los términos:
 - **PDV** (Punto de Venta) para referirse a cada establecimiento físico donde se coloca material publicitario,
-- **PVL (Publicidad en Lugares de Venta)** para referirse al material publicitario que cada **colocador** instala en un PDV,
+- **PLV (Publicidad en Lugares de Venta)** para referirse al material publicitario que cada **colocador** instala en un PDV,
 - el término **cliente** para referirse a PedidosYa, 
 - **coordinador regional** para el responsable de gestionar una zona operativa y su equipo de colocadores en campo.
 ---
@@ -18,11 +18,11 @@ A lo largo de este documento se utilizan los términos:
 
 Las limitaciones de PYT se evidencian en el uso cotidiano de la aplicación. Estas radican principalmente en un deficiente manejo de la información, y pueden resumirse en 4 puntos centrales:
 
-- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar la información y la producción manual de cada reporte, generando demoras y restando confiabilidad a la toma de decisiones. Además, está construido sobre bibliotecas programáticas antiguas, lo que vuelve el programa lento e inestable en el uso diario;
+- **Usabilidad y análisis limitado:** Interfaz rígida que no permite filtrar ni segmentar datos dinámicamente; obliga a exportar la información y la producción manual de cada reporte, generando demoras y restando confiabilidad a la toma de decisiones. Además, está construido sobre bibliotecas programáticas antiguas, lo que vuelve el programa lento e inestable en el uso diario.
 
-- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la gestión de PDVs y PLVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades;
+- **Falta de trazabilidad temporal y geográfica:** Sin historial ni métricas evolutivas; imposibilita comparar la gestión de PDVs y PLVs entre períodos, ni segmentar por localidad o rango de tiempo para planificar prioridades.
 
-- **Fragmentación de la información:** La información se encuentra aislada por período, PLV, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales;
+- **Fragmentación de la información:** La información se encuentra aislada por período, PLV, sin una vista consolidada por PDV; obliga a cruces manuales entre diferentes hojas y archivos, incrementando errores y esfuerzo operativo en auditorías integrales.
 
 - **Debilidades en el control operativo:** Carece de trazabilidad de visitas, integración de coordinadores regionales en el flujo de trabajo, y controles de acceso sólidos; comprometiendo la seguridad, integridad y auditabilidad del proceso, y limitando la capacidad de supervisión efectiva del equipo en campo.
 
@@ -34,7 +34,7 @@ Generando en consecuencia:
 
 ### Propuesta Operativa POP
 
-Con el objetivo de resolver los inconvenientes identificados, **POP centraliza la operación con una interfaz rápida y moderna**, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto — PDVs, PLVs, períodos, coordinadores, controladores y cliente — dentro de un ecosistema unificado, y ofrece:
+Con el objetivo de resolver los inconvenientes identificados, **POP centraliza la operación con una interfaz rápida y moderna**, construida sobre una nueva arquitectura de base de datos que integra de forma eficiente todas las diferentes dimensiones del proyecto — PDVs, PLVs, períodos, coordinadores, colocadores y cliente — dentro de un ecosistema unificado, y ofrece:
 
 - **La agilización y automatización de las tareas repetitivas y cotidianas**, muchas de las cuales se realizan de forma manual actualmente, como la carga de los PDVs y la distribución de los mismos a los coordinadores;
 
@@ -66,7 +66,7 @@ Las cuatro dimensiones comparten un único modelo de datos, eliminando la fragme
 
 Más allá de resolver las limitaciones operativas actuales, POP construye activos estratégicos para Picnic.
 
-El primero es una **base de datos de PDVs operativa y verificada en campo**. El sistema consolida y mantiene actualizada la información de cada punto de venta — dirección, contacto, estado del PLV e historial de visitas —, construyendo un activo de estratégico de información que no solo potencia la operación actual, sino que representa un recurso valioso para futuras campañas y análisis.
+El primero es una **base de datos de PDVs operativa y verificada en campo**. El sistema consolida y mantiene actualizada la información de cada punto de venta — dirección, contacto, estado del PLV e historial de visitas —, construyendo un activo estratégico de información que no solo potencia la operación actual, sino que representa un recurso valioso para futuras campañas y análisis.
 
 El segundo es una **plataforma replicable para otros clientes**. La arquitectura modular de POP permite adaptar la solución a las necesidades de otros clientes de Picnic con modificaciones menores. La inversión en desarrollo no queda atada a un único cliente: el sistema puede ampliarse y reutilizarse, multiplicando el retorno sobre la inversión inicial y posicionando a Picnic con una capacidad diferencial en su mercado.
 
@@ -224,7 +224,7 @@ El Portal de Coordinadores es un acceso individual, exclusivo de la versión **_
 
 Al ingresar, el coordinador ve los **KPIs operativos de su zona** en el período actual —total de PDVs, visitados, pendientes, efectivos, distribución por PLV— junto con la tabla completa de PDVs asignados, con sort, búsqueda y filtros por PLV, estado y motivo. Puede **descargar el listado en Excel**, consolidado o multi-hoja por PLV, para distribuir a sus colocadores, y ve el **PIN de su zona** en un widget destacado para compartir con su equipo, quienes lo usan para acceder a la App de Campo.
 
-El coordinador accede únicamente a lo que necesita para operar: no ve información de otras zonas ni períodos pasados y que clase de información ve sobre sus colocadores y detalle de las colocaciones debe ser definida junto al equipo de Picnic al momento del inicio del proyecto para mantener el foco operativo y proteger información sensible del resto de la operación.
+El coordinador accede únicamente a lo que necesita para operar: no ve información de otras zonas ni períodos pasados. El nivel de detalle que ve sobre sus colocadores y sobre cada colocación se define junto con el equipo de Picnic al inicio del proyecto, para mantener el el foco operatvo y proteger operación sensible del resto de la operación.
 
 **_Basic_ vs _Extended_.** En la versión **_Basic_** este portal no existe. La coordinación se resuelve manteniendo el flujo que Picnic tiene hoy: el admin descarga desde el Panel de Gestión Central los Excels filtrados por provincia y los envía manualmente a sus coordinadores regionales. La versión **_Extended_** habilita el acceso autónomo de cada coordinador, eliminando ese paso manual y descentralizando la distribución de tareas sin perder el control central.
 
@@ -434,7 +434,7 @@ POP requiere de servicios de terceros para funcionar en producción. Estos servi
 
 Este valor cubre los servicios necesarios para que POP funcione en producción: hosting de la aplicación, base de datos, almacenamiento de fotos, envío de emails, monitoreo y dominio personalizado. **La variabilidad principal viene del volumen de fotografías acumuladas con el tiempo, pero se mantiene en ese orden de magnitud durante el uso normal del sistema.**
 
-Estos costos son **independientes del modelo elegido (_Basic_ o _Extended_)**: son los mismos en ambos casos. El upgrade a Pro no incrementa la infraestructura.
+Estos costos son **independientes del modelo elegido (_Basic_ o _Extended_)**: son los mismos en ambos casos. El upgrade a _Extended_ no incrementa la infraestructura.
 
 #### Lo que está incluido en el desarrollo sin costo adicional
 
@@ -505,7 +505,7 @@ Las horas indicadas son estimaciones preliminares para dimensionar el esfuerzo r
 
 Las dos versiones presentadas —_Basic_ y _Extended_— son **alternativas excluyentes al inicio del proyecto**. Picnic elige cuál implementar antes del kick-off, según el nivel de control y automatización que necesite en esta etapa.
 
-Ahora bien, la elección de una versión no obliga a tomar o descartar la otra en bloque. Gracias a la **estructura modular** de POP, las funcionalidades pueden cotizarse de forma individual: si Picnic elige _Basic_ y más adelante desea incorporar capacidades presentes en _Extended_, no es necesario contratar el paquete completo, sino que cada funcionalidad se conversan, se evaluan y se cotizan por separado, generando una propuesta complementaria. El trabajo ya realizado nunca se descarta: lo nuevo se construye sobre lo existente.
+Ahora bien, la elección de una versión no obliga a tomar o descartar la otra en bloque. Gracias a la **estructura modular** de POP, las funcionalidades pueden cotizarse de forma individual: si Picnic elige _Basic_ y más adelante desea incorporar capacidades presentes en _Extended_, no es necesario contratar el paquete completo, sino que cada funcionalidad se conversa, se evalua y se cotiza por separado, generando una propuesta complementaria. El trabajo ya realizado nunca se descarta: lo nuevo se construye sobre lo existente.
 
 <div class="info-callout">
 <strong>Por qué conviene anticipar las funcionalidades deseadas:</strong> aunque el sistema permite sumar capacidades de a una, las funcionalidades que Picnic prevea como probables deben considerarse desde el inicio. Buena parte del trabajo fundacional consiste en modelar la base de datos y definir cómo fluye la información entre las distintas dimensiones del sistema; si una funcionalidad futura se contempla en esa etapa, la estructura se diseña para soportarla de forma eficiente. Incorporarla después, en cambio, puede requerir cambios de base de datos no triviales, rehacer parte de lo construido e incurrir en horas adicionales.
