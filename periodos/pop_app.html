@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POP — Panel de Auditoría PeYa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E8003A;--red-s:rgba(232,0,58,.07);--red-m:rgba(232,0,58,.14);
+  --green:#00A878;--green-s:rgba(0,168,120,.09);
+  --warn:#F59E0B;--warn-s:rgba(245,158,11,.09);
+  --purple:#7C3AED;
+  --bg:#F2F1EE;--surf:#FFFFFF;--surf2:#F8F7F4;
+  --b1:#E4E3DF;--b2:#CCCBC5;
+  --tx:#0D0D0D;--tx2:#585753;--tx3:#9C9B96;
+  --F:'Instrument Sans',system-ui,sans-serif;
+  --FM:'DM Mono',monospace;
+  --FD:'Syne',system-ui,sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:var(--F);font-size:14px;line-height:1.5}
+
+.topbar{background:var(--tx);height:52px;padding:0 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-box{width:28px;height:28px;background:var(--red);border-radius:5px;display:flex;align-items:center;justify-content:center}
+.logo-box span{color:#fff;font-family:var(--FD);font-size:13px;font-weight:800}
+.logo-name{font-family:var(--FD);font-size:15px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.tp-div{width:1px;height:20px;background:rgba(255,255,255,.12)}
+.tp-label{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.09em}
+.pbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.6);padding:4px 10px;border-radius:4px;cursor:pointer;font-family:var(--F);font-size:12px;font-weight:500;transition:all .14s}
+.pbtn:hover{background:rgba(255,255,255,.13);color:#fff}
+.pbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.tp-sel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);padding:4px 9px;border-radius:4px;font-family:var(--F);font-size:12px;outline:none;cursor:pointer}
+.tp-sel option{background:#1a1a1a;color:#fff}
+.tp-stat{font-size:12px;color:rgba(255,255,255,.35);margin-left:auto}
+.tp-stat strong{color:#fff}
+.rpt-btn{background:var(--red);border:none;color:#fff;padding:6px 13px;border-radius:4px;cursor:pointer;font-family:var(--F);font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}
+
+.tabs{background:var(--surf);border-bottom:1px solid var(--b1);padding:0 24px;display:flex;overflow-x:auto;position:sticky;top:52px;z-index:90;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--tx3);font-family:var(--F);font-size:13px;font-weight:500;padding:11px 15px;cursor:pointer;transition:all .14s;margin-bottom:-1px}
+.tab-btn:hover{color:var(--tx)}
+.tab-btn.on{color:var(--red);border-bottom-color:var(--red)}
+.tab-pane{display:none}.tab-pane.on{display:block}
+
+.page{padding:20px 24px 60px}
+.sec{font-family:var(--FD);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:11px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.auto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+
+.sc{background:var(--surf);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.sc .label{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em}
+.sc .value{font-family:var(--FD);font-size:28px;font-weight:700;color:var(--tx);letter-spacing:-1px}
+.sc .value.small{font-size:20px}
+.sc .value.red{color:var(--red)}
+.sc .value.green{color:var(--green)}
+.sc .value.warn{color:var(--warn)}
+.sc .sub{font-size:11px;color:var(--tx3);margin-top:2px}
+.sc .bar{height:3px;background:var(--b1);border-radius:2px;margin-top:6px}
+.sc .bar-fill{height:100%;border-radius:2px;background:var(--red);transition:width .3s}
+
+.ic{background:var(--surf);border:1px solid var(--b1);border-radius:12px;padding:14px;cursor:pointer;transition:all .14s;display:flex;flex-direction:column;gap:8px}
+.ic:hover{border-color:var(--red);box-shadow:0 2px 12px rgba(232,0,58,.1)}
+.ic-header{display:flex;align-items:center;justify-content:space-between}
+.ic-title{font-family:var(--FD);font-size:14px;font-weight:700;color:var(--tx)}
+.ic-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}
+.badge-sticker{background:var(--red-s);color:var(--red)}
+.badge-saliente{background:var(--red-s);color:var(--red)}
+.badge-backlight{background:#ede9fe;color:var(--purple)}
+.badge-bicicletero{background:var(--green-s);color:var(--green)}
+.badge-sombrilla{background:var(--warn-s);color:var(--warn)}
+.ic-stats{display:flex;gap:12px;font-size:12px;color:var(--tx3);flex-wrap:wrap}
+.ic-stats strong{color:var(--tx)}
+.ic-bar{height:3px;background:var(--b1);border-radius:2px}
+.ic-bar-fill{height:100%;background:var(--red);border-radius:2px}
+
+.chip{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.chip-success{background:var(--green-s);color:var(--green)}
+.chip-danger{background:var(--red-s);color:var(--red)}
+.chip-warning{background:var(--warn-s);color:var(--warn)}
+.chip-neutral{background:rgba(0,0,0,.05);color:var(--tx2)}
+.chip-purple{background:#ede9fe;color:var(--purple)}
+
+.toolbar{padding:10px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surf2);border-bottom:1px solid var(--b1);position:sticky;top:104px;z-index:80}
+.search-input{flex:1;min-width:180px;max-width:280px;border:1px solid var(--b2);border-radius:8px;background:var(--surf);padding:7px 12px;font-family:var(--F);font-size:13px;outline:none}
+.search-input:focus{border-color:var(--red)}
+.select-input{border:1px solid var(--b2);border-radius:8px;background:var(--surf);padding:7px 10px;font-family:var(--F);font-size:13px;outline:none;cursor:pointer}
+.filter-btn{border:1px solid var(--b2);border-radius:8px;background:var(--surf);padding:7px 14px;font-family:var(--F);font-size:12px;cursor:pointer;transition:all .13s}
+.filter-btn:hover{border-color:var(--red);color:var(--red)}
+.filter-btn.active{border-color:var(--red);color:var(--red);background:var(--red-s)}
+.counter{font-size:12px;color:var(--tx3);margin-left:auto}
+.table-wrapper{overflow-x:auto;padding:0 24px 40px}
+.data-table{width:100%;border-collapse:collapse;margin-top:12px}
+.data-table th{font-family:var(--FD);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);padding:10px 12px;text-align:left;cursor:pointer;user-select:none}
+.data-table th:hover{color:var(--tx2)}
+.data-table th .sort-icon{margin-left:4px;color:var(--red)}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--b1);font-size:13px;vertical-align:top}
+.data-table tr.clickable{cursor:pointer}
+.data-table tr.clickable:hover{background:var(--red-s)}
+.cell-title{font-weight:600;color:var(--tx)}
+.cell-sub{font-size:11px;color:var(--tx3);margin-top:2px}
+.cell-mono{font-family:var(--FM);font-size:11px;color:var(--tx3)}
+.thumbnail{width:36px;height:24px;object-fit:cover;border-radius:4px;border:1px solid var(--b1);cursor:pointer}
+.thumbnail:hover{opacity:.8}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--surf);border-radius:16px;width:100%;max-width:900px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+.modal-sm{max-width:560px}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 24px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--surf);z-index:1;border-radius:16px 16px 0 0}
+.modal-title{font-family:var(--FD);font-size:16px;font-weight:700;color:var(--tx)}
+.modal-subtitle{font-size:11px;color:var(--tx3);margin-top:4px}
+.modal-close{background:none;border:1px solid var(--b1);color:var(--tx3);font-size:16px;cursor:pointer;padding:4px 10px;border-radius:8px}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-body{padding:20px 24px}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--b1);display:flex;gap:10px;align-items:center;position:sticky;bottom:0;background:var(--surf);border-radius:0 0 16px 16px}
+.btn-primary{background:var(--tx);border:none;color:#fff;padding:8px 20px;border-radius:8px;font-family:var(--F);font-size:13px;font-weight:600;cursor:pointer}
+.btn-primary:hover{opacity:.85}
+.btn-primary.red{background:var(--red)}
+.btn-secondary{background:none;border:1px solid var(--b2);color:var(--tx2);padding:8px 16px;border-radius:8px;font-family:var(--F);font-size:13px;cursor:pointer}
+.btn-secondary:hover{border-color:var(--tx2)}
+.btn-icon{background:var(--bg);border:1px solid var(--b2);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer}
+.status-text{font-size:12px;color:var(--tx3);margin-left:auto}
+
+.form-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--b1);align-items:baseline}
+.form-label{color:var(--tx3);min-width:110px;font-size:12px;flex-shrink:0}
+.form-value{color:var(--tx);font-size:13px;flex:1}
+.form-input{background:var(--bg);border:1px solid var(--b2);padding:7px 10px;border-radius:8px;font-family:var(--F);font-size:13px;outline:none;width:100%}
+.form-input:focus{border-color:var(--red);background:var(--surf)}
+.form-select{background:var(--bg);border:1px solid var(--b2);padding:7px 10px;border-radius:8px;font-family:var(--F);font-size:13px;outline:none}
+.form-textarea{background:var(--bg);border:1px solid var(--b2);padding:8px 10px;border-radius:8px;font-family:var(--F);font-size:13px;outline:none;width:100%;resize:vertical;min-height:60px}
+.section-title{font-family:var(--FD);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin:20px 0 12px}
+.toggle-buttons{display:flex;gap:6px}
+.toggle-btn{padding:5px 16px;border:1px solid var(--b2);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:var(--surf);color:var(--tx2)}
+.toggle-btn.active-si{border-color:var(--green);background:var(--green-s);color:var(--green)}
+.toggle-btn.active-no{border-color:var(--red);background:var(--red-s);color:var(--red)}
+.photo-grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.photo{width:160px;height:106px;object-fit:cover;border-radius:10px;border:1px solid var(--b1);cursor:pointer}
+.photo-placeholder{width:160px;height:106px;border-radius:10px;border:1px dashed var(--b2);display:flex;align-items:center;justify-content:center;color:var(--tx3);font-size:12px}
+.motives-list{max-height:200px;overflow-y:auto;margin-bottom:16px;border:1px solid var(--b1);border-radius:10px}
+.motive-item{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--b1);cursor:pointer;font-size:12px}
+.motive-item:hover{background:var(--red-s)}
+.motive-item.active{background:var(--red-s);border-left:3px solid var(--red)}
+.motive-name{color:var(--tx2)}
+.motive-count{font-weight:600;color:var(--red)}
+.filterable-table th{cursor:pointer}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center;z-index:1000;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px}
+.loading{padding:40px;text-align:center;color:var(--tx3)}
+.empty{padding:50px;text-align:center;color:var(--tx3)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><div class="logo-box"><span>P</span></div><span class="logo-name">POP</span></div>
+  <div class="tp-div"></div>
+  <span class="tp-label">Período</span>
+  <button class="pbtn on" id="btn-cur" onclick="setMode('current')">Actual</button>
+  <button class="pbtn" id="btn-all" onclick="setMode('all')">Todos</button>
+  <select class="tp-sel" id="per-sel" onchange="setMode('single',this.value)"><option value="">Seleccionar…</option></select>
+  <span class="tp-stat" id="tp-stat">—</span>
+  <button class="rpt-btn" onclick="openRpt()">📄 Reporte</button>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn on" onclick="go('overview')">📊 Resumen</button>
+  <button class="tab-btn" onclick="go('database')">🗄️ Base de datos</button>
+  <button class="tab-btn" onclick="go('geography')">🗺️ Geografía</button>
+  <button class="tab-btn" onclick="go('establishments')">🏪 Locales</button>
+  <button class="tab-btn" onclick="go('chains')">🔗 Cadenas</button>
+  <button class="tab-btn" onclick="go('log')">📋 Log</button>
+</div>
+
+<!-- TAB: OVERVIEW -->
+<div class="tab-pane on" id="tab-overview">
+  <div class="page">
+    <div class="sec">Estadísticas generales</div>
+    <div class="stats-grid" id="ov-stats">
+      <div class="sc"><div class="label">Total visitas</div><div class="value" id="ov-total">—</div><div class="sub">registros</div></div>
+      <div class="sc"><div class="label">Establecimientos</div><div class="value" id="ov-est-count">—</div><div class="sub">locales únicos</div></div>
+      <div class="sc"><div class="label">Visitados</div><div class="value green" id="ov-vis">—</div><div class="sub"><span id="ov-pvis">—</span>% del total</div><div class="bar"><div class="bar-fill" id="ov-bvis"></div></div></div>
+      <div class="sc"><div class="label">Visitas efectivas</div><div class="value" id="ov-ef">—</div><div class="sub"><span id="ov-pef">—</span>% de visitados</div></div>
+      <div class="sc"><div class="label">Producto presente</div><div class="value green" id="ov-prod-ef">—</div><div class="sub">material colocado</div></div>
+      <div class="sc"><div class="label">Logo actualizado</div><div class="value" id="ov-logo">—</div><div class="sub">marca visible</div></div>
+      <div class="sc"><div class="label">Pendientes</div><div class="value warn" id="ov-pend">—</div><div class="sub">por visitar</div></div>
+    </div>
+
+    <div class="sec">Por producto</div>
+    <div class="auto-grid" id="ov-prods"><div class="loading">Cargando…</div></div>
+
+    <div class="sec" style="margin-top:28px">Por ubicación</div>
+    <div class="auto-grid" id="ov-geo"><div class="loading">Cargando…</div></div>
+  </div>
+</div>
+
+<!-- TAB: DATABASE -->
+<div class="tab-pane" id="tab-database">
+  <div class="toolbar">
+    <input class="search-input" id="db-q" type="search" placeholder="Buscar local, grid, barrio…" oninput="loadDb()">
+    <select class="select-input" id="db-prod" onchange="loadDb()"><option value="">Todos los productos</option></select>
+    <select class="select-input" id="db-ciudad" onchange="loadDb()"><option value="">Todas las ciudades</option></select>
+    <select class="select-input" id="db-tipo" onchange="loadDb()"><option value="">Todos los tipos</option><option value="sticker">Sticker</option><option value="saliente">Saliente</option><option value="backlight">Backlight</option><option value="bicicletero">Bicicletero</option><option value="sombrilla">Sombrilla</option></select>
+    <button class="filter-btn" id="db-fv" onclick="toggleFilter('vis')">✓ Visitados</button>
+    <button class="filter-btn" id="db-fp" onclick="toggleFilter('pend')">⏳ Pendientes</button>
+    <span class="counter" id="db-cnt"></span>
+  </div>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th onclick="sortDb('nombre')">Local <span class="sort-icon" id="sort-nombre"></span></th>
+          <th onclick="sortDb('producto_nombre')">Producto <span class="sort-icon" id="sort-producto_nombre"></span></th>
+          <th onclick="sortDb('ciudad')">Ciudad <span class="sort-icon" id="sort-ciudad"></span></th>
+          <th onclick="sortDb('estado')">Estado <span class="sort-icon" id="sort-estado"></span></th>
+          <th onclick="sortDb('visita_efectiva')">Visita EF <span class="sort-icon" id="sort-visita_efectiva"></span></th>
+          <th onclick="sortDb('producto_efectivo')">Producto <span class="sort-icon" id="sort-producto_efectivo"></span></th>
+          <th onclick="sortDb('logo_actualizado')">Logo <span class="sort-icon" id="sort-logo_actualizado"></span></th>
+          <th>Competencia</th>
+          <th>Fotos</th>
+          <th onclick="sortDb('fecha')">Fecha <span class="sort-icon" id="sort-fecha"></span></th>
+        </tr>
+      </thead>
+      <tbody id="db-body"></tbody>
+    </table>
+    <div id="db-more" class="hidden" style="padding:16px 0;text-align:center"><button class="filter-btn" onclick="loadMoreDb()">Cargar más…</button></div>
+  </div>
+</div>
+
+<!-- TAB: GEOGRAPHY -->
+<div class="tab-pane" id="tab-geography">
+  <div class="toolbar">
+    <input class="search-input" id="geo-q" type="search" placeholder="Buscar ciudad…" oninput="renderGeo()">
+    <span class="counter" id="geo-cnt"></span>
+  </div>
+  <div class="page" id="geo-body"><div class="loading">Cargando…</div></div>
+</div>
+
+<!-- TAB: ESTABLISHMENTS -->
+<div class="tab-pane" id="tab-establishments">
+  <div class="toolbar">
+    <input class="search-input" id="est-q" type="search" placeholder="Buscar nombre, grid…" oninput="loadEst()">
+    <select class="select-input" id="est-chain" onchange="loadEst()"><option value="">Todas las cadenas</option></select>
+    <span class="counter" id="est-cnt"></span>
+  </div>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead><tr><th>Local</th><th>Grid</th><th>Ciudad</th><th>Cadena</th><th>Productos</th><th>Visitados</th><th>Teléfono</th></tr></thead>
+      <tbody id="est-body"></tbody>
+    </table>
+    <div id="est-more" class="hidden" style="padding:16px 0;text-align:center"><button class="filter-btn" onclick="loadMoreEst()">Cargar más…</button></div>
+  </div>
+</div>
+
+<!-- TAB: CHAINS -->
+<div class="tab-pane" id="tab-chains">
+  <div class="toolbar">
+    <input class="search-input" id="ch-q" type="search" placeholder="Buscar cadena…" oninput="renderChains()">
+    <button class="filter-btn" onclick="newChain()">+ Nueva cadena</button>
+    <span class="counter" id="ch-cnt"></span>
+  </div>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead><tr><th>Cadena</th><th>Establecimientos</th><th>Visitas</th><th>Visitados</th><th>Pendientes</th></tr></thead>
+      <tbody id="ch-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TAB: LOG -->
+<div class="tab-pane" id="tab-log">
+  <div class="toolbar">
+    <select class="select-input" id="log-tipo" onchange="loadLog()"><option value="">Todos</option><option value="IMPORT">Import</option><option value="MANUAL">Manual</option></select>
+    <span class="counter" id="log-cnt"></span>
+  </div>
+  <div class="table-wrapper"><div id="log-body"></div></div>
+</div>
+
+<!-- MODAL: VISITA -->
+<div class="overlay" id="ov-visit" onclick="closeOverlay(event,'ov-visit')">
+  <div class="modal">
+    <div class="modal-header">
+      <div><div class="modal-title" id="vm-title">—</div><div class="modal-subtitle" id="vm-subtitle">—</div></div>
+      <button class="modal-close" onclick="closeModal('ov-visit')">✕</button>
+    </div>
+    <div class="modal-body" id="vm-body"></div>
+    <div class="modal-footer">
+      <button class="btn-primary red" onclick="saveVisit()">Guardar cambios</button>
+      <button class="btn-secondary" onclick="closeModal('ov-visit')">Cancelar</button>
+      <span class="status-text" id="vm-status"></span>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PRODUCTO DRILL -->
+<div class="overlay" id="ov-product" onclick="closeOverlay(event,'ov-product')">
+  <div class="modal">
+    <div class="modal-header">
+      <div><div class="modal-title" id="pm-title">—</div><div class="modal-subtitle" id="pm-subtitle">—</div></div>
+      <button class="modal-close" onclick="closeModal('ov-product')">✕</button>
+    </div>
+    <div class="modal-body" id="pm-body"></div>
+  </div>
+</div>
+
+<!-- MODAL: GEOGRAFÍA DRILL -->
+<div class="overlay" id="ov-geo" onclick="closeOverlay(event,'ov-geo')">
+  <div class="modal">
+    <div class="modal-header">
+      <div><div class="modal-title" id="gm-title">—</div><div class="modal-subtitle" id="gm-subtitle">—</div></div>
+      <button class="modal-close" onclick="closeModal('ov-geo')">✕</button>
+    </div>
+    <div class="modal-body" id="gm-body"></div>
+  </div>
+</div>
+
+<!-- MODAL: ESTABLECIMIENTO -->
+<div class="overlay" id="ov-establishment" onclick="closeOverlay(event,'ov-establishment')">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div><div class="modal-title" id="em-title">—</div><div class="modal-subtitle" id="em-subtitle">—</div></div>
+      <button class="modal-close" onclick="closeModal('ov-establishment')">✕</button>
+    </div>
+    <div class="modal-body" id="em-body"></div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="saveEstablishment()">Guardar cambios</button>
+      <button class="btn-secondary" onclick="closeModal('ov-establishment')">Cancelar</button>
+      <span class="status-text" id="em-status"></span>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: REPORTE -->
+<div class="overlay" id="ov-report" onclick="closeOverlay(event,'ov-report')">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div><div class="modal-title">Generar Reporte</div><div class="modal-subtitle">Exporta un archivo TXT con los datos filtrados</div></div>
+      <button class="modal-close" onclick="closeModal('ov-report')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="section-title">Tipo de reporte</div>
+      <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">
+        <button class="filter-btn" id="rpt-general" onclick="setReportType('general')" style="text-align:left">📊 General</button>
+        <button class="filter-btn" id="rpt-geo" onclick="setReportType('geo')" style="text-align:left">🗺️ Geografía</button>
+        <button class="filter-btn" id="rpt-pendientes" onclick="setReportType('pendientes')" style="text-align:left">📋 Pendientes</button>
+        <button class="filter-btn" id="rpt-competencia" onclick="setReportType('competencia')" style="text-align:left">⚠️ Competencia</button>
+      </div>
+      <div class="section-title">Filtros</div>
+      <div class="stats-grid" style="grid-template-columns:1fr 1fr;gap:10px">
+        <div><div class="label">Producto</div><select class="form-select" id="rf-prod" style="width:100%"><option value="">Todos</option></select></div>
+        <div><div class="label">Ciudad</div><select class="form-select" id="rf-ciudad" style="width:100%"><option value="">Todas</option></select></div>
+        <div><div class="label">Estado</div><select class="form-select" id="rf-est" style="width:100%"><option value="">Todos</option><option value="Visitado">Visitado</option><option value="Pendiente">Pendiente</option></select></div>
+        <div><div class="label">Tipo</div><select class="form-select" id="rf-tipo" style="width:100%"><option value="">Todos</option><option value="sticker">Sticker</option><option value="saliente">Saliente</option><option value="backlight">Backlight</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary red" onclick="downloadReport()">📥 Descargar TXT</button>
+      <button class="btn-secondary" onclick="closeModal('ov-report')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+// ==================== STATE ====================
+let allPeriods = [], currentMode = 'current';
+let productsData = [], geographyData = [], chainsData = [];
+let dbRows = [], dbOffset = 0, dbTotal = 0;
+let dbSortKey = 'nombre', dbSortAsc = true;
+let dbFilterEstado = '', dbFilterComp = false;
+let establishmentsRows = [], estOffset = 0, estTotal = 0;
+let currentVisitId = null, currentEstablishmentGrid = null;
+let visitEdits = {}, establishmentEdits = {};
+let reportType = 'general';
+
+// ==================== HELPERS ====================
+const $ = id => document.getElementById(id);
+function setText(id, text) { const el = $(id); if(el) el.textContent = text; }
+function escapeHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function siNo(value) { if(value === 'SI') return '<span class="chip chip-success">SI</span>'; if(value === 'NO') return '<span class="chip chip-danger">NO</span>'; return '<span class="chip chip-neutral">—</span>'; }
+
+// ==================== API ====================
+async function get(url) { try { const r = await fetch(url); if(!r.ok) return null; return await r.json(); } catch { return null; } }
+async function post(url, body) { try { const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}); if(!r.ok) return null; return await r.json(); } catch { return null; } }
+async function put(url, body) { try { const r = await fetch(url, {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}); if(!r.ok) return null; return await r.json(); } catch { return null; } }
+
+// ==================== PERIODOS ====================
+async function loadPeriods() {
+  const data = await get('/api/periodos');
+  allPeriods = data || [];
+  const select = $('per-sel');
+  select.innerHTML = '<option value="">Seleccionar…</option>';
+  allPeriods.forEach(p => select.appendChild(new Option(`Período ${p.periodo} (${p.total})`, p.periodo)));
+}
+function getCurrentPeriod() {
+  if(currentMode === 'all') return 'all';
+  if(currentMode === 'single') return $('per-sel').value || 'all';
+  return allPeriods.length ? allPeriods[0].periodo : 'all';
+}
+function setMode(mode, val) {
+  currentMode = mode;
+  $('btn-cur').classList.toggle('on', mode === 'current');
+  $('btn-all').classList.toggle('on', mode === 'all');
+  if(mode === 'single' && val) refresh();
+  else if(mode !== 'single') refresh();
+}
+
+// ==================== REFRESH ====================
+async function refresh() {
+  const periodo = getCurrentPeriod();
+  const [stats, products, geography] = await Promise.all([
+    get(`/api/stats?periodo=${periodo}`),
+    get(`/api/products?periodo=${periodo}`),
+    get(`/api/geography?periodo=${periodo}`)
+  ]);
+  renderOverviewStats(stats);
+  productsData = products || [];
+  renderProducts(productsData);
+  geographyData = geography || [];
+  renderGeographyCards(geographyData);
+  setText('tp-stat', `<strong>${stats?.total || 0}</strong> visitas · <strong>${stats?.visitados || 0}</strong> visitadas`);
+  seedDbFilters();
+  seedReportFilters();
+  loadDb();
+  renderGeo();
+}
+
+function renderOverviewStats(s) {
+  if(!s) return;
+  setText('ov-total', s.total);
+  setText('ov-est-count', '—');
+  setText('ov-vis', s.visitados);
+  setText('ov-pvis', s.pct_visitados);
+  setText('ov-ef', s.efectivos);
+  setText('ov-pef', s.pct_efectivos);
+  setText('ov-prod-ef', s.producto_efectivo);
+  setText('ov-logo', s.logo_ok);
+  setText('ov-pend', s.pendientes);
+  const bar = $('ov-bvis');
+  if(bar) bar.style.width = `${s.pct_visitados}%`;
+  
+  // Cargar conteo de establecimientos únicos
+  get('/api/establishments?limit=1').then(data => { if(data) setText('ov-est-count', data.total); });
+}
+
+function getProductBadge(type) {
+  const classes = { sticker:'badge-sticker', saliente:'badge-sticker', backlight:'badge-backlight', bicicletero:'badge-bicicletero', sombrilla:'badge-sombrilla' };
+  return `<span class="ic-badge ${classes[type] || 'badge-sticker'}">${type.toUpperCase()}</span>`;
+}
+
+function renderProducts(products) {
+  const container = $('ov-prods');
+  if(!products || !products.length) { container.innerHTML = '<div class="empty">Sin datos</div>'; return; }
+  container.innerHTML = products.map(p => `
+    <div class="ic" onclick="openProductDrill(${p.producto_id})">
+      <div class="ic-header"><span class="ic-title">${escapeHtml(p.producto_nombre || p.tipo_material)}</span>${getProductBadge(p.tipo_material)}</div>
+      <div class="ic-stats"><span><strong>${p.visitados}</strong>/${p.total} visitados</span><span>producto: <strong>${p.producto_efectivo}</strong></span><span>${p.pct_visitados}%</span></div>
+      <div class="ic-bar"><div class="ic-bar-fill" style="width:${p.pct_visitados}%"></div></div>
+    </div>
+  `).join('');
+}
+
+function renderGeographyCards(geo) {
+  const container = $('ov-geo');
+  if(!geo || !geo.length) { container.innerHTML = '<div class="empty">Sin datos</div>'; return; }
+  container.innerHTML = geo.map(g => `
+    <div class="ic" onclick="openGeographyDrill('${escapeHtml(g.ciudad)}')">
+      <div class="ic-header"><span class="ic-title">${escapeHtml(g.ciudad)}</span><span class="ic-badge badge-backlight">${g.n_productos} prod</span></div>
+      <div class="ic-stats"><span><strong>${g.visitados}</strong>/${g.total}</span><span>${g.pct_visitados}%</span><span>producto: <strong>${g.producto_efectivo}</strong></span></div>
+      <div class="ic-bar"><div class="ic-bar-fill" style="width:${g.pct_visitados}%"></div></div>
+    </div>
+  `).join('');
+}
+
+// ==================== DATABASE TAB ====================
+function seedDbFilters() {
+  const prodSelect = $('db-prod'), citySelect = $('db-ciudad');
+  const prevProd = prodSelect.value, prevCity = citySelect.value;
+  prodSelect.innerHTML = '<option value="">Todos los productos</option>';
+  productsData.forEach(p => prodSelect.appendChild(new Option(p.producto_nombre || p.tipo_material, p.producto_id)));
+  if(prevProd) prodSelect.value = prevProd;
+  citySelect.innerHTML = '<option value="">Todas las ciudades</option>';
+  geographyData.forEach(g => citySelect.appendChild(new Option(g.ciudad, g.ciudad)));
+  if(prevCity) citySelect.value = prevCity;
+}
+
+async function loadDb(reset = true) {
+  if(reset) { dbOffset = 0; dbRows = []; }
+  const periodo = getCurrentPeriod();
+  const q = $('db-q').value;
+  const prod = $('db-prod').value;
+  const ciudad = $('db-ciudad').value;
+  const tipo = $('db-tipo').value;
+  const params = new URLSearchParams();
+  params.set('periodo', periodo);
+  params.set('limit', '200');
+  params.set('offset', dbOffset);
+  if(q) params.set('q', q);
+  if(prod) params.set('producto', prod);
+  if(ciudad) params.set('ciudad', ciudad);
+  if(tipo) params.set('tipo', tipo);
+  if(dbFilterEstado) params.set('estado', dbFilterEstado);
+  const data = await get(`/api/visitas?${params}`);
+  if(reset) dbRows = data?.rows || [];
+  else dbRows = [...dbRows, ...(data?.rows || [])];
+  dbTotal = data?.total || 0;
+  renderDbTable();
+  setText('db-cnt', `${dbTotal} registros`);
+  $('db-more').classList.toggle('hidden', dbOffset + 200 >= dbTotal);
+}
+async function loadMoreDb() { dbOffset += 200; await loadDb(false); }
+function toggleFilter(type) {
+  if(type === 'vis') dbFilterEstado = dbFilterEstado === 'Visitado' ? '' : 'Visitado';
+  if(type === 'pend') dbFilterEstado = dbFilterEstado === 'Pendiente' ? '' : 'Pendiente';
+  $('db-fv').classList.toggle('active', dbFilterEstado === 'Visitado');
+  $('db-fp').classList.toggle('active', dbFilterEstado === 'Pendiente');
+  loadDb();
+}
+function sortDb(key) {
+  if(dbSortKey === key) dbSortAsc = !dbSortAsc;
+  else { dbSortKey = key; dbSortAsc = true; }
+  document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
+  const icon = $(`sort-${key}`);
+  if(icon) icon.textContent = dbSortAsc ? '▲' : '▼';
+  renderDbTable();
+}
+function renderDbTable() {
+  let rows = [...dbRows];
+  rows.sort((a,b) => {
+    let va = a[dbSortKey] ?? '', vb = b[dbSortKey] ?? '';
+    if(typeof va === 'string') va = va.toLowerCase();
+    if(typeof vb === 'string') vb = vb.toLowerCase();
+    return va < vb ? (dbSortAsc ? -1 : 1) : va > vb ? (dbSortAsc ? 1 : -1) : 0;
+  });
+  const tbody = $('db-body');
+  if(!rows.length) { tbody.innerHTML = '<tr><td colspan="10" class="empty">Sin resultados</td></tr>'; return; }
+  tbody.innerHTML = rows.map(r => {
+    const estado = r.estado === 'Visitado' ? '<span class="chip chip-success">✓ Visitado</span>' : '<span class="chip chip-warning">⏳ Pendiente</span>';
+    const fotos = [];
+    if(r.foto1) fotos.push(`<img class="thumbnail" src="/images/${escapeHtml(r.foto1)}" onclick="event.stopPropagation();openLightbox('/images/${escapeHtml(r.foto1)}')" onerror="this.style.display=\'none\'">`);
+    if(r.foto2) fotos.push(`<img class="thumbnail" src="/images/${escapeHtml(r.foto2)}" onclick="event.stopPropagation();openLightbox('/images/${escapeHtml(r.foto2)}')" onerror="this.style.display=\'none\'">`);
+    return `<tr class="clickable" onclick="openVisit(${r.id})">
+      <td><div class="cell-title">${escapeHtml(r.nombre||'—')}</div><div class="cell-sub">${escapeHtml(r.barrio||'')}</div><div class="cell-mono">${escapeHtml(r.grid)}</div></td>
+      <td><div style="font-weight:500">${escapeHtml(r.producto_nombre||r.tipo_material)}</div></td>
+      <td>${escapeHtml(r.ciudad||'—')}</td>
+      <td>${estado}</td>
+      <td>${siNo(r.visita_efectiva)}</td>
+      <td>${siNo(r.producto_efectivo)}</td>
+      <td>${siNo(r.logo_actualizado)}</td>
+      <td>${r.competencia_marca ? `<span class="chip chip-warning">⚠️ ${escapeHtml(r.competencia_marca)}</span>` : '—'}</td>
+      <td>${fotos.length ? `<div style="display:flex;gap:4px">${fotos.join('')}</div>` : '—'}</td>
+      <td class="cell-mono">${r.fecha||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ==================== GEOGRAPHY TAB ====================
+function renderGeo() {
+  const q = ($('geo-q').value || '').toLowerCase();
+  const filtered = geographyData.filter(g => !q || g.ciudad.toLowerCase().includes(q));
+  setText('geo-cnt', `${filtered.length} ciudades`);
+  const container = $('geo-body');
+  if(!filtered.length) { container.innerHTML = '<div class="empty">Sin resultados</div>'; return; }
+  container.innerHTML = `
+    <div class="auto-grid">
+      ${filtered.map(g => `
+        <div class="ic" onclick="openGeographyDrill('${escapeHtml(g.ciudad)}')">
+          <div class="ic-header"><span class="ic-title">${escapeHtml(g.ciudad)}</span><span class="ic-badge badge-backlight">${g.n_productos} prod</span></div>
+          <div class="ic-stats"><span><strong>${g.visitados}</strong>/${g.total}</span><span>${g.pct_visitados}%</span><span>producto: <strong>${g.producto_efectivo}</strong></span></div>
+          <div class="ic-bar"><div class="ic-bar-fill" style="width:${g.pct_visitados}%"></div></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ==================== ESTABLISHMENTS TAB ====================
+async function loadEst(reset = true) {
+  if(reset) { estOffset = 0; establishmentsRows = []; }
+  const q = $('est-q').value;
+  const chain = $('est-chain').value;
+  const params = new URLSearchParams({limit:200, offset:estOffset});
+  if(q) params.set('q', q);
+  if(chain) params.set('chain_id', chain);
+  const data = await get(`/api/establishments?${params}`);
+  if(reset) establishmentsRows = data?.rows || [];
+  else establishmentsRows = [...establishmentsRows, ...(data?.rows || [])];
+  estTotal = data?.total || 0;
+  setText('est-cnt', `${estTotal} locales`);
+  const tbody = $('est-body');
+  if(!establishmentsRows.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">Sin resultados</td></tr>'; return; }
+  tbody.innerHTML = establishmentsRows.map(r => `
+    <tr class="clickable" onclick="openEstablishment('${escapeHtml(r.grid)}')">
+      <td><div class="cell-title">${escapeHtml(r.nombre||'—')}</div><div class="cell-sub">${escapeHtml(r.direccion||'')}</div></td>
+      <td class="cell-mono">${escapeHtml(r.grid)}</td>
+      <td>${escapeHtml(r.ciudad||'—')}</td>
+      <td><span class="chip chip-purple">${escapeHtml(r.cadena||'—')}</span></td>
+      <td>${r.n_productos || 0}</td>
+      <td><span class="chip chip-success">${r.visitados || 0}</span> / <span class="chip chip-warning">${r.pendientes || 0}</span></td>
+      <td class="cell-mono">${escapeHtml(r.telefono||'—')}</td>
+    </tr>
+  `).join('');
+  $('est-more').classList.toggle('hidden', estOffset + 200 >= estTotal);
+}
+async function loadMoreEst() { estOffset += 200; await loadEst(false); }
+async function loadChains() {
+  chainsData = await get('/api/chains') || [];
+  renderChains();
+  const select = $('est-chain');
+  const prev = select.value;
+  select.innerHTML = '<option value="">Todas las cadenas</option>';
+  chainsData.forEach(c => select.appendChild(new Option(c.nombre, c.chain_id)));
+  if(prev) select.value = prev;
+}
+function renderChains() {
+  const q = ($('ch-q').value || '').toLowerCase();
+  const filtered = chainsData.filter(c => !q || c.nombre.toLowerCase().includes(q));
+  setText('ch-cnt', `${filtered.length} cadenas`);
+  const tbody = $('ch-body');
+  if(!filtered.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty">Sin cadenas</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(c => `
+    <tr class="clickable" onclick="filterByChain(${c.chain_id})">
+      <td><div class="cell-title">${escapeHtml(c.nombre)}</div></td>
+      <td>${c.n_establecimientos}</td>
+      <td>${c.total_visitas}</td>
+      <td><span class="chip chip-success">${c.visitados}</span></td>
+      <td><span class="chip chip-warning">${c.pendientes}</span></td>
+    </tr>
+  `).join('');
+}
+function filterByChain(chainId) { go('establishments'); $('est-chain').value = chainId; loadEst(); }
+async function newChain() {
+  const name = prompt('Nombre de la nueva cadena:');
+  if(!name) return;
+  await post('/api/chains', { nombre: name.toUpperCase() });
+  loadChains();
+}
+
+// ==================== LOG TAB ====================
+async function loadLog() {
+  const tipo = $('log-tipo').value;
+  const rows = await get(`/api/log?limit=300${tipo ? '&tipo='+tipo : ''}`) || [];
+  setText('log-cnt', `${rows.length} entradas`);
+  const container = $('log-body');
+  if(!rows.length) { container.innerHTML = '<div class="empty">Sin entradas</div>'; return; }
+  container.innerHTML = rows.map(r => `
+    <div class="lr">
+      <span class="lts">${r.timestamp || ''}</span>
+      <span class="lti ${r.tipo === 'MANUAL' ? 'lm' : 'li'}">${r.tipo}</span>
+      <span class="lgr">${r.grid || ''}</span>
+      <span class="ld">${escapeHtml(r.accion||'')}${r.campo ? `<span class="ldf"> · ${escapeHtml(r.campo)}</span>` : ''}${r.val_antes ? `<span class="ldf"> ${escapeHtml(r.val_antes)} → ${escapeHtml(r.val_desp||'')}</span>` : ''}</span>
+    </div>
+  `).join('');
+}
+
+// ==================== VISITA MODAL ====================
+async function openVisit(id) {
+  currentVisitId = id;
+  visitEdits = {};
+  const data = await get(`/api/visita/${id}`);
+  if(!data) return;
+  setText('vm-title', data.nombre || data.grid);
+  setText('vm-subtitle', `${data.producto_nombre || data.tipo_material} · ${data.ciudad || ''} · ${data.grid}`);
+  const foto1 = data.foto1 ? `<img class="photo" src="/images/${escapeHtml(data.foto1)}" onclick="event.stopPropagation();openLightbox('/images/${escapeHtml(data.foto1)}')" onerror="this.parentElement.innerHTML='<div class=photo-placeholder>Sin imagen</div>'">` : '<div class="photo-placeholder">Sin foto 1</div>';
+  const foto2 = data.foto2 ? `<img class="photo" src="/images/${escapeHtml(data.foto2)}" onclick="event.stopPropagation();openLightbox('/images/${escapeHtml(data.foto2)}')" onerror="this.parentElement.innerHTML='<div class=photo-placeholder>Sin imagen</div>'">` : '<div class="photo-placeholder">Sin foto 2</div>';
+  $('vm-body').innerHTML = `
+    <div class="section-title">📍 Información del local</div>
+    <div class="form-row"><span class="form-label">Grid</span><span class="form-value cell-mono">${escapeHtml(data.grid)}</span></div>
+    <div class="form-row"><span class="form-label">Dirección</span><span class="form-value">${escapeHtml(data.direccion||'—')}</span></div>
+    <div class="form-row"><span class="form-label">Barrio / Ciudad</span><span class="form-value">${escapeHtml(data.barrio||'')}${data.barrio && data.ciudad ? ' · ' : ''}${escapeHtml(data.ciudad||'')}</span></div>
+    <div class="form-row"><span class="form-label">Teléfono</span><span class="form-value">${escapeHtml(data.telefono||'—')}</span></div>
+    <div class="form-row"><span class="form-label">Cadena</span><span class="form-value" style="color:var(--purple)">${escapeHtml(data.cadena||'—')}</span></div>
+    <div class="form-row"><span class="form-label">Fecha visita</span><span class="form-value">${data.fecha||'—'}</span></div>
+    
+    <div class="section-title">📋 Resultado</div>
+    <div class="form-row"><span class="form-label">Estado</span><select class="form-select" id="edit-estado" onchange="visitEdits.estado=this.value"><option ${data.estado==='Pendiente'?'selected':''}>Pendiente</option><option ${data.estado==='Visitado'?'selected':''}>Visitado</option></select></div>
+    <div class="form-row"><span class="form-label">Visita efectiva</span><div class="toggle-buttons"><button class="toggle-btn ${data.visita_efectiva==='SI'?'active-si':''}" id="ve-si" onclick="setVisitField('visita_efectiva','SI')">SI</button><button class="toggle-btn ${data.visita_efectiva==='NO'?'active-no':''}" id="ve-no" onclick="setVisitField('visita_efectiva','NO')">NO</button></div></div>
+    <div class="form-row"><span class="form-label">Producto efectivo</span><div class="toggle-buttons"><button class="toggle-btn ${data.producto_efectivo==='SI'?'active-si':''}" id="pe-si" onclick="setVisitField('producto_efectivo','SI')">SI</button><button class="toggle-btn ${data.producto_efectivo==='NO'?'active-no':''}" id="pe-no" onclick="setVisitField('producto_efectivo','NO')">NO</button></div></div>
+    <div class="form-row"><span class="form-label">Logo actualizado</span><div class="toggle-buttons"><button class="toggle-btn ${data.logo_actualizado==='SI'?'active-si':''}" id="logo-si" onclick="setVisitField('logo_actualizado','SI')">SI</button><button class="toggle-btn ${data.logo_actualizado==='NO'?'active-no':''}" id="logo-no" onclick="setVisitField('logo_actualizado','NO')">NO</button></div></div>
+    <div class="form-row"><span class="form-label">Motivo rechazo</span><input class="form-input" id="edit-motivo" value="${escapeHtml(data.motivo_de_rechazo||'')}" oninput="visitEdits.motivo_de_rechazo=this.value"></div>
+    <div class="form-row"><span class="form-label">Competencia</span><span class="form-value" style="color:var(--warn)">${data.competencia_marca ? `${escapeHtml(data.competencia_marca)} (${escapeHtml(data.competencia_material||'')})` : '—'}</span></div>
+    <div class="form-row"><span class="form-label">Comentarios</span><textarea class="form-textarea" id="edit-comentarios" oninput="visitEdits.comentarios=this.value">${escapeHtml(data.comentarios||'')}</textarea></div>
+    
+    <div class="section-title">📸 Fotos</div>
+    <div class="photo-grid">${foto1}${foto2}</div>
+  `;
+  openModal('ov-visit');
+}
+function setVisitField(field, value) {
+  visitEdits[field] = value;
+  const siBtn = document.getElementById(`${field === 'visita_efectiva' ? 've' : field === 'producto_efectivo' ? 'pe' : 'logo'}-si`);
+  const noBtn = document.getElementById(`${field === 'visita_efectiva' ? 've' : field === 'producto_efectivo' ? 'pe' : 'logo'}-no`);
+  if(siBtn) { siBtn.classList.toggle('active-si', value === 'SI'); siBtn.classList.toggle('active-no', false); }
+  if(noBtn) { noBtn.classList.toggle('active-no', value === 'NO'); noBtn.classList.toggle('active-si', false); }
+}
+async function saveVisit() {
+  if(!currentVisitId) return;
+  setText('vm-status', 'Guardando…');
+  const body = { ...visitEdits, estado: $('edit-estado')?.value, motivo_de_rechazo: $('edit-motivo')?.value, comentarios: $('edit-comentarios')?.value };
+  const result = await put(`/api/visita/${currentVisitId}`, body);
+  if(result?.ok) { setText('vm-status', '✓ Guardado'); loadDb(); refresh(); }
+  else setText('vm-status', '✗ Error');
+}
+
+// ==================== ESTABLISHMENT MODAL ====================
+async function openEstablishment(grid) {
+  currentEstablishmentGrid = grid;
+  establishmentEdits = {};
+  const data = await get(`/api/establishment/${grid}`);
+  if(!data) return;
+  setText('em-title', data.nombre || grid);
+  setText('em-subtitle', `${data.grid} · ${(data.visitas||[]).length} productos`);
+  
+  const chains = await get('/api/chains') || [];
+  let chainOptions = '<option value="">Sin cadena</option>';
+  chains.forEach(c => { chainOptions += `<option value="${c.chain_id}" ${data.chain_id == c.chain_id ? 'selected' : ''}>${escapeHtml(c.nombre)}</option>`; });
+  
+  const visitsHtml = (data.visitas || []).map(v => `
+    <tr class="clickable" onclick="closeModal('ov-establishment');openVisit(${v.id})">
+      <td><div style="font-weight:500">${escapeHtml(v.producto_nombre || v.tipo_material)}</div><div class="cell-mono">Período ${v.periodo}</div></td>
+      <td>${v.estado === 'Visitado' ? '<span class="chip chip-success">✓</span>' : '<span class="chip chip-warning">·</span>'}</td>
+      <td>${siNo(v.visita_efectiva)}</td>
+      <td>${siNo(v.producto_efectivo)}</td>
+      <td>${siNo(v.logo_actualizado)}</td>
+      <td class="cell-mono">${v.fecha || '—'}</td>
+    </tr>
+  `).join('');
+  
+  $('em-body').innerHTML = `
+    <div class="section-title">🏪 Datos del local</div>
+    <div class="form-row"><span class="form-label">Nombre</span><input class="form-input" id="em-nombre" value="${escapeHtml(data.nombre||'')}" oninput="establishmentEdits.nombre=this.value"></div>
+    <div class="form-row"><span class="form-label">Teléfono</span><input class="form-input" id="em-telefono" value="${escapeHtml(data.telefono||'')}" oninput="establishmentEdits.telefono=this.value"></div>
+    <div class="form-row"><span class="form-label">Dirección</span><input class="form-input" id="em-direccion" value="${escapeHtml(data.direccion||'')}" oninput="establishmentEdits.direccion=this.value"></div>
+    <div class="form-row"><span class="form-label">Barrio</span><input class="form-input" id="em-barrio" value="${escapeHtml(data.barrio||'')}" oninput="establishmentEdits.barrio=this.value"></div>
+    <div class="form-row"><span class="form-label">Ciudad</span><input class="form-input" id="em-ciudad" value="${escapeHtml(data.ciudad||'')}" oninput="establishmentEdits.ciudad=this.value"></div>
+    <div class="form-row"><span class="form-label">Provincia</span><input class="form-input" id="em-provincia" value="${escapeHtml(data.provincia||'')}" oninput="establishmentEdits.provincia=this.value"></div>
+    <div class="form-row"><span class="form-label">Cadena</span><select class="form-select" id="em-chain" onchange="establishmentEdits.chain_id=this.value||null">${chainOptions}</select><button class="btn-icon" style="margin-left:8px" onclick="addChainFromModal()">+ Nueva</button></div>
+    
+    <div class="section-title">📦 Productos (${(data.visitas||[]).length})</div>
+    <div class="table-wrapper" style="padding:0">
+      <table class="data-table" style="margin-top:0">
+        <thead><tr><th>PRODUCTO</th><th>ESTADO</th><th>VISITA EFECTIVA</th><th>PRODUCTO PRESENTE</th><th>LOGO ACTUALIZADO</th><th>FECHA</th></tr></thead>
+        <tbody>${visitsHtml || '<tr><td colspan="6" class="empty">Sin visitas</td></tr>'}</tbody>
+      </table>
+    </div>
+  `;
+  openModal('ov-establishment');
+}
+async function addChainFromModal() {
+  const name = prompt('Nombre de la nueva cadena:');
+  if(!name) return;
+  const result = await post('/api/chains', { nombre: name.toUpperCase() });
+  if(result?.ok) {
+    const chains = await get('/api/chains') || [];
+    const select = $('em-chain');
+    let options = '<option value="">Sin cadena</option>';
+    chains.forEach(c => options += `<option value="${c.chain_id}">${escapeHtml(c.nombre)}</option>`);
+    select.innerHTML = options;
+    if(result.chain_id) select.value = result.chain_id;
+    establishmentEdits.chain_id = result.chain_id;
+    loadChains();
+  }
+}
+async function saveEstablishment() {
+  if(!currentEstablishmentGrid) return;
+  setText('em-status', 'Guardando…');
+  const fields = ['nombre', 'telefono', 'direccion', 'barrio', 'ciudad', 'provincia'];
+  const body = {};
+  fields.forEach(f => { const el = $(`em-${f}`); if(el) body[f] = el.value; });
+  const chainSelect = $('em-chain');
+  if(chainSelect) body.chain_id = chainSelect.value ? parseInt(chainSelect.value) : null;
+  Object.assign(body, establishmentEdits);
+  const result = await put(`/api/establishment/${currentEstablishmentGrid}`, body);
+  if(result?.ok) { setText('em-status', '✓ Guardado'); loadEst(); loadChains(); }
+  else setText('em-status', '✗ Error');
+}
+
+// ==================== DRILLDOWNS ====================
+async function openProductDrill(productId) {
+  const product = productsData.find(p => p.producto_id === productId);
+  setText('pm-title', product?.producto_nombre || product?.tipo_material || 'Producto');
+  setText('pm-subtitle', `${product?.total || 0} visitas · ${product?.visitados || 0} visitadas · ${product?.producto_efectivo || 0} productos presentes`);
+  openModal('ov-product');
+  
+  const data = await get(`/api/visitas?periodo=${getCurrentPeriod()}&producto=${productId}&limit=500`);
+  const rows = data?.rows || [];
+  const motives = product?.motivos || {};
+  const motiveKeys = Object.keys(motives);
+  
+  let motivesHtml = '';
+  if(motiveKeys.length) {
+    motivesHtml = `
+      <div class="section-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>📋 Motivos de rechazo</span>
+        <button class="btn-icon" id="toggle-motives-btn" onclick="toggleMotivesList()">Mostrar lista</button>
+      </div>
+      <div id="motives-list" style="display:none;max-height:250px;overflow-y:auto;border:1px solid var(--b1);border-radius:10px;margin-bottom:16px">
+        ${Object.entries(motives).map(([m, c]) => `<div class="motive-item" onclick="filterByMotive('${escapeHtml(m)}')"><span class="motive-name">${escapeHtml(m)}</span><span class="motive-count">${c}</span></div>`).join('')}
+      </div>
+    `;
+  }
+  
+  $('pm-body').innerHTML = motivesHtml + `
+    <div class="section-title">🏪 Locales (${rows.length})</div>
+    <div class="table-wrapper" style="padding:0">
+      <table class="data-table filterable-table" id="product-table" style="margin-top:0">
+        <thead><tr>
+          <th onclick="sortProductTable('nombre')">LOCAL</th>
+          <th onclick="sortProductTable('estado')">ESTADO</th>
+          <th onclick="sortProductTable('visita_efectiva')">EFECTIVA</th>
+          <th onclick="sortProductTable('producto_efectivo')">PRODUCTO</th>
+          <th onclick="sortProductTable('logo_actualizado')">LOGO</th>
+          <th onclick="sortProductTable('fecha')">FECHA</th>
+        </tr></thead>
+        <tbody id="product-table-body">${renderProductTableRows(rows)}</tbody>
+      </table>
+    </div>
+  `;
+  window.productTableRows = rows;
+}
+function renderProductTableRows(rows) {
+  if(!rows || !rows.length) return '<tr><td colspan="6" class="empty">Sin datos</td></tr>';
+  return rows.map(r => `
+    <tr class="clickable" onclick="closeModal('ov-product');openVisit(${r.id})">
+      <td><div class="cell-title">${escapeHtml(r.nombre||'—')}</div><div class="cell-mono">${escapeHtml(r.ciudad||'')}</div></td>
+      <td>${r.estado === 'Visitado' ? '<span class="chip chip-success">✓ Visitado</span>' : '<span class="chip chip-warning">⏳ Pendiente</span>'}</td>
+      <td>${siNo(r.visita_efectiva)}</td>
+      <td>${siNo(r.producto_efectivo)}</td>
+      <td>${siNo(r.logo_actualizado)}</td>
+      <td class="cell-mono">${r.fecha||'—'}</td>
+    </tr>
+  `).join('');
+}
+function sortProductTable(key) {
+  if(!window.productTableRows) return;
+  const sorted = [...window.productTableRows];
+  sorted.sort((a,b) => {
+    let va = a[key] ?? '', vb = b[key] ?? '';
+    if(typeof va === 'string') va = va.toLowerCase();
+    if(typeof vb === 'string') vb = vb.toLowerCase();
+    return va < vb ? -1 : va > vb ? 1 : 0;
+  });
+  document.getElementById('product-table-body').innerHTML = renderProductTableRows(sorted);
+}
+let motivesVisible = false;
+function toggleMotivesList() {
+  motivesVisible = !motivesVisible;
+  const list = document.getElementById('motives-list');
+  const btn = document.getElementById('toggle-motives-btn');
+  if(list) list.style.display = motivesVisible ? 'block' : 'none';
+  if(btn) btn.textContent = motivesVisible ? 'Ocultar lista' : 'Mostrar lista';
+}
+function filterByMotive(motive) {
+  if(!window.productTableRows) return;
+  const filtered = window.productTableRows.filter(r => r.motivo_de_rechazo === motive);
+  document.getElementById('product-table-body').innerHTML = renderProductTableRows(filtered);
+  toggleMotivesList();
+}
+
+async function openGeographyDrill(ciudad) {
+  setText('gm-title', ciudad);
+  openModal('ov-geo');
+  const data = await get(`/api/visitas?periodo=${getCurrentPeriod()}&ciudad=${encodeURIComponent(ciudad)}&limit=500`);
+  const rows = data?.rows || [];
+  const byProduct = {};
+  rows.forEach(r => { byProduct[r.producto_id] = byProduct[r.producto_id] || []; byProduct[r.producto_id].push(r); });
+  
+  $('gm-body').innerHTML = Object.entries(byProduct).map(([pid, visits]) => {
+    const product = productsData.find(p => p.producto_id === +pid);
+    const visited = visits.filter(v => v.estado === 'Visitado').length;
+    return `
+      <div style="margin-bottom:20px;border-bottom:1px solid var(--b1);padding-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-weight:600">${escapeHtml(product?.producto_nombre || product?.tipo_material || pid)}</span><span class="chip chip-neutral">${visited}/${visits.length} visitados</span></div>
+        <div class="table-wrapper" style="padding:0">
+          <table class="data-table" style="margin-top:0">
+            <thead><tr><th>LOCAL</th><th>ESTADO</th><th>PRODUCTO</th><th>LOGO</th><th>FECHA</th></tr></thead>
+            <tbody>${visits.map(v => `
+              <tr class="clickable" onclick="closeModal('ov-geo');openVisit(${v.id})">
+                <td><div class="cell-title">${escapeHtml(v.nombre||'—')}</div></td>
+                <td>${v.estado === 'Visitado' ? '<span class="chip chip-success">✓</span>' : '<span class="chip chip-warning">·</span>'}</td>
+                <td>${siNo(v.producto_efectivo)}</td>
+                <td>${siNo(v.logo_actualizado)}</td>
+                <td class="cell-mono">${v.fecha||'—'}</td>
+              </tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }).join('') || '<div class="empty">Sin datos</div>';
+}
+
+// ==================== REPORT ====================
+function seedReportFilters() {
+  const prodSelect = $('rf-prod');
+  prodSelect.innerHTML = '<option value="">Todos</option>';
+  productsData.forEach(p => prodSelect.appendChild(new Option(p.producto_nombre || p.tipo_material, p.producto_id)));
+  const citySelect = $('rf-ciudad');
+  citySelect.innerHTML = '<option value="">Todas</option>';
+  geographyData.forEach(g => citySelect.appendChild(new Option(g.ciudad, g.ciudad)));
+}
+function openRpt() { openModal('ov-report'); }
+function setReportType(type) { reportType = type; document.querySelectorAll('#ov-report .filter-btn').forEach(btn => btn.classList.remove('active')); $(`rpt-${type}`)?.classList.add('active'); }
+function downloadReport() {
+  const params = new URLSearchParams({ periodo: getCurrentPeriod(), tipo: reportType });
+  const prod = $('rf-prod')?.value, ciudad = $('rf-ciudad')?.value, estado = $('rf-est')?.value, tipo = $('rf-tipo')?.value;
+  if(prod) params.set('producto', prod);
+  if(ciudad) params.set('ciudad', ciudad);
+  if(estado) params.set('estado', estado);
+  if(tipo) params.set('tipo', tipo);
+  window.open(`/api/report?${params}`, '_blank');
+}
+
+// ==================== MODALS ====================
+function openModal(id) { $(id)?.classList.add('open'); }
+function closeModal(id) { $(id)?.classList.remove('open'); }
+function closeOverlay(event, id) { if(event.target === $(id)) closeModal(id); }
+function openLightbox(src) { $('lightbox-img').src = src; $('lightbox').classList.add('open'); }
+function closeLightbox() { $('lightbox').classList.remove('open'); }
+
+// ==================== TABS ====================
+const tabLoaders = {
+  database: () => loadDb(),
+  geography: () => renderGeo(),
+  establishments: () => { loadEst(); loadChains(); },
+  chains: () => loadChains(),
+  log: () => loadLog()
+};
+function go(tabName) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  $(`tab-${tabName}`)?.classList.add('on');
+  const tabIndex = ['overview','database','geography','establishments','chains','log'].indexOf(tabName);
+  if(tabIndex >= 0) document.querySelectorAll('.tab-btn')[tabIndex]?.classList.add('on');
+  if(tabLoaders[tabName]) tabLoaders[tabName]();
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadPeriods();
+  await refresh();
+  loadLog();
+});
+</script>
+</body>
+</html>
